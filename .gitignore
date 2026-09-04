@@ -1,0 +1,8 @@
+# Local VFP MCP state, backups, journals, failed writes, and raw fixture intake.
+.vfp_mcp/
+
+# Mix/Elixir build artifacts and local dependency checkouts.
+/_build/
+/deps/
+*.ez
+erl_crash.dump
