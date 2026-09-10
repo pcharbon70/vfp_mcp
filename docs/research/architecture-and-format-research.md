@@ -1,5 +1,14 @@
 # Research: A VFP Form (.SCX) Management MCP Server in Elixir
 
+<!--
+specled covers:
+- vfp_mcp.codec.dbf_structure
+- vfp_mcp.codec.memo_pointer
+- vfp_mcp.codec.fpt_structure
+- vfp_mcp.codec.memo_block
+- vfp_mcp.codec.parse_mixed_endian_pair
+-->
+
 **Status:** Research / design document
 **Date:** August 2026
 **Context:** LecoWin2 production-management system (VFP 9, ~95 forms, `visual classes\dynamic.vcx` class library). All byte-level format claims below were **verified experimentally** against this repository's files during August 2026 sessions (see `scripts\dump-scx.ps1` and `scripts\edit-scx-memo.ps1`, the working PowerShell proofs-of-concept this document productizes).

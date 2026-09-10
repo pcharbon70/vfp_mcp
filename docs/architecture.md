@@ -1,8 +1,51 @@
 # VFP MCP Architecture
 
+<!--
+specled covers:
+- vfp_mcp.boundary.canonical_confinement
+- vfp_mcp.boundary.one_version_per_process
+- vfp_mcp.boundary.external_classloc
+- vfp_mcp.boundary.reject_escape
+- vfp_mcp.codec.semantic_document
+- vfp_mcp.codec.hierarchy_integrity
+- vfp_mcp.codec.reject_invalid_memo
+- vfp_mcp.read.immutable_snapshot
+- vfp_mcp.read.cache_validation
+- vfp_mcp.read.full_path_identity
+- vfp_mcp.read.bounded_results
+- vfp_mcp.read.source_fidelity
+- vfp_mcp.read.ambiguous_control
+- vfp_mcp.read.changed_after_cache
+- vfp_mcp.read.truncated_result
+- vfp_mcp.protocol.stdio_transport
+- vfp_mcp.protocol.diagnostic_stream
+- vfp_mcp.protocol.startup_configuration
+- vfp_mcp.protocol.deferred_surfaces
+- vfp_mcp.protocol.clean_stdout
+- vfp_mcp.mutation.explicit_enablement
+- vfp_mcp.mutation.prepared_plan
+- vfp_mcp.mutation.preconditions
+- vfp_mcp.mutation.fresh_authority
+- vfp_mcp.mutation.single_writer
+- vfp_mcp.mutation.recoverable_backup
+- vfp_mcp.mutation.commit_order
+- vfp_mcp.mutation.post_validation
+- vfp_mcp.mutation.audit_journal
+- vfp_mcp.mutation.rollback
+- vfp_mcp.mutation.prepare_then_apply
+- vfp_mcp.mutation.reject_stale_plan
+- vfp_mcp.mutation.recover_interrupted_pair
+- vfp_mcp.acceptance.codec_evidence
+- vfp_mcp.acceptance.mutation_footprint
+- vfp_mcp.acceptance.write_release_gates
+- vfp_mcp.acceptance.structural_release_gates
+- vfp_mcp.acceptance.quality_gate
+- vfp_mcp.acceptance.keep_writes_disabled
+-->
+
 **Status:** Draft for review  
 **Project:** `vfp_mcp`  
-**Last updated:** August 25, 2026
+**Last updated:** September 9, 2026
 
 ## 1. Purpose
 
@@ -16,7 +59,7 @@ testing in both Visual FoxPro 6 and Visual FoxPro 9.
 
 The server does not execute or compile VFP code, modify compiled executables,
 or automate the VFP IDE. Structural designer operations such as adding and
-reparenting controls are a later phase.
+reparenting controls are a later milestone.
 
 ## 2. Architectural principles
 
@@ -38,9 +81,18 @@ reparenting controls are a later phase.
 7. **VFP is the authority.** Parsing our own output is necessary but does not
    replace opening, compiling, and running representative edits in VFP 6 and 9.
 
-## 3. Scope by release phase
+## 3. Milestones
 
-### Phase 0: codec and acceptance spike
+Milestones are externally meaningful, evidence-backed outcomes rather than
+module-completion checkpoints. Later implementation plans may divide each
+milestone into phases, but a milestone is complete only when its acceptance
+evidence reproduces from an isolated checkout or fixture workspace.
+
+**Current milestone: Milestone 0 is in progress.**
+
+### Milestone 0: codec and acceptance spike
+
+Implementation plan: [Milestone 0: Codec and Acceptance Spike](../.spec/planning/00-codec-and-acceptance-spike/README.md).
 
 - Parse representative and edge-case SCX/SCT and VCX/VCT pairs.
 - Model properties, methods, object paths, and containment.
@@ -48,7 +100,12 @@ reparenting controls are a later phase.
 - Establish VFP 6/9 acceptance, timestamp behavior, OBJCODE invalidation, and
   record-order implications.
 
-### Phase 1: read-only MCP server
+Completion requires reviewed, version-native synthetic fixtures; reproducible
+codec and malformed-input evidence for both versions; byte-fidelity proof; and
+recorded native VFP findings for the targeted edit. Self-reparse alone is not
+acceptance.
+
+### Milestone 1: read-only MCP server
 
 - Project discovery and summaries.
 - Control trees and details.
@@ -56,18 +113,34 @@ reparenting controls are a later phase.
 - Property, code, class, and data-binding search.
 - Validation and bounded textual layout rendering.
 
-### Phase 2: guarded property and code edits
+Completion requires the nine initial read tools to describe the supported
+fixture corpus end to end through stdio, with root and version confinement,
+bounded outputs, cache invalidation, structured errors, clean protocol streams,
+and no exposed write capability.
+
+### Milestone 2: guarded property and code edits
 
 - Typed property updates and geometry operations on one SCX target per transaction.
 - Event-scoped method replacement and exactly-one-match literal patches.
 - Paired backups, edit journal, validation, diff, and restore.
 - Mandatory prepare/apply plan IDs, current pair hashes, and dry-run previews.
 
-### Phase 3: structural editing
+Completion requires the transaction safeguards, Windows pair-recovery
+protocol, timestamp and OBJCODE behavior, strict encoding, opaque-memo
+preservation, exact byte-footprint tests, and native VFP 6 and VFP 9 open,
+inspect, save, reopen, and compile acceptance for both property and named-method
+edits. VCX and structural writes remain disabled.
+
+### Milestone 3: structural editing
 
 - Add, soft-delete, rename, and reparent controls.
 - Tab-order and, if proven safe, Z-order operations.
 - Explicit memo/deleted-record packing.
+
+Completion requires accepted evidence for record insertion, `UNIQUEID`,
+reserved fields, container semantics, record-order and Z-order behavior, and
+native designer round trips. A failed gate produces an explicit revise or stop
+decision rather than a waived requirement.
 
 ## 4. System context
 

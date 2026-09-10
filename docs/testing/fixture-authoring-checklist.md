@@ -1,5 +1,17 @@
 # VFP 6 and VFP 9 Fixture Authoring Checklist
 
+<!--
+specled covers:
+- vfp_mcp.boundary.fixture_intake
+- vfp_mcp.acceptance.synthetic_native_fixtures
+- vfp_mcp.acceptance.no_live_dependencies
+- vfp_mcp.acceptance.fixture_review
+- vfp_mcp.acceptance.native_edit_matrix
+- vfp_mcp.acceptance.version_compatibility
+- vfp_mcp.acceptance.admit_fixture
+- vfp_mcp.acceptance.accept_edit_class
+-->
+
 **Purpose:** Create synthetic, commit-safe SCX/SCT and VCX/VCT pairs for codec,
 edit, recovery, and manual acceptance testing.
 
@@ -156,4 +168,3 @@ For every guarded edit type, test the native version first:
 
 Cross-open VFP 6-authored fixtures in VFP 9 as an additional compatibility
 check. Do not make VFP 6 acceptance of VFP 9-only features a release gate.
-

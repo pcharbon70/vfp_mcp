@@ -1,0 +1,2906 @@
+{
+  "decisions": {
+    "items": [
+      {
+        "affects": [
+          "vfp_mcp.codec",
+          "vfp_mcp.read_service",
+          "vfp_mcp.mutation"
+        ],
+        "date": "2026-09-09",
+        "file": ".spec/decisions/vfp_mcp.custom_vfp_codec.md",
+        "id": "vfp_mcp.custom_vfp_codec",
+        "status": "accepted",
+        "title": "Own"
+      },
+      {
+        "affects": [
+          "vfp_mcp.mutation",
+          "vfp_mcp.acceptance"
+        ],
+        "date": "2026-09-09",
+        "file": ".spec/decisions/vfp_mcp.guarded_pair_transactions.md",
+        "id": "vfp_mcp.guarded_pair_transactions",
+        "status": "accepted",
+        "title": "Serialize"
+      },
+      {
+        "affects": [
+          "vfp_mcp.project_boundary",
+          "vfp_mcp.acceptance"
+        ],
+        "date": "2026-09-09",
+        "file": ".spec/decisions/vfp_mcp.source_access_boundary.md",
+        "id": "vfp_mcp.source_access_boundary",
+        "status": "accepted",
+        "title": "Constrain"
+      },
+      {
+        "affects": [
+          "vfp_mcp.package",
+          "vfp_mcp.protocol"
+        ],
+        "date": "2026-09-09",
+        "file": ".spec/decisions/vfp_mcp.stdio_protocol_boundary.md",
+        "id": "vfp_mcp.stdio_protocol_boundary",
+        "status": "accepted",
+        "title": "Use"
+      },
+      {
+        "affects": [
+          "vfp_mcp.package",
+          "vfp_mcp.project_boundary",
+          "vfp_mcp.protocol",
+          "vfp_mcp.mutation",
+          "vfp_mcp.acceptance"
+        ],
+        "date": "2026-09-09",
+        "file": ".spec/decisions/vfp_mcp.versioned_capability_rollout.md",
+        "id": "vfp_mcp.versioned_capability_rollout",
+        "status": "accepted",
+        "title": "Gate"
+      }
+    ]
+  },
+  "findings": [],
+  "index": {
+    "exceptions": [],
+    "requirements": [
+      {
+        "file": ".spec/specs/spec_system.spec.md",
+        "id": "spec.workspace.agent_prime_context",
+        "priority": "should",
+        "stability": "evolving",
+        "statement": "The repository shall include a .spec/AGENTS.md that tells agents to start a session with mix spec.prime before editing current truth.",
+        "subject_id": "spec.system"
+      },
+      {
+        "file": ".spec/specs/spec_system.spec.md",
+        "id": "spec.workspace.agents_present",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The repository shall include a .spec/AGENTS.md that gives local operating guidance for agents working inside the .spec workspace.",
+        "subject_id": "spec.system"
+      },
+      {
+        "file": ".spec/specs/spec_system.spec.md",
+        "id": "spec.workspace.decisions_readme_present",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The repository shall include a .spec/decisions/README.md that explains when durable ADRs belong in the workspace.",
+        "subject_id": "spec.system"
+      },
+      {
+        "file": ".spec/specs/spec_system.spec.md",
+        "id": "spec.workspace.planning_agent_guidance",
+        "priority": "should",
+        "stability": "evolving",
+        "statement": "The repository shall instruct agents implementing a milestone to read its planning stream, maintain stable numbering, preserve the required hierarchy, and attach only real completion evidence.",
+        "subject_id": "spec.system"
+      },
+      {
+        "file": ".spec/specs/spec_system.spec.md",
+        "id": "spec.workspace.planning_conventions",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Each milestone planning stream shall use zero-padded phase files whose phases, sections, tasks, and subtasks begin with descriptions and whose final numbered section contains integration tests.",
+        "subject_id": "spec.system"
+      },
+      {
+        "file": ".spec/specs/spec_system.spec.md",
+        "id": "spec.workspace.planning_index_present",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The repository shall include a .spec/planning/README.md that indexes milestone plans and defines stable numbering and document structure.",
+        "subject_id": "spec.system"
+      },
+      {
+        "file": ".spec/specs/spec_system.spec.md",
+        "id": "spec.workspace.planning_truth_boundary",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Workspace guidance shall distinguish intended planning work from current-truth specifications and shall not treat plan status or checkboxes as behavioral verification.",
+        "subject_id": "spec.system"
+      },
+      {
+        "file": ".spec/specs/spec_system.spec.md",
+        "id": "spec.workspace.readme_present",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The repository shall include a .spec/README.md that explains purpose, layout, and workflow.",
+        "subject_id": "spec.system"
+      },
+      {
+        "file": ".spec/specs/spec_system.spec.md",
+        "id": "spec.workspace.state_generated",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "When indexing and validation run, the workspace shall generate .spec/state.json containing indexed subjects, indexed decisions, and verification state.",
+        "subject_id": "spec.system"
+      },
+      {
+        "file": ".spec/specs/acceptance.spec.md",
+        "id": "vfp_mcp.acceptance.codec_evidence",
+        "priority": "must",
+        "stability": "evolving",
+        "statement": "Automated codec evidence shall cover golden parsing, malformed and truncated inputs, endianness, block-size variants, code-page behavior, hierarchy errors, opaque memo preservation, and deterministic pure results.",
+        "subject_id": "vfp_mcp.acceptance"
+      },
+      {
+        "file": ".spec/specs/acceptance.spec.md",
+        "id": "vfp_mcp.acceptance.fixture_review",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Before promotion, automated intake shall inventory records, memo fields, bindings, class locations, code, and strings, and a human shall confirm that only approved synthetic content is present.",
+        "subject_id": "vfp_mcp.acceptance"
+      },
+      {
+        "file": ".spec/specs/acceptance.spec.md",
+        "id": "vfp_mcp.acceptance.mutation_footprint",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Every mutation class shall prove on disposable fixture copies that the intended semantic change is visible and all bytes outside the documented footprint are unchanged.",
+        "subject_id": "vfp_mcp.acceptance"
+      },
+      {
+        "file": ".spec/specs/acceptance.spec.md",
+        "id": "vfp_mcp.acceptance.native_edit_matrix",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Before an edit class ships, its output shall be reparsed, opened, inspected, saved, reopened, and compiled in the originating VFP version, and only dependency-free synthetic fixtures may be run.",
+        "subject_id": "vfp_mcp.acceptance"
+      },
+      {
+        "file": ".spec/specs/acceptance.spec.md",
+        "id": "vfp_mcp.acceptance.no_live_dependencies",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "A runnable fixture shall contain no real DBC, DBF, connection, executable, production path, external application class, or other live application dependency.",
+        "subject_id": "vfp_mcp.acceptance"
+      },
+      {
+        "file": ".spec/specs/acceptance.spec.md",
+        "id": "vfp_mcp.acceptance.quality_gate",
+        "priority": "must",
+        "stability": "evolving",
+        "statement": "A release candidate shall compile with warnings as errors, be format-clean, pass unit, property, integration, malformed-input, safety, and protocol tests, and include required native acceptance records.",
+        "subject_id": "vfp_mcp.acceptance"
+      },
+      {
+        "file": ".spec/specs/acceptance.spec.md",
+        "id": "vfp_mcp.acceptance.raw_intake_quarantine",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Raw application-derived intake pairs shall remain ignored, local, read-only, uncommitted, and unexecuted and may be used only for isolated parser comparison.",
+        "subject_id": "vfp_mcp.acceptance"
+      },
+      {
+        "file": ".spec/specs/acceptance.spec.md",
+        "id": "vfp_mcp.acceptance.structural_release_gates",
+        "priority": "must",
+        "stability": "evolving",
+        "statement": "Structural edits shall remain deferred until record-order and z-order behavior, new-record fidelity, reserved fields, UNIQUEID conventions, and container semantics are accepted in native VFP fixtures.",
+        "subject_id": "vfp_mcp.acceptance"
+      },
+      {
+        "file": ".spec/specs/acceptance.spec.md",
+        "id": "vfp_mcp.acceptance.synthetic_native_fixtures",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Committed acceptance fixtures shall be purpose-built independently in VFP 6 and VFP 9, contain only synthetic content, and include the closed SCX/SCT and VCX/VCT pairs required by the fixture checklist.",
+        "subject_id": "vfp_mcp.acceptance"
+      },
+      {
+        "file": ".spec/specs/acceptance.spec.md",
+        "id": "vfp_mcp.acceptance.version_compatibility",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "VFP 6 and VFP 9 shall each accept edits to their native fixtures, while cross-opening VFP 6 fixtures in VFP 9 is additional evidence and VFP 6 acceptance of VFP 9-only features is not a release gate.",
+        "subject_id": "vfp_mcp.acceptance"
+      },
+      {
+        "file": ".spec/specs/acceptance.spec.md",
+        "id": "vfp_mcp.acceptance.write_release_gates",
+        "priority": "must",
+        "stability": "evolving",
+        "statement": "Guarded writes shall remain disabled until timestamp handling, Windows pair replacement and recovery, representative native VFP acceptance, and synthetic opaque-memo preservation are resolved with recorded evidence.",
+        "subject_id": "vfp_mcp.acceptance"
+      },
+      {
+        "file": ".spec/specs/codec.spec.md",
+        "id": "vfp_mcp.codec.dbf_structure",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The codec shall parse DBF record count, header length, record length, code-page byte, field descriptors, fixed-width values, and active or deleted record markers from their documented offsets.",
+        "subject_id": "vfp_mcp.codec"
+      },
+      {
+        "file": ".spec/specs/codec.spec.md",
+        "id": "vfp_mcp.codec.fpt_structure",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The codec shall read the FPT next-free pointer and block size as big-endian values, treat a stored block size of zero as 512, and bounds-check every resolved memo block.",
+        "subject_id": "vfp_mcp.codec"
+      },
+      {
+        "file": ".spec/specs/codec.spec.md",
+        "id": "vfp_mcp.codec.hierarchy_integrity",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Hierarchy construction shall use OBJNAME and PARENT, preserve parent-relative geometry, assign unambiguous full control paths, and report duplicate siblings, missing parents, and cycles.",
+        "subject_id": "vfp_mcp.codec"
+      },
+      {
+        "file": ".spec/specs/codec.spec.md",
+        "id": "vfp_mcp.codec.lossless_encoding",
+        "priority": "must",
+        "stability": "evolving",
+        "statement": "The codec shall derive text encoding from source metadata, expose UTF-8 internally, support strict Windows-1252 writes initially, and reject any write that cannot round-trip without replacement.",
+        "subject_id": "vfp_mcp.codec"
+      },
+      {
+        "file": ".spec/specs/codec.spec.md",
+        "id": "vfp_mcp.codec.memo_block",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The codec shall parse each FPT block as a big-endian type and length followed by bounded payload bytes and shall preserve the source block type when planning a replacement.",
+        "subject_id": "vfp_mcp.codec"
+      },
+      {
+        "file": ".spec/specs/codec.spec.md",
+        "id": "vfp_mcp.codec.memo_pointer",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The codec shall interpret each VFP memo pointer as a four-byte little-endian binary block number with zero representing an empty memo.",
+        "subject_id": "vfp_mcp.codec"
+      },
+      {
+        "file": ".spec/specs/codec.spec.md",
+        "id": "vfp_mcp.codec.method_edit_scope",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Method parsing shall preserve source verbatim and identify PROCEDURE through ENDPROC blocks so a planned edit can target one named event or an exact guarded match without replacing sibling methods.",
+        "subject_id": "vfp_mcp.codec"
+      },
+      {
+        "file": ".spec/specs/codec.spec.md",
+        "id": "vfp_mcp.codec.property_edit_scope",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Property parsing shall preserve ordering, line endings, spelling, whitespace, expressions, and unsupported literals so a planned edit replaces only explicitly targeted property lines.",
+        "subject_id": "vfp_mcp.codec"
+      },
+      {
+        "file": ".spec/specs/codec.spec.md",
+        "id": "vfp_mcp.codec.pure_planning",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Parsing, rendering, validation, and edit planning shall be deterministic pure transformations with no file-system or MCP side effects.",
+        "subject_id": "vfp_mcp.codec"
+      },
+      {
+        "file": ".spec/specs/codec.spec.md",
+        "id": "vfp_mcp.codec.raw_fidelity",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The parsed document shall retain raw headers, records, memo pointers, memo payloads, reserved fields, deleted records, OLE data, and unknown bytes without normalization.",
+        "subject_id": "vfp_mcp.codec"
+      },
+      {
+        "file": ".spec/specs/codec.spec.md",
+        "id": "vfp_mcp.codec.semantic_document",
+        "priority": "must",
+        "stability": "evolving",
+        "statement": "The codec shall produce source-pair identity, version and encoding metadata, records, objects, data-environment entries, full-path indexes, and validation findings while retaining the physical model.",
+        "subject_id": "vfp_mcp.codec"
+      },
+      {
+        "file": ".spec/specs/mutation.spec.md",
+        "id": "vfp_mcp.mutation.append_memo",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Replacement memo content shall be appended at a valid aligned block using the replaced block type, with the next-free pointer updated consistently and the old block left unreachable rather than overwritten in place.",
+        "subject_id": "vfp_mcp.mutation"
+      },
+      {
+        "file": ".spec/specs/mutation.spec.md",
+        "id": "vfp_mcp.mutation.audit_journal",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Each attempt shall produce a metadata journal entry and successful edits shall additionally produce a structured semantic diff without recording full source bodies or secrets.",
+        "subject_id": "vfp_mcp.mutation"
+      },
+      {
+        "file": ".spec/specs/mutation.spec.md",
+        "id": "vfp_mcp.mutation.commit_order",
+        "priority": "must",
+        "stability": "evolving",
+        "statement": "New memo bytes shall be made durable before any DBF pointer can reference them, and the accepted Windows replacement protocol shall never expose a new pointer to an absent block.",
+        "subject_id": "vfp_mcp.mutation"
+      },
+      {
+        "file": ".spec/specs/mutation.spec.md",
+        "id": "vfp_mcp.mutation.explicit_enablement",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Mutations shall be unavailable unless the user explicitly enables write mode and the requested edit class has passed all applicable acceptance gates.",
+        "subject_id": "vfp_mcp.mutation"
+      },
+      {
+        "file": ".spec/specs/mutation.spec.md",
+        "id": "vfp_mcp.mutation.fresh_authority",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The writer shall read and parse both source files after acquiring the pair lock and shall never mutate from cached or previously prepared bytes.",
+        "subject_id": "vfp_mcp.mutation"
+      },
+      {
+        "file": ".spec/specs/mutation.spec.md",
+        "id": "vfp_mcp.mutation.method_objcode",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Every method-source mutation shall clear the affected record OBJCODE pointer so stale compiled code cannot remain authoritative.",
+        "subject_id": "vfp_mcp.mutation"
+      },
+      {
+        "file": ".spec/specs/mutation.spec.md",
+        "id": "vfp_mcp.mutation.post_validation",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "After replacement, the writer shall re-read and validate the pair, verify the requested semantic postcondition and restricted footprint, and invalidate or refresh cache entries only after success.",
+        "subject_id": "vfp_mcp.mutation"
+      },
+      {
+        "file": ".spec/specs/mutation.spec.md",
+        "id": "vfp_mcp.mutation.preconditions",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Before writing, the server shall verify root confinement, pair completeness, source version, supported encoding, pair hash, target uniqueness, expected value or match count, exclusive access, and allowed record and field types.",
+        "subject_id": "vfp_mcp.mutation"
+      },
+      {
+        "file": ".spec/specs/mutation.spec.md",
+        "id": "vfp_mcp.mutation.prepared_plan",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "A write shall require an unexpired prepared plan bound to the canonical pair identity, complete pair hash, compatibility target, control full path, expected old value, and exact byte footprint.",
+        "subject_id": "vfp_mcp.mutation"
+      },
+      {
+        "file": ".spec/specs/mutation.spec.md",
+        "id": "vfp_mcp.mutation.recoverable_backup",
+        "priority": "must",
+        "stability": "evolving",
+        "statement": "Before changing either source file, the writer shall create and verify a complete pair backup under .vfp_mcp/backups and retain the latest 20 backups per form by default.",
+        "subject_id": "vfp_mcp.mutation"
+      },
+      {
+        "file": ".spec/specs/mutation.spec.md",
+        "id": "vfp_mcp.mutation.restricted_footprint",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "A property edit shall alter only targeted property lines, and a method edit shall alter only the named procedure block or an exact guarded match while preserving every unrelated record, memo, and opaque field.",
+        "subject_id": "vfp_mcp.mutation"
+      },
+      {
+        "file": ".spec/specs/mutation.spec.md",
+        "id": "vfp_mcp.mutation.rollback",
+        "priority": "must",
+        "stability": "evolving",
+        "statement": "Any failed post-write check shall restore the previous complete pair when safe or leave a precisely identified recoverable state with the verified backup untouched.",
+        "subject_id": "vfp_mcp.mutation"
+      },
+      {
+        "file": ".spec/specs/mutation.spec.md",
+        "id": "vfp_mcp.mutation.scx_only",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The first write milestone shall modify only existing properties and named method blocks in SCX/SCT form pairs and shall keep VCX/VCT and structural record edits read-only.",
+        "subject_id": "vfp_mcp.mutation"
+      },
+      {
+        "file": ".spec/specs/mutation.spec.md",
+        "id": "vfp_mcp.mutation.single_writer",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "One supervised writer shall serialize all mutations and hold an exclusive lock over both members of the selected source pair for the transaction.",
+        "subject_id": "vfp_mcp.mutation"
+      },
+      {
+        "file": ".spec/specs/mutation.spec.md",
+        "id": "vfp_mcp.mutation.timestamp_gate",
+        "priority": "must",
+        "stability": "evolving",
+        "statement": "The writer shall preserve TIMESTAMP bytes until VFP 6 and VFP 9 timestamp encoding and rewrite behavior have been established by native before-and-after acceptance evidence.",
+        "subject_id": "vfp_mcp.mutation"
+      },
+      {
+        "file": ".spec/specs/package.spec.md",
+        "id": "vfp_mcp.package.dependency_boundaries",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The package shall pin ex_mcp at 1.0.0-rc.8 behind the protocol boundary and shall keep spec_led_ex as a development and test dependency with runtime disabled.",
+        "subject_id": "vfp_mcp.package"
+      },
+      {
+        "file": ".spec/specs/package.spec.md",
+        "id": "vfp_mcp.package.elixir_otp_runtime",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The application shall target Elixir 1.20 and run under an OTP supervision tree.",
+        "subject_id": "vfp_mcp.package"
+      },
+      {
+        "file": ".spec/specs/package.spec.md",
+        "id": "vfp_mcp.package.excluded_operations",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The package shall not execute or compile VFP code, automate the VFP IDE, access application data, or initially edit MNX, FRX, LBX, or other non-form source formats.",
+        "subject_id": "vfp_mcp.package"
+      },
+      {
+        "file": ".spec/specs/package.spec.md",
+        "id": "vfp_mcp.package.independent_application",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The repository shall remain an independent Elixir/OTP application named vfp_mcp and shall not be treated as part of LecoWin2 or SBT.",
+        "subject_id": "vfp_mcp.package"
+      },
+      {
+        "file": ".spec/specs/package.spec.md",
+        "id": "vfp_mcp.package.milestone_delivery",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Delivery shall proceed from codec and acceptance fixtures to read-only MCP tools, then guarded property and named-method edits, and finally separately accepted structural edits.",
+        "subject_id": "vfp_mcp.package"
+      },
+      {
+        "file": ".spec/specs/package.spec.md",
+        "id": "vfp_mcp.package.supported_sources",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The package shall understand VFP 6 and VFP 9 SCX/SCT form pairs and VCX/VCT class-library pairs while preserving their source fidelity.",
+        "subject_id": "vfp_mcp.package"
+      },
+      {
+        "file": ".spec/specs/project_boundary.spec.md",
+        "id": "vfp_mcp.boundary.canonical_confinement",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Every discovered or requested path shall be canonicalized and rejected when it escapes the configured root through traversal, absolute paths, links, or case-insensitive aliasing.",
+        "subject_id": "vfp_mcp.project_boundary"
+      },
+      {
+        "file": ".spec/specs/project_boundary.spec.md",
+        "id": "vfp_mcp.boundary.development_isolation",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Repository development and automated tests shall not modify, format, compile, build, execute, or run tools against the original LecoWin2 or SBT source trees.",
+        "subject_id": "vfp_mcp.project_boundary"
+      },
+      {
+        "file": ".spec/specs/project_boundary.spec.md",
+        "id": "vfp_mcp.boundary.explicit_root",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "A deployed process shall access a VFP project only after the user explicitly supplies one project root at launch.",
+        "subject_id": "vfp_mcp.project_boundary"
+      },
+      {
+        "file": ".spec/specs/project_boundary.spec.md",
+        "id": "vfp_mcp.boundary.external_classloc",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "A CLASSLOC that resolves outside the configured root shall be reported as an external reference and shall not be followed.",
+        "subject_id": "vfp_mcp.project_boundary"
+      },
+      {
+        "file": ".spec/specs/project_boundary.spec.md",
+        "id": "vfp_mcp.boundary.fixture_intake",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Fixture intake may read and minimally copy authorized VFP source pairs only into an isolated repository or approved temporary location, and committed fixtures shall be synthetic or sanitized of proprietary and identifying content.",
+        "subject_id": "vfp_mcp.project_boundary"
+      },
+      {
+        "file": ".spec/specs/project_boundary.spec.md",
+        "id": "vfp_mcp.boundary.no_vfp_execution",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The server shall never execute or compile VFP source or automate the Visual FoxPro IDE.",
+        "subject_id": "vfp_mcp.project_boundary"
+      },
+      {
+        "file": ".spec/specs/project_boundary.spec.md",
+        "id": "vfp_mcp.boundary.one_version_per_process",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "One process shall serve one configured root and one declared VFP compatibility target of either 6 or 9.",
+        "subject_id": "vfp_mcp.project_boundary"
+      },
+      {
+        "file": ".spec/specs/project_boundary.spec.md",
+        "id": "vfp_mcp.boundary.read_only_start",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Every deployed server shall start in read-only mode unless write mode is explicitly configured and all mutation safeguards are available.",
+        "subject_id": "vfp_mcp.project_boundary"
+      },
+      {
+        "file": ".spec/specs/project_boundary.spec.md",
+        "id": "vfp_mcp.boundary.source_pairs_only",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Root authorization shall extend only to supported SCX/SCT and VCX/VCT source pairs and shall exclude databases, tables, connections, executables, deployments, and backups.",
+        "subject_id": "vfp_mcp.project_boundary"
+      },
+      {
+        "file": ".spec/specs/protocol.spec.md",
+        "id": "vfp_mcp.protocol.deferred_surfaces",
+        "priority": "should",
+        "stability": "evolving",
+        "statement": "Streamable HTTP, prompts, resources, subscriptions, and remote multi-session deployment shall remain outside the initial protocol surface.",
+        "subject_id": "vfp_mcp.protocol"
+      },
+      {
+        "file": ".spec/specs/protocol.spec.md",
+        "id": "vfp_mcp.protocol.diagnostic_stream",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Startup diagnostics, warnings, and operational logs shall be written to standard error and shall redact sensitive source text from arguments and journal-facing output.",
+        "subject_id": "vfp_mcp.protocol"
+      },
+      {
+        "file": ".spec/specs/protocol.spec.md",
+        "id": "vfp_mcp.protocol.domain_errors",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Expected domain failures shall become structured tool errors with stable categories and shall not terminate the server session or be reported as transport failures.",
+        "subject_id": "vfp_mcp.protocol"
+      },
+      {
+        "file": ".spec/specs/protocol.spec.md",
+        "id": "vfp_mcp.protocol.initial_read_tools",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The first MCP surface shall provide list_sources, get_form_overview, get_control_tree, get_control_details, list_code_locations, get_control_code, search_sources, get_dataenvironment, and validate_source.",
+        "subject_id": "vfp_mcp.protocol"
+      },
+      {
+        "file": ".spec/specs/protocol.spec.md",
+        "id": "vfp_mcp.protocol.sdk_boundary",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "ex_mcp types and callbacks shall remain inside the server and protocol adapter so domain and codec modules accept and return SDK-neutral values.",
+        "subject_id": "vfp_mcp.protocol"
+      },
+      {
+        "file": ".spec/specs/protocol.spec.md",
+        "id": "vfp_mcp.protocol.startup_configuration",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Startup shall require an explicit project root and VFP version, shall default writes to disabled, and shall fail before opening sources when configuration is invalid.",
+        "subject_id": "vfp_mcp.protocol"
+      },
+      {
+        "file": ".spec/specs/protocol.spec.md",
+        "id": "vfp_mcp.protocol.stdio_transport",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The initial server shall support local stdio transport only and shall reserve standard output exclusively for MCP protocol frames.",
+        "subject_id": "vfp_mcp.protocol"
+      },
+      {
+        "file": ".spec/specs/protocol.spec.md",
+        "id": "vfp_mcp.protocol.tool_contracts",
+        "priority": "must",
+        "stability": "evolving",
+        "statement": "Every tool shall validate a bounded JSON input schema and return concise text plus structured content where useful, with truthful read-only and destructive annotations.",
+        "subject_id": "vfp_mcp.protocol"
+      },
+      {
+        "file": ".spec/specs/read_service.spec.md",
+        "id": "vfp_mcp.read.bounded_results",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Every result shall enforce configured text, match, file, depth, and byte limits and shall indicate truncation or continuation without silently omitting it.",
+        "subject_id": "vfp_mcp.read_service"
+      },
+      {
+        "file": ".spec/specs/read_service.spec.md",
+        "id": "vfp_mcp.read.cache_validation",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Cached documents may accelerate reads only after current file identity is checked, and cache entries shall be invalidated after verified writes or external changes.",
+        "subject_id": "vfp_mcp.read_service"
+      },
+      {
+        "file": ".spec/specs/read_service.spec.md",
+        "id": "vfp_mcp.read.discovery_pairs",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Discovery shall find SCX/SCT and VCX/VCT companions case-insensitively under the configured root, deduplicate canonical paths, and report missing companions instead of inventing a partial source.",
+        "subject_id": "vfp_mcp.read_service"
+      },
+      {
+        "file": ".spec/specs/read_service.spec.md",
+        "id": "vfp_mcp.read.external_references",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Reads may report external CLASSLOC and data-binding path text but shall not traverse those references or open their target data.",
+        "subject_id": "vfp_mcp.read_service"
+      },
+      {
+        "file": ".spec/specs/read_service.spec.md",
+        "id": "vfp_mcp.read.full_path_identity",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Control lookup shall use canonical full hierarchy paths and shall reject ambiguous shorthand rather than selecting an arbitrary duplicate name.",
+        "subject_id": "vfp_mcp.read_service"
+      },
+      {
+        "file": ".spec/specs/read_service.spec.md",
+        "id": "vfp_mcp.read.immutable_snapshot",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Each read shall operate on immutable bytes associated with a complete source-pair identity including canonical paths, sizes, modification times, and a cryptographic pair hash.",
+        "subject_id": "vfp_mcp.read_service"
+      },
+      {
+        "file": ".spec/specs/read_service.spec.md",
+        "id": "vfp_mcp.read.query_shapes",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Query operations shall expose source inventories, form overviews, control trees, control details, code locations, named control code, source search, data-environment metadata, and validation findings.",
+        "subject_id": "vfp_mcp.read_service"
+      },
+      {
+        "file": ".spec/specs/read_service.spec.md",
+        "id": "vfp_mcp.read.source_fidelity",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Read operations shall not normalize, rewrite, compile, execute, or otherwise mutate source files.",
+        "subject_id": "vfp_mcp.read_service"
+      },
+      {
+        "file": ".spec/specs/read_service.spec.md",
+        "id": "vfp_mcp.read.validation_findings",
+        "priority": "must",
+        "stability": "evolving",
+        "statement": "Validation shall distinguish fatal container or bounds errors from source warnings such as missing parents, duplicate sibling names, unsupported encodings, mixed versions, and external references.",
+        "subject_id": "vfp_mcp.read_service"
+      }
+    ],
+    "scenarios": [
+      {
+        "covers": [
+          "vfp_mcp.acceptance.mutation_footprint",
+          "vfp_mcp.acceptance.native_edit_matrix",
+          "vfp_mcp.acceptance.version_compatibility"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "given": [
+          "an edit class passes automated semantic and byte-footprint checks on a disposable native fixture"
+        ],
+        "id": "vfp_mcp.acceptance.accept_edit_class",
+        "subject_id": "vfp_mcp.acceptance",
+        "then": [
+          "that evidence may satisfy the version-specific gate for the edit class"
+        ],
+        "when": [
+          "the originating VFP version also opens, preserves, saves, reopens, and compiles the edited pair"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.synthetic_native_fixtures",
+          "vfp_mcp.acceptance.no_live_dependencies",
+          "vfp_mcp.acceptance.fixture_review"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "given": [
+          "a closed VFP-native fixture pair is delivered to the ignored fixture-drop directory"
+        ],
+        "id": "vfp_mcp.acceptance.admit_fixture",
+        "subject_id": "vfp_mcp.acceptance",
+        "then": [
+          "the pair may be promoted to the version-specific committed fixture directory"
+        ],
+        "when": [
+          "automated inventory and human review find only checklist-approved synthetic content and no live dependency"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.write_release_gates",
+          "vfp_mcp.acceptance.structural_release_gates"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "given": [
+          "one or more required write or structural evidence items remain unresolved"
+        ],
+        "id": "vfp_mcp.acceptance.keep_writes_disabled",
+        "subject_id": "vfp_mcp.acceptance",
+        "then": [
+          "the affected capability remains unavailable even if self-parsing tests pass"
+        ],
+        "when": [
+          "the server is built or launched"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.no_live_dependencies",
+          "vfp_mcp.acceptance.raw_intake_quarantine"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "given": [
+          "an isolated intake pair contains application-derived code, names, paths, or class dependencies"
+        ],
+        "id": "vfp_mcp.acceptance.reject_raw_application_fixture",
+        "subject_id": "vfp_mcp.acceptance",
+        "then": [
+          "it remains quarantined and a purpose-built synthetic fixture is required instead"
+        ],
+        "when": [
+          "it is considered for commit or execution"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.codec.dbf_structure",
+          "vfp_mcp.codec.memo_pointer",
+          "vfp_mcp.codec.fpt_structure",
+          "vfp_mcp.codec.memo_block"
+        ],
+        "file": ".spec/specs/codec.spec.md",
+        "given": [
+          "a supported DBF and FPT source pair with binary memo pointers"
+        ],
+        "id": "vfp_mcp.codec.parse_mixed_endian_pair",
+        "subject_id": "vfp_mcp.codec",
+        "then": [
+          "little-endian DBF values and big-endian FPT values resolve to bounded records and memo payloads"
+        ],
+        "when": [
+          "the pair is parsed"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.codec.raw_fidelity",
+          "vfp_mcp.codec.method_edit_scope",
+          "vfp_mcp.codec.pure_planning"
+        ],
+        "file": ".spec/specs/codec.spec.md",
+        "given": [
+          "one object METHODS memo contains multiple procedure blocks"
+        ],
+        "id": "vfp_mcp.codec.plan_named_method_edit",
+        "subject_id": "vfp_mcp.codec",
+        "then": [
+          "the plan changes only that event source and preserves sibling blocks and unrelated bytes"
+        ],
+        "when": [
+          "an edit targets one named event"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.codec.fpt_structure",
+          "vfp_mcp.codec.semantic_document"
+        ],
+        "file": ".spec/specs/codec.spec.md",
+        "given": [
+          "a memo pointer or declared payload extends outside its companion file"
+        ],
+        "id": "vfp_mcp.codec.reject_invalid_memo",
+        "subject_id": "vfp_mcp.codec",
+        "then": [
+          "a structured finding is returned and no guessed or partial payload is exposed as valid"
+        ],
+        "when": [
+          "the pair is parsed or validated"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.codec.lossless_encoding",
+          "vfp_mcp.codec.pure_planning"
+        ],
+        "file": ".spec/specs/codec.spec.md",
+        "given": [
+          "a planned text edit contains characters not representable by the source code page"
+        ],
+        "id": "vfp_mcp.codec.reject_unrepresentable_text",
+        "subject_id": "vfp_mcp.codec",
+        "then": [
+          "planning fails without producing replacement bytes"
+        ],
+        "when": [
+          "the edit is encoded"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.mutation.scx_only",
+          "vfp_mcp.mutation.restricted_footprint",
+          "vfp_mcp.mutation.append_memo",
+          "vfp_mcp.mutation.method_objcode",
+          "vfp_mcp.mutation.timestamp_gate"
+        ],
+        "file": ".spec/specs/mutation.spec.md",
+        "given": [
+          "an SCX object has multiple method blocks and compiled OBJCODE"
+        ],
+        "id": "vfp_mcp.mutation.named_method_update",
+        "subject_id": "vfp_mcp.mutation",
+        "then": [
+          "a new memo block contains the targeted source change, sibling methods remain byte-faithful, and the affected OBJCODE pointer is zero"
+        ],
+        "when": [
+          "an accepted edit updates one named method"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.mutation.explicit_enablement",
+          "vfp_mcp.mutation.prepared_plan",
+          "vfp_mcp.mutation.preconditions",
+          "vfp_mcp.mutation.restricted_footprint",
+          "vfp_mcp.mutation.post_validation",
+          "vfp_mcp.mutation.audit_journal"
+        ],
+        "file": ".spec/specs/mutation.spec.md",
+        "given": [
+          "write mode and the requested SCX edit class are enabled",
+          "the current pair is valid and exclusively available"
+        ],
+        "id": "vfp_mcp.mutation.prepare_then_apply",
+        "subject_id": "vfp_mcp.mutation",
+        "then": [
+          "only the planned footprint changes and the response includes the new pair identity and structured diff"
+        ],
+        "when": [
+          "a matching unexpired prepared plan is applied"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.mutation.single_writer",
+          "vfp_mcp.mutation.recoverable_backup",
+          "vfp_mcp.mutation.commit_order",
+          "vfp_mcp.mutation.rollback"
+        ],
+        "file": ".spec/specs/mutation.spec.md",
+        "given": [
+          "a verified pair backup exists and a failure occurs during replacement or post-validation"
+        ],
+        "id": "vfp_mcp.mutation.recover_interrupted_pair",
+        "subject_id": "vfp_mcp.mutation",
+        "then": [
+          "no DBF pointer references an absent memo block and the previous pair is restored or explicitly recoverable"
+        ],
+        "when": [
+          "the writer handles the failure"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.mutation.prepared_plan",
+          "vfp_mcp.mutation.preconditions",
+          "vfp_mcp.mutation.fresh_authority"
+        ],
+        "file": ".spec/specs/mutation.spec.md",
+        "given": [
+          "a prepared plan references an earlier complete pair hash"
+        ],
+        "id": "vfp_mcp.mutation.reject_stale_plan",
+        "subject_id": "vfp_mcp.mutation",
+        "then": [
+          "the write is rejected before backup or source mutation"
+        ],
+        "when": [
+          "either member changed before apply"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.mutation.explicit_enablement",
+          "vfp_mcp.mutation.scx_only"
+        ],
+        "file": ".spec/specs/mutation.spec.md",
+        "given": [
+          "a request targets VCX/VCT, structural records, or an edit class without native acceptance"
+        ],
+        "id": "vfp_mcp.mutation.reject_unsupported_write",
+        "subject_id": "vfp_mcp.mutation",
+        "then": [
+          "it is rejected without creating source bytes"
+        ],
+        "when": [
+          "the request is prepared or applied"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.package.milestone_delivery",
+          "vfp_mcp.package.excluded_operations"
+        ],
+        "file": ".spec/specs/package.spec.md",
+        "given": [
+          "a capability belongs to a later delivery milestone"
+        ],
+        "id": "vfp_mcp.package.capability_sequence",
+        "subject_id": "vfp_mcp.package",
+        "then": [
+          "that capability is not exposed as supported behavior"
+        ],
+        "when": [
+          "its earlier acceptance gates are incomplete"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.package.elixir_otp_runtime",
+          "vfp_mcp.package.dependency_boundaries"
+        ],
+        "file": ".spec/specs/package.spec.md",
+        "given": [
+          "the Elixir and Erlang toolchain is installed"
+        ],
+        "id": "vfp_mcp.package.development_bootstrap",
+        "subject_id": "vfp_mcp.package",
+        "then": [
+          "the vfp_mcp OTP application compiles with its pinned protocol and specification dependencies"
+        ],
+        "when": [
+          "dependencies are fetched and the test task starts the application"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.boundary.explicit_root",
+          "vfp_mcp.boundary.source_pairs_only",
+          "vfp_mcp.boundary.read_only_start"
+        ],
+        "file": ".spec/specs/project_boundary.spec.md",
+        "given": [
+          "an original LecoWin2 or SBT source tree exists on the machine"
+        ],
+        "id": "vfp_mcp.boundary.explicit_deployment_authorization",
+        "subject_id": "vfp_mcp.project_boundary",
+        "then": [
+          "only supported source pairs under that root are readable and the process still starts read-only"
+        ],
+        "when": [
+          "the user deliberately supplies that tree as the deployed server root"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.boundary.canonical_confinement"
+        ],
+        "file": ".spec/specs/project_boundary.spec.md",
+        "given": [
+          "a server has one canonical configured project root"
+        ],
+        "id": "vfp_mcp.boundary.reject_escape",
+        "subject_id": "vfp_mcp.project_boundary",
+        "then": [
+          "the request fails before the target is opened"
+        ],
+        "when": [
+          "a request resolves outside that root by any path representation"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.boundary.development_isolation",
+          "vfp_mcp.boundary.fixture_intake",
+          "vfp_mcp.boundary.no_vfp_execution"
+        ],
+        "file": ".spec/specs/project_boundary.spec.md",
+        "given": [
+          "a minimum source pair is selected from an authorized original tree"
+        ],
+        "id": "vfp_mcp.boundary.safe_fixture_intake",
+        "subject_id": "vfp_mcp.project_boundary",
+        "then": [
+          "inspection occurs only on the isolated copy and the raw copy is neither committed nor executed"
+        ],
+        "when": [
+          "it is copied for format investigation"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.protocol.stdio_transport",
+          "vfp_mcp.protocol.diagnostic_stream"
+        ],
+        "file": ".spec/specs/protocol.spec.md",
+        "given": [
+          "the server emits diagnostics while serving an MCP session"
+        ],
+        "id": "vfp_mcp.protocol.clean_stdout",
+        "subject_id": "vfp_mcp.protocol",
+        "then": [
+          "standard output contains only MCP frames and diagnostics appear on standard error"
+        ],
+        "when": [
+          "protocol output and logs are produced"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.protocol.stdio_transport",
+          "vfp_mcp.protocol.startup_configuration",
+          "vfp_mcp.protocol.initial_read_tools"
+        ],
+        "file": ".spec/specs/protocol.spec.md",
+        "given": [
+          "a valid project root and one supported VFP version are supplied",
+          "write mode is not explicitly enabled"
+        ],
+        "id": "vfp_mcp.protocol.read_only_startup",
+        "subject_id": "vfp_mcp.protocol",
+        "then": [
+          "the read tool catalog is available and no mutating tool can change a source pair"
+        ],
+        "when": [
+          "the stdio server starts"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.protocol.tool_contracts",
+          "vfp_mcp.protocol.domain_errors"
+        ],
+        "file": ".spec/specs/protocol.spec.md",
+        "given": [
+          "a tool request passes transport decoding but violates a domain precondition"
+        ],
+        "id": "vfp_mcp.protocol.recoverable_tool_error",
+        "subject_id": "vfp_mcp.protocol",
+        "then": [
+          "the client receives a categorized tool error and the session remains usable"
+        ],
+        "when": [
+          "the request is dispatched"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.read.full_path_identity"
+        ],
+        "file": ".spec/specs/read_service.spec.md",
+        "given": [
+          "separate containers contain controls with the same OBJNAME"
+        ],
+        "id": "vfp_mcp.read.ambiguous_control",
+        "subject_id": "vfp_mcp.read_service",
+        "then": [
+          "the query returns an ambiguity error with candidate full paths"
+        ],
+        "when": [
+          "a query supplies a non-unique shorthand name"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.read.immutable_snapshot",
+          "vfp_mcp.read.cache_validation"
+        ],
+        "file": ".spec/specs/read_service.spec.md",
+        "given": [
+          "a parsed source document is cached"
+        ],
+        "id": "vfp_mcp.read.changed_after_cache",
+        "subject_id": "vfp_mcp.read_service",
+        "then": [
+          "the cache entry is not returned as current and fresh bytes are parsed"
+        ],
+        "when": [
+          "either source file has a different current identity"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.read.external_references",
+          "vfp_mcp.read.validation_findings"
+        ],
+        "file": ".spec/specs/read_service.spec.md",
+        "given": [
+          "a source record contains a CLASSLOC outside the configured root"
+        ],
+        "id": "vfp_mcp.read.external_class_reference",
+        "subject_id": "vfp_mcp.read_service",
+        "then": [
+          "the reference text and finding are returned without opening the external target"
+        ],
+        "when": [
+          "the source is inspected"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.read.discovery_pairs"
+        ],
+        "file": ".spec/specs/read_service.spec.md",
+        "given": [
+          "discovery finds one member of a supported source pair"
+        ],
+        "id": "vfp_mcp.read.missing_companion",
+        "subject_id": "vfp_mcp.read_service",
+        "then": [
+          "discovery returns a missing-companion finding and does not parse a partial pair"
+        ],
+        "when": [
+          "its companion cannot be resolved case-insensitively under the root"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.read.bounded_results"
+        ],
+        "file": ".spec/specs/read_service.spec.md",
+        "given": [
+          "a search or source response exceeds a configured output limit"
+        ],
+        "id": "vfp_mcp.read.truncated_result",
+        "subject_id": "vfp_mcp.read_service",
+        "then": [
+          "the response remains within the limit and explicitly reports truncation or continuation data"
+        ],
+        "when": [
+          "the result is shaped"
+        ]
+      }
+    ],
+    "subjects": [
+      {
+        "file": ".spec/specs/acceptance.spec.md",
+        "id": "vfp_mcp.acceptance",
+        "meta": {
+          "decisions": [
+            "vfp_mcp.source_access_boundary",
+            "vfp_mcp.versioned_capability_rollout",
+            "vfp_mcp.guarded_pair_transactions"
+          ],
+          "id": "vfp_mcp.acceptance",
+          "kind": "policy",
+          "status": "active",
+          "summary": "Isolated fixture admission and native VFP acceptance requirements.",
+          "surface": [
+            "test/fixtures/README.md",
+            "docs/testing/fixture-authoring-checklist.md",
+            "docs/research/fixture-intake-investigation.md",
+            "docs/architecture.md",
+            "scripts/intake-fixtures.ps1"
+          ],
+          "verification_minimum_strength": null
+        },
+        "title": "Fixtures and Acceptance Gates"
+      },
+      {
+        "file": ".spec/specs/codec.spec.md",
+        "id": "vfp_mcp.codec",
+        "meta": {
+          "decisions": [
+            "vfp_mcp.custom_vfp_codec"
+          ],
+          "id": "vfp_mcp.codec",
+          "kind": "module",
+          "status": "planned",
+          "summary": "Fidelity-preserving DBF, FPT, text, property, method, and hierarchy codec.",
+          "surface": [
+            "docs/research/architecture-and-format-research.md",
+            "docs/research/progress-to-date.md",
+            "docs/architecture.md",
+            "docs/components.md"
+          ],
+          "verification_minimum_strength": null
+        },
+        "title": "VFP Source Codec"
+      },
+      {
+        "file": ".spec/specs/mutation.spec.md",
+        "id": "vfp_mcp.mutation",
+        "meta": {
+          "decisions": [
+            "vfp_mcp.custom_vfp_codec",
+            "vfp_mcp.versioned_capability_rollout",
+            "vfp_mcp.guarded_pair_transactions"
+          ],
+          "id": "vfp_mcp.mutation",
+          "kind": "service",
+          "status": "planned",
+          "summary": "Prepared and serialized two-file transactions for accepted SCX edits.",
+          "surface": [
+            "docs/architecture.md",
+            "docs/components.md",
+            "docs/research/progress-to-date.md"
+          ],
+          "verification_minimum_strength": null
+        },
+        "title": "Guarded Mutation Pipeline"
+      },
+      {
+        "file": ".spec/specs/package.spec.md",
+        "id": "vfp_mcp.package",
+        "meta": {
+          "decisions": [
+            "vfp_mcp.custom_vfp_codec",
+            "vfp_mcp.stdio_protocol_boundary",
+            "vfp_mcp.versioned_capability_rollout"
+          ],
+          "id": "vfp_mcp.package",
+          "kind": "package",
+          "status": "active",
+          "summary": "Elixir/OTP MCP server for safe comprehension and milestone-gated editing of VFP 6 and VFP 9 source pairs.",
+          "surface": [
+            "README.md",
+            "mix.exs",
+            "lib/vfp_mcp.ex",
+            "lib/vfp_mcp/application.ex"
+          ],
+          "verification_minimum_strength": null
+        },
+        "title": "VFP MCP Package"
+      },
+      {
+        "file": ".spec/specs/project_boundary.spec.md",
+        "id": "vfp_mcp.project_boundary",
+        "meta": {
+          "decisions": [
+            "vfp_mcp.source_access_boundary",
+            "vfp_mcp.versioned_capability_rollout"
+          ],
+          "id": "vfp_mcp.project_boundary",
+          "kind": "policy",
+          "status": "active",
+          "summary": "Explicit-root confinement and isolation rules for VFP source access.",
+          "surface": [
+            "AGENTS.md",
+            "docs/architecture.md",
+            "docs/research/fixture-intake-investigation.md",
+            "docs/testing/fixture-authoring-checklist.md",
+            "scripts/intake-fixtures.ps1"
+          ],
+          "verification_minimum_strength": null
+        },
+        "title": "Project and Source Access Boundary"
+      },
+      {
+        "file": ".spec/specs/protocol.spec.md",
+        "id": "vfp_mcp.protocol",
+        "meta": {
+          "decisions": [
+            "vfp_mcp.stdio_protocol_boundary",
+            "vfp_mcp.versioned_capability_rollout"
+          ],
+          "id": "vfp_mcp.protocol",
+          "kind": "adapter",
+          "status": "planned",
+          "summary": "Stdio MCP adapter with bounded schemas, structured results, and domain-neutral internals.",
+          "surface": [
+            "mix.exs",
+            "docs/architecture.md",
+            "docs/components.md"
+          ],
+          "verification_minimum_strength": null
+        },
+        "title": "MCP Protocol Boundary"
+      },
+      {
+        "file": ".spec/specs/read_service.spec.md",
+        "id": "vfp_mcp.read_service",
+        "meta": {
+          "decisions": [
+            "vfp_mcp.source_access_boundary",
+            "vfp_mcp.custom_vfp_codec"
+          ],
+          "id": "vfp_mcp.read_service",
+          "kind": "service",
+          "status": "planned",
+          "summary": "Confined read pipeline over immutable source-pair snapshots.",
+          "surface": [
+            "docs/architecture.md",
+            "docs/components.md"
+          ],
+          "verification_minimum_strength": null
+        },
+        "title": "Read Service"
+      },
+      {
+        "file": ".spec/specs/spec_system.spec.md",
+        "id": "spec.system",
+        "meta": {
+          "decisions": null,
+          "id": "spec.system",
+          "kind": "policy",
+          "status": "active",
+          "summary": "Canonical workspace contract for authored specs and generated Spec Led state.",
+          "surface": [
+            ".spec/README.md",
+            ".spec/AGENTS.md",
+            ".spec/decisions/README.md",
+            ".spec/specs/*.spec.md",
+            ".spec/decisions/*.md",
+            ".spec/planning/README.md",
+            ".spec/planning/*/README.md",
+            ".spec/planning/*/phase-*.md"
+          ],
+          "verification_minimum_strength": null
+        },
+        "title": "Spec System"
+      }
+    ],
+    "verifications": [
+      {
+        "covers": [
+          "spec.workspace.readme_present"
+        ],
+        "file": ".spec/specs/spec_system.spec.md",
+        "kind": "source_file",
+        "subject_id": "spec.system",
+        "target": ".spec/README.md"
+      },
+      {
+        "covers": [
+          "spec.workspace.agents_present",
+          "spec.workspace.agent_prime_context",
+          "spec.workspace.planning_agent_guidance"
+        ],
+        "file": ".spec/specs/spec_system.spec.md",
+        "kind": "source_file",
+        "subject_id": "spec.system",
+        "target": ".spec/AGENTS.md"
+      },
+      {
+        "covers": [
+          "spec.workspace.decisions_readme_present"
+        ],
+        "file": ".spec/specs/spec_system.spec.md",
+        "kind": "source_file",
+        "subject_id": "spec.system",
+        "target": ".spec/decisions/README.md"
+      },
+      {
+        "covers": [
+          "spec.workspace.planning_index_present",
+          "spec.workspace.planning_conventions"
+        ],
+        "file": ".spec/specs/spec_system.spec.md",
+        "kind": "source_file",
+        "subject_id": "spec.system",
+        "target": ".spec/planning/README.md"
+      },
+      {
+        "covers": [
+          "spec.workspace.planning_truth_boundary"
+        ],
+        "file": ".spec/specs/spec_system.spec.md",
+        "kind": "source_file",
+        "subject_id": "spec.system",
+        "target": ".spec/README.md"
+      },
+      {
+        "covers": [
+          "spec.workspace.state_generated"
+        ],
+        "file": ".spec/specs/spec_system.spec.md",
+        "kind": "command",
+        "subject_id": "spec.system",
+        "target": "mix spec.index"
+      },
+      {
+        "covers": [
+          "spec.workspace.state_generated"
+        ],
+        "file": ".spec/specs/spec_system.spec.md",
+        "kind": "command",
+        "subject_id": "spec.system",
+        "target": "mix spec.validate"
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.synthetic_native_fixtures",
+          "vfp_mcp.acceptance.no_live_dependencies",
+          "vfp_mcp.acceptance.fixture_review",
+          "vfp_mcp.acceptance.native_edit_matrix",
+          "vfp_mcp.acceptance.version_compatibility",
+          "vfp_mcp.acceptance.admit_fixture",
+          "vfp_mcp.acceptance.accept_edit_class"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/fixture-authoring-checklist.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.raw_intake_quarantine",
+          "vfp_mcp.acceptance.reject_raw_application_fixture"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/research/fixture-intake-investigation.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.codec_evidence",
+          "vfp_mcp.acceptance.mutation_footprint",
+          "vfp_mcp.acceptance.write_release_gates",
+          "vfp_mcp.acceptance.structural_release_gates",
+          "vfp_mcp.acceptance.quality_gate",
+          "vfp_mcp.acceptance.keep_writes_disabled"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/architecture.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.codec.dbf_structure",
+          "vfp_mcp.codec.memo_pointer",
+          "vfp_mcp.codec.fpt_structure",
+          "vfp_mcp.codec.memo_block",
+          "vfp_mcp.codec.parse_mixed_endian_pair"
+        ],
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/research/architecture-and-format-research.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.codec.lossless_encoding",
+          "vfp_mcp.codec.raw_fidelity",
+          "vfp_mcp.codec.property_edit_scope",
+          "vfp_mcp.codec.method_edit_scope",
+          "vfp_mcp.codec.reject_unrepresentable_text",
+          "vfp_mcp.codec.plan_named_method_edit"
+        ],
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/research/progress-to-date.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.codec.semantic_document",
+          "vfp_mcp.codec.hierarchy_integrity",
+          "vfp_mcp.codec.reject_invalid_memo"
+        ],
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/architecture.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.codec.pure_planning"
+        ],
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/components.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.mutation.explicit_enablement",
+          "vfp_mcp.mutation.prepared_plan",
+          "vfp_mcp.mutation.preconditions",
+          "vfp_mcp.mutation.fresh_authority",
+          "vfp_mcp.mutation.single_writer",
+          "vfp_mcp.mutation.recoverable_backup",
+          "vfp_mcp.mutation.commit_order",
+          "vfp_mcp.mutation.post_validation",
+          "vfp_mcp.mutation.audit_journal",
+          "vfp_mcp.mutation.rollback",
+          "vfp_mcp.mutation.prepare_then_apply",
+          "vfp_mcp.mutation.reject_stale_plan",
+          "vfp_mcp.mutation.recover_interrupted_pair"
+        ],
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/architecture.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.mutation.scx_only",
+          "vfp_mcp.mutation.restricted_footprint",
+          "vfp_mcp.mutation.append_memo",
+          "vfp_mcp.mutation.method_objcode",
+          "vfp_mcp.mutation.named_method_update",
+          "vfp_mcp.mutation.reject_unsupported_write"
+        ],
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/components.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.mutation.timestamp_gate"
+        ],
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/research/progress-to-date.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.package.independent_application",
+          "vfp_mcp.package.supported_sources",
+          "vfp_mcp.package.milestone_delivery",
+          "vfp_mcp.package.excluded_operations",
+          "vfp_mcp.package.capability_sequence"
+        ],
+        "file": ".spec/specs/package.spec.md",
+        "kind": "readme_file",
+        "subject_id": "vfp_mcp.package",
+        "target": "README.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.package.elixir_otp_runtime",
+          "vfp_mcp.package.dependency_boundaries"
+        ],
+        "file": ".spec/specs/package.spec.md",
+        "kind": "source_file",
+        "subject_id": "vfp_mcp.package",
+        "target": "mix.exs"
+      },
+      {
+        "covers": [
+          "vfp_mcp.package.development_bootstrap"
+        ],
+        "execute": true,
+        "file": ".spec/specs/package.spec.md",
+        "kind": "command",
+        "subject_id": "vfp_mcp.package",
+        "target": "cd \"$OLDPWD\" && mix test"
+      },
+      {
+        "covers": [
+          "vfp_mcp.boundary.development_isolation",
+          "vfp_mcp.boundary.fixture_intake",
+          "vfp_mcp.boundary.explicit_root",
+          "vfp_mcp.boundary.source_pairs_only",
+          "vfp_mcp.boundary.read_only_start",
+          "vfp_mcp.boundary.no_vfp_execution",
+          "vfp_mcp.boundary.explicit_deployment_authorization",
+          "vfp_mcp.boundary.safe_fixture_intake"
+        ],
+        "file": ".spec/specs/project_boundary.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.project_boundary",
+        "target": "AGENTS.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.boundary.canonical_confinement",
+          "vfp_mcp.boundary.one_version_per_process",
+          "vfp_mcp.boundary.external_classloc",
+          "vfp_mcp.boundary.reject_escape"
+        ],
+        "file": ".spec/specs/project_boundary.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.project_boundary",
+        "target": "docs/architecture.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.boundary.safe_fixture_intake"
+        ],
+        "file": ".spec/specs/project_boundary.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.project_boundary",
+        "target": "docs/research/fixture-intake-investigation.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.boundary.fixture_intake"
+        ],
+        "file": ".spec/specs/project_boundary.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.project_boundary",
+        "target": "docs/testing/fixture-authoring-checklist.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.protocol.sdk_boundary"
+        ],
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "source_file",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "mix.exs"
+      },
+      {
+        "covers": [
+          "vfp_mcp.protocol.stdio_transport",
+          "vfp_mcp.protocol.diagnostic_stream",
+          "vfp_mcp.protocol.startup_configuration",
+          "vfp_mcp.protocol.deferred_surfaces",
+          "vfp_mcp.protocol.clean_stdout"
+        ],
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "docs/architecture.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.protocol.initial_read_tools",
+          "vfp_mcp.protocol.tool_contracts",
+          "vfp_mcp.protocol.domain_errors",
+          "vfp_mcp.protocol.read_only_startup",
+          "vfp_mcp.protocol.recoverable_tool_error"
+        ],
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "docs/components.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.read.immutable_snapshot",
+          "vfp_mcp.read.cache_validation",
+          "vfp_mcp.read.full_path_identity",
+          "vfp_mcp.read.bounded_results",
+          "vfp_mcp.read.source_fidelity",
+          "vfp_mcp.read.changed_after_cache",
+          "vfp_mcp.read.ambiguous_control",
+          "vfp_mcp.read.truncated_result"
+        ],
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/architecture.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.read.discovery_pairs",
+          "vfp_mcp.read.query_shapes",
+          "vfp_mcp.read.external_references",
+          "vfp_mcp.read.validation_findings",
+          "vfp_mcp.read.missing_companion",
+          "vfp_mcp.read.external_class_reference"
+        ],
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/components.md"
+      }
+    ]
+  },
+  "specification_version": "1.0",
+  "summary": {
+    "decision_parse_errors": 0,
+    "decisions": 5,
+    "exceptions": 0,
+    "findings": 0,
+    "requirements": 78,
+    "scenarios": 26,
+    "subjects": 8,
+    "verifications": 29
+  },
+  "verification": {
+    "claims": [
+      {
+        "cover_id": "spec.workspace.readme_present",
+        "file": ".spec/specs/spec_system.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "spec.system",
+        "target": ".spec/README.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "spec.workspace.agent_prime_context",
+        "file": ".spec/specs/spec_system.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "spec.system",
+        "target": ".spec/AGENTS.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "spec.workspace.agents_present",
+        "file": ".spec/specs/spec_system.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "spec.system",
+        "target": ".spec/AGENTS.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "spec.workspace.planning_agent_guidance",
+        "file": ".spec/specs/spec_system.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "spec.system",
+        "target": ".spec/AGENTS.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "spec.workspace.decisions_readme_present",
+        "file": ".spec/specs/spec_system.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "spec.system",
+        "target": ".spec/decisions/README.md",
+        "verification_index": 2
+      },
+      {
+        "cover_id": "spec.workspace.planning_conventions",
+        "file": ".spec/specs/spec_system.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "spec.system",
+        "target": ".spec/planning/README.md",
+        "verification_index": 3
+      },
+      {
+        "cover_id": "spec.workspace.planning_index_present",
+        "file": ".spec/specs/spec_system.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "spec.system",
+        "target": ".spec/planning/README.md",
+        "verification_index": 3
+      },
+      {
+        "cover_id": "spec.workspace.planning_truth_boundary",
+        "file": ".spec/specs/spec_system.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "spec.system",
+        "target": ".spec/README.md",
+        "verification_index": 4
+      },
+      {
+        "cover_id": "spec.workspace.state_generated",
+        "file": ".spec/specs/spec_system.spec.md",
+        "kind": "command",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "claimed",
+        "subject_id": "spec.system",
+        "target": "mix spec.index",
+        "verification_index": 5
+      },
+      {
+        "cover_id": "spec.workspace.state_generated",
+        "file": ".spec/specs/spec_system.spec.md",
+        "kind": "command",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "claimed",
+        "subject_id": "spec.system",
+        "target": "mix spec.validate",
+        "verification_index": 6
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.accept_edit_class",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/fixture-authoring-checklist.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.admit_fixture",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/fixture-authoring-checklist.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.fixture_review",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/fixture-authoring-checklist.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.native_edit_matrix",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/fixture-authoring-checklist.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.no_live_dependencies",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/fixture-authoring-checklist.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.synthetic_native_fixtures",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/fixture-authoring-checklist.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.version_compatibility",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/fixture-authoring-checklist.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.raw_intake_quarantine",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/research/fixture-intake-investigation.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.reject_raw_application_fixture",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/research/fixture-intake-investigation.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.codec_evidence",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/architecture.md",
+        "verification_index": 2
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.keep_writes_disabled",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/architecture.md",
+        "verification_index": 2
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.mutation_footprint",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/architecture.md",
+        "verification_index": 2
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.quality_gate",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/architecture.md",
+        "verification_index": 2
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.structural_release_gates",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/architecture.md",
+        "verification_index": 2
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.write_release_gates",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/architecture.md",
+        "verification_index": 2
+      },
+      {
+        "cover_id": "vfp_mcp.codec.dbf_structure",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/research/architecture-and-format-research.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.codec.fpt_structure",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/research/architecture-and-format-research.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.codec.memo_block",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/research/architecture-and-format-research.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.codec.memo_pointer",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/research/architecture-and-format-research.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.codec.parse_mixed_endian_pair",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/research/architecture-and-format-research.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.codec.lossless_encoding",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/research/progress-to-date.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.codec.method_edit_scope",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/research/progress-to-date.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.codec.plan_named_method_edit",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/research/progress-to-date.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.codec.property_edit_scope",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/research/progress-to-date.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.codec.raw_fidelity",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/research/progress-to-date.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.codec.reject_unrepresentable_text",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/research/progress-to-date.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.codec.hierarchy_integrity",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/architecture.md",
+        "verification_index": 2
+      },
+      {
+        "cover_id": "vfp_mcp.codec.reject_invalid_memo",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/architecture.md",
+        "verification_index": 2
+      },
+      {
+        "cover_id": "vfp_mcp.codec.semantic_document",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/architecture.md",
+        "verification_index": 2
+      },
+      {
+        "cover_id": "vfp_mcp.codec.pure_planning",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/components.md",
+        "verification_index": 3
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.audit_journal",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.commit_order",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.explicit_enablement",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.fresh_authority",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.post_validation",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.preconditions",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.prepare_then_apply",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.prepared_plan",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.recover_interrupted_pair",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.recoverable_backup",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.reject_stale_plan",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.rollback",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.single_writer",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.append_memo",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/components.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.method_objcode",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/components.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.named_method_update",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/components.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.reject_unsupported_write",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/components.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.restricted_footprint",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/components.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.scx_only",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/components.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.mutation.timestamp_gate",
+        "file": ".spec/specs/mutation.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.mutation",
+        "target": "docs/research/progress-to-date.md",
+        "verification_index": 2
+      },
+      {
+        "cover_id": "vfp_mcp.package.capability_sequence",
+        "file": ".spec/specs/package.spec.md",
+        "kind": "readme_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.package",
+        "target": "README.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.package.excluded_operations",
+        "file": ".spec/specs/package.spec.md",
+        "kind": "readme_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.package",
+        "target": "README.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.package.independent_application",
+        "file": ".spec/specs/package.spec.md",
+        "kind": "readme_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.package",
+        "target": "README.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.package.milestone_delivery",
+        "file": ".spec/specs/package.spec.md",
+        "kind": "readme_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.package",
+        "target": "README.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.package.supported_sources",
+        "file": ".spec/specs/package.spec.md",
+        "kind": "readme_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.package",
+        "target": "README.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.package.dependency_boundaries",
+        "file": ".spec/specs/package.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.package",
+        "target": "mix.exs",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.package.elixir_otp_runtime",
+        "file": ".spec/specs/package.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.package",
+        "target": "mix.exs",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.package.development_bootstrap",
+        "file": ".spec/specs/package.spec.md",
+        "kind": "command",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "executed",
+        "subject_id": "vfp_mcp.package",
+        "target": "cd \"$OLDPWD\" && mix test",
+        "verification_index": 2
+      },
+      {
+        "cover_id": "vfp_mcp.boundary.development_isolation",
+        "file": ".spec/specs/project_boundary.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.project_boundary",
+        "target": "AGENTS.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.boundary.explicit_deployment_authorization",
+        "file": ".spec/specs/project_boundary.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.project_boundary",
+        "target": "AGENTS.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.boundary.explicit_root",
+        "file": ".spec/specs/project_boundary.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.project_boundary",
+        "target": "AGENTS.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.boundary.fixture_intake",
+        "file": ".spec/specs/project_boundary.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.project_boundary",
+        "target": "AGENTS.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.boundary.no_vfp_execution",
+        "file": ".spec/specs/project_boundary.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.project_boundary",
+        "target": "AGENTS.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.boundary.read_only_start",
+        "file": ".spec/specs/project_boundary.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.project_boundary",
+        "target": "AGENTS.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.boundary.safe_fixture_intake",
+        "file": ".spec/specs/project_boundary.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.project_boundary",
+        "target": "AGENTS.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.boundary.source_pairs_only",
+        "file": ".spec/specs/project_boundary.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.project_boundary",
+        "target": "AGENTS.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.boundary.canonical_confinement",
+        "file": ".spec/specs/project_boundary.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.project_boundary",
+        "target": "docs/architecture.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.boundary.external_classloc",
+        "file": ".spec/specs/project_boundary.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.project_boundary",
+        "target": "docs/architecture.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.boundary.one_version_per_process",
+        "file": ".spec/specs/project_boundary.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.project_boundary",
+        "target": "docs/architecture.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.boundary.reject_escape",
+        "file": ".spec/specs/project_boundary.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.project_boundary",
+        "target": "docs/architecture.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.boundary.safe_fixture_intake",
+        "file": ".spec/specs/project_boundary.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.project_boundary",
+        "target": "docs/research/fixture-intake-investigation.md",
+        "verification_index": 2
+      },
+      {
+        "cover_id": "vfp_mcp.boundary.fixture_intake",
+        "file": ".spec/specs/project_boundary.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.project_boundary",
+        "target": "docs/testing/fixture-authoring-checklist.md",
+        "verification_index": 3
+      },
+      {
+        "cover_id": "vfp_mcp.protocol.sdk_boundary",
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "mix.exs",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.protocol.clean_stdout",
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "docs/architecture.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.protocol.deferred_surfaces",
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "docs/architecture.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.protocol.diagnostic_stream",
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "docs/architecture.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.protocol.startup_configuration",
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "docs/architecture.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.protocol.stdio_transport",
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "docs/architecture.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.protocol.domain_errors",
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "docs/components.md",
+        "verification_index": 2
+      },
+      {
+        "cover_id": "vfp_mcp.protocol.initial_read_tools",
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "docs/components.md",
+        "verification_index": 2
+      },
+      {
+        "cover_id": "vfp_mcp.protocol.read_only_startup",
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "docs/components.md",
+        "verification_index": 2
+      },
+      {
+        "cover_id": "vfp_mcp.protocol.recoverable_tool_error",
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "docs/components.md",
+        "verification_index": 2
+      },
+      {
+        "cover_id": "vfp_mcp.protocol.tool_contracts",
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "docs/components.md",
+        "verification_index": 2
+      },
+      {
+        "cover_id": "vfp_mcp.read.ambiguous_control",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.read.bounded_results",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.read.cache_validation",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.read.changed_after_cache",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.read.full_path_identity",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.read.immutable_snapshot",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.read.source_fidelity",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.read.truncated_result",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/architecture.md",
+        "verification_index": 0
+      },
+      {
+        "cover_id": "vfp_mcp.read.discovery_pairs",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/components.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.read.external_class_reference",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/components.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.read.external_references",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/components.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.read.missing_companion",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/components.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.read.query_shapes",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/components.md",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.read.validation_findings",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/components.md",
+        "verification_index": 1
+      }
+    ],
+    "cli_minimum_strength": null,
+    "default_minimum_strength": "claimed",
+    "strength_summary": {
+      "claimed": 2,
+      "executed": 1,
+      "linked": 104
+    },
+    "threshold_failures": 0
+  },
+  "workspace": {
+    "decision_count": 5,
+    "spec_count": 8
+  }
+}
