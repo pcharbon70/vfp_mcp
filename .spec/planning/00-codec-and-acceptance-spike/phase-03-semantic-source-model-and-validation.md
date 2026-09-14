@@ -17,7 +17,7 @@ aliases: []
 semantic document of objects, properties, methods, paths, and containment while
 retaining every physical source span and unknown byte.
 
-**Status:** Planned
+**Status:** In progress
 
 **Dependencies:** Phase 2 physical codec and Phase 1 domain/finding contracts.
 
@@ -36,16 +36,16 @@ caller-supplied snapshot and the two physical parse results.
 **Description:** Require matching SCX/SCT or VCX/VCT identity, retain declared
 compatibility target, and report unsupported or contradictory version metadata.
 
-- [ ] Mixed or incomplete pair input fails before semantic fields are exposed as valid.
+- [x] Mixed or incomplete pair input fails before semantic fields are exposed as valid.
 
 #### Subtask 3.1.1.2 — Propagate Source Identity
 
 **Description:** Carry pair hashes, member hashes, lengths, physical indices,
 field spans, memo references, and codec findings into the semantic document.
 
-- [ ] Every semantic object and parsed text region can be traced back to exact input bytes.
+- [x] Every semantic object and parsed text region can be traced back to exact input bytes.
 
-- [ ] Task 3.1.1 is complete for both form and class-library pair kinds.
+- [x] Task 3.1.1 is complete for both form and class-library pair kinds.
 
 ### Task 3.1.2 — Build Records and Objects
 
@@ -57,16 +57,16 @@ active, deleted, comment, data-environment, bookend, and unknown records.
 **Description:** Read `CLASS`, `BASECLASS`, `OBJNAME`, `PARENT`, `CLASSLOC`,
 reserved metadata, and known memo references only when their physical fields exist.
 
-- [ ] Missing, duplicate, malformed, or differently ordered fields become findings rather than positional guesses.
+- [x] Missing, duplicate, malformed, or differently ordered fields become findings rather than positional guesses.
 
 #### Subtask 3.1.2.2 — Preserve Unknown Record Content
 
 **Description:** Keep raw fields, record order, deletion state, unclassified
 record types, and opaque memos even when no semantic behavior is attached.
 
-- [ ] Semantic construction never drops a physical record or memo reference.
+- [x] Semantic construction never drops a physical record or memo reference.
 
-- [ ] Task 3.1.2 is complete with stable physical and semantic record indices.
+- [x] Task 3.1.2 is complete with stable physical and semantic record indices.
 
 ### Task 3.1.3 — Define Document Success and Failure Semantics
 
@@ -78,16 +78,16 @@ findings so callers never mistake partial data for a fully valid document.
 **Description:** Identify failures that prevent trustworthy pair, record, memo,
 or text boundaries and return them through the error result.
 
-- [ ] Fatal results do not expose guessed semantic values as valid.
+- [x] Fatal results do not expose guessed semantic values as valid.
 
 #### Subtask 3.1.3.2 — Retain Recoverable Findings
 
 **Description:** Attach deterministic warnings and mutation-blocking errors to a
 document when raw content is bounded and safe to inspect.
 
-- [ ] Document validity and mutation eligibility are separate explicit states.
+- [x] Document validity and mutation eligibility are separate explicit states.
 
-- [ ] Task 3.1.3 is complete with boundary tests for fatal, inspectable, and clean documents.
+- [x] Task 3.1.3 is complete with boundary tests for fatal, inspectable, and clean documents.
 
 ## Section 3.2 — Property and Method Parsing
 

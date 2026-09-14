@@ -1,7 +1,8 @@
 # Codec and Domain Contract
 
-This document fixes the Phase 1 interfaces and data ownership rules. It does
-not claim that DBF/FPT decoding or edit planning is implemented.
+This document fixes the codec interfaces and data ownership rules. Physical
+decoding and semantic record/object construction are implemented; edit
+planning remains a later phase.
 
 <!--
 specled covers:
@@ -23,10 +24,11 @@ opens their optional identity paths. A success owns warnings and
 mutation-blocking findings inside the document. An error returns only fatal
 findings and must not expose guessed semantic content as valid.
 
-Phase 2 implements physical decoding as documented in
-[the physical codec contract](physical-codec.md). Semantic object, property,
-method, and hierarchy construction remain unavailable until their later phase;
-an empty semantic view does not imply that physical content was discarded.
+Physical decoding is documented in
+[the physical codec contract](physical-codec.md). The semantic stage classifies
+every physical row, extracts only unambiguous known identity fields, and creates
+object and data-environment views. Dedicated semantic stages add property,
+method, and hierarchy indexes without replacing physical content.
 
 ## Source identity and provenance
 
@@ -38,11 +40,23 @@ an empty semantic view does not imply that physical content was discarded.
 - individual member roles, sizes, and SHA-256 hashes; and
 - a versioned SHA-256 digest over the complete ordered pair bytes.
 
+Optional member paths, when supplied, must have companion extensions matching
+the declared `:scx` (`.scx`/`.sct`) or `:vcx` (`.vcx`/`.vct`) pair kind. A
+contradiction fails before semantic values are returned.
+
 Semantic values retain `Span` and `MemoRef` links to member, record, field,
 pointer, block, and payload offsets. `Document` owns the physical model,
 schema, records, objects, tree, path index, encoding/version metadata, and
 non-fatal findings. Unknown fields and bytes stay in the physical model rather
-than being normalized into semantic values.
+than being normalized into semantic values. `semantic_records` has one stable
+entry per physical row, including deleted, bookend, comment, data-environment,
+and unknown rows. Each semantic value retains its field or memo payload span
+plus the originating memo pointer when applicable.
+
+Successful documents are explicitly `:inspectable`. Their independent
+`edit_eligibility` is either `:eligible` or `{:blocked, finding_codes}`. A
+bounded semantic ambiguity can therefore remain readable without being
+mistaken for a safe mutation target.
 
 ## Finding taxonomy
 

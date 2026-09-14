@@ -45,6 +45,13 @@ separate unreadable input, mutation-blocking ambiguity, preserved unknown
 content, and informational compatibility notes. All parsers and traversals use
 shared configurable limits before allocation or descent.
 
+When caller-supplied member paths exist, their extensions must agree with the
+declared pair kind before semantic construction. The semantic layer retains one
+classified entry per physical row and builds object and data-environment views
+only from unambiguous named fields. Inspectability and edit eligibility are
+separate document states so bounded ambiguous input remains readable without
+becoming a mutation target.
+
 ## Consequences
 
 The team owns format correctness, malformed-input handling, and byte-level test

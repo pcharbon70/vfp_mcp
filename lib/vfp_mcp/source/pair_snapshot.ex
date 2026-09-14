@@ -94,7 +94,8 @@ defmodule VfpMcp.Source.PairSnapshot do
 
   def new(_kind, _source_id, _dbf_bytes, _fpt_bytes, _opts), do: {:error, :invalid_bytes}
 
-  @spec validate(t()) :: :ok | {:error, :snapshot_identity_mismatch}
+  @spec validate(t()) ::
+          :ok | {:error, :snapshot_identity_mismatch | :pair_member_extension_mismatch}
   def validate(%__MODULE__{
         identity: %PairIdentity{dbf: %MemberIdentity{}, fpt: %MemberIdentity{}} = identity,
         dbf_bytes: dbf_bytes,
@@ -114,7 +115,11 @@ defmodule VfpMcp.Source.PairSnapshot do
         identity.fpt.sha256 == expected_fpt and
         identity.pair_sha256 == expected_pair
 
-    if valid?, do: :ok, else: {:error, :snapshot_identity_mismatch}
+    cond do
+      not valid? -> {:error, :snapshot_identity_mismatch}
+      not compatible_paths?(identity) -> {:error, :pair_member_extension_mismatch}
+      true -> :ok
+    end
   end
 
   def validate(%__MODULE__{}), do: {:error, :snapshot_identity_mismatch}
@@ -134,6 +139,25 @@ defmodule VfpMcp.Source.PairSnapshot do
       sha256: hash(bytes)
     }
   end
+
+  defp compatible_paths?(%PairIdentity{kind: kind, dbf: dbf, fpt: fpt}) do
+    {dbf_extension, fpt_extension} =
+      case kind do
+        :scx -> {".scx", ".sct"}
+        :vcx -> {".vcx", ".vct"}
+      end
+
+    compatible_extension?(dbf.path, dbf_extension) and
+      compatible_extension?(fpt.path, fpt_extension)
+  end
+
+  defp compatible_extension?(nil, _expected), do: true
+
+  defp compatible_extension?(path, expected) when is_binary(path) do
+    path |> Path.extname() |> String.downcase() == expected
+  end
+
+  defp compatible_extension?(_path, _expected), do: false
 
   defp pair_hash(kind, dbf_bytes, fpt_bytes) do
     hash([

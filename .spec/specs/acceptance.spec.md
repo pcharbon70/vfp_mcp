@@ -42,6 +42,7 @@ surface:
   - test/vfp_mcp/test_support/pair_builder_test.exs
   - test/integration/phase_1_foundations_test.exs
   - test/integration/phase_2_physical_codec_test.exs
+  - test/vfp_mcp/codec/semantic_test.exs
 decisions:
   - vfp_mcp.source_access_boundary
   - vfp_mcp.versioned_capability_rollout
@@ -342,6 +343,12 @@ decisions:
   covers:
     - vfp_mcp.acceptance.codec_evidence
     - vfp_mcp.acceptance.run_phase2_codec_suite
+
+- kind: test_file
+  target: test/vfp_mcp/codec/semantic_test.exs
+  covers:
+    - vfp_mcp.acceptance.deterministic_test_vectors
+    - vfp_mcp.acceptance.codec_evidence
 
 - kind: command
   target: 'cd "$OLDPWD" && mix phase2'

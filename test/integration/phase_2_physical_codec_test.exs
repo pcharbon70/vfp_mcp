@@ -253,7 +253,9 @@ defmodule VfpMcp.Integration.Phase2PhysicalCodecTest do
     summaries = Enum.map(1..20, fn _index -> PhysicalSummary.encode(document) end)
     assert Enum.uniq(summaries) == [hd(summaries)]
 
-    assert Enum.map(document.findings, & &1.code) ==
+    assert document.findings
+           |> Enum.map(& &1.code)
+           |> Enum.filter(&(&1 in [:codec_unsupported_code_page, :dbf_trailing_bytes_preserved])) ==
              [:codec_unsupported_code_page, :dbf_trailing_bytes_preserved]
   end
 

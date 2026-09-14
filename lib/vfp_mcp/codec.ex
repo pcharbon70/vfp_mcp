@@ -2,8 +2,9 @@ defmodule VfpMcp.Codec do
   @moduledoc """
   Pure public boundary for parsing an immutable Visual FoxPro source pair.
 
-  Phase 2 produces a loss-aware physical DBF/FPT model and explicit text views.
-  Semantic objects, properties, methods, and hierarchy remain Phase 3 work.
+  The physical stage produces a loss-aware DBF/FPT model and explicit text
+  views. The semantic stage classifies every record and builds conservative
+  objects without reading paths or introducing process state.
   """
 
   # specled covers:
@@ -20,7 +21,7 @@ defmodule VfpMcp.Codec do
   # - vfp_mcp.read.source_fidelity
   # - vfp_mcp.protocol.sdk_boundary
 
-  alias VfpMcp.Codec.{Dbf, Encoding, Fpt}
+  alias VfpMcp.Codec.{Dbf, Encoding, Fpt, Semantic}
   alias VfpMcp.{Document, Finding, Limits}
   alias VfpMcp.Source.PairSnapshot
 
@@ -48,11 +49,19 @@ defmodule VfpMcp.Codec do
            Encoding.resolve(dbf.header.code_page, expected_encoding),
          {:ok, text_views, text_findings} <-
            Encoding.decode_physical(dbf, fpt, encoding, limits),
+         {:ok, semantic_records, objects, data_environment, semantic_findings} <-
+           Semantic.build(dbf, fpt, text_views),
          {:ok, findings} <-
            collect_findings(
-             dbf_findings ++ fpt_findings ++ encoding_findings ++ text_findings,
+             dbf_findings ++
+               fpt_findings ++
+               encoding_findings ++
+               text_findings ++
+               semantic_findings ++ compatibility_findings(snapshot, dbf),
              limits
            ) do
+      edit_eligibility = edit_eligibility(findings)
+
       {:ok,
        %Document{
          pair: snapshot.identity,
@@ -66,6 +75,11 @@ defmodule VfpMcp.Codec do
          encoding: encoding,
          schema: dbf.fields,
          records: dbf.records,
+         semantic_records: semantic_records,
+         objects: Enum.map(objects, &%{&1 | edit_eligibility: edit_eligibility}),
+         data_environment: data_environment,
+         inspectability: :inspectable,
+         edit_eligibility: edit_eligibility,
          findings: findings
        }}
     else
@@ -128,5 +142,50 @@ defmodule VfpMcp.Codec do
          )
        ]}
     end
+  end
+
+  defp edit_eligibility(findings) do
+    codes =
+      findings
+      |> Enum.filter(&(&1.impact == :mutation_blocked))
+      |> Enum.map(& &1.code)
+      |> Enum.uniq()
+      |> Enum.sort()
+
+    if codes == [], do: :eligible, else: {:blocked, codes}
+  end
+
+  defp compatibility_findings(snapshot, dbf) do
+    version_findings =
+      if is_nil(snapshot.identity.declared_vfp_version) do
+        [
+          Finding.new(
+            :semantic_vfp_version_undeclared,
+            :info,
+            :informational,
+            "caller did not declare a VFP 6 or VFP 9 compatibility target"
+          )
+        ]
+      else
+        []
+      end
+
+    format_findings =
+      if dbf.header.format == 0x30 do
+        []
+      else
+        [
+          Finding.new(
+            :semantic_dbf_format_unsupported,
+            :error,
+            :mutation_blocked,
+            "DBF format metadata is not the supported Visual FoxPro format",
+            location: %{member: :dbf, offset: 0},
+            evidence: %{format: dbf.header.format}
+          )
+        ]
+      end
+
+    version_findings ++ format_findings
   end
 end

@@ -26,6 +26,7 @@ surface:
   - lib/vfp_mcp/codec/encoding.ex
   - lib/vfp_mcp/codec/fpt.ex
   - lib/vfp_mcp/codec/physical_summary.ex
+  - lib/vfp_mcp/codec/semantic.ex
   - lib/vfp_mcp/document.ex
   - lib/vfp_mcp/edit_plan.ex
   - lib/vfp_mcp/finding.ex
@@ -37,6 +38,7 @@ surface:
   - test/vfp_mcp/codec/encoding_test.exs
   - test/vfp_mcp/codec/fpt_test.exs
   - test/vfp_mcp/codec/physical_codec_test.exs
+  - test/vfp_mcp/codec/semantic_test.exs
   - test/integration/phase_2_physical_codec_test.exs
   - test/vfp_mcp/limits_test.exs
 decisions:
@@ -251,6 +253,13 @@ decisions:
     - vfp_mcp.codec.raw_fidelity
     - vfp_mcp.codec.pure_planning
 
+- kind: source_file
+  target: lib/vfp_mcp/codec/semantic.ex
+  covers:
+    - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+
 - kind: test_file
   target: test/vfp_mcp/codec/encoding_test.exs
   covers:
@@ -272,6 +281,13 @@ decisions:
     - vfp_mcp.codec.pure_planning
     - vfp_mcp.codec.parse_mixed_endian_pair
     - vfp_mcp.codec.reject_invalid_memo
+
+- kind: test_file
+  target: test/vfp_mcp/codec/semantic_test.exs
+  covers:
+    - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
 
 - kind: test_file
   target: test/integration/phase_2_physical_codec_test.exs
