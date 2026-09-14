@@ -17,7 +17,7 @@ aliases: []
 records and FPT memo blocks without interpreting application semantics or
 performing filesystem I/O.
 
-**Status:** In progress
+**Status:** Complete
 
 **Dependencies:** Phase 1 contracts, safety limits, findings, and binary builders.
 
@@ -219,16 +219,16 @@ memo pointer, block size, payload type, padding, and code page.
 **Description:** Assert exact values and offsets for little-endian DBF integers,
 little-endian memo pointers, and big-endian FPT metadata.
 
-- [ ] Each vector asserts both semantic physical values and their raw source spans.
+- [x] Each vector asserts both semantic physical values and their raw source spans.
 
 #### Subtask 2.4.1.2 — Run Property-Based Valid-Pair Checks
 
 **Description:** Generate bounded valid containers and verify deterministic parse,
 pointer resolution, non-overlapping spans, and raw-byte retention.
 
-- [ ] Failures report a replayable seed and minimized input.
+- [x] Failures report a replayable seed and minimized input.
 
-- [ ] Task 2.4.1 is complete for effective block sizes 1, 64, and 512.
+- [x] Task 2.4.1 is complete for effective block sizes 1, 64, and 512.
 
 ### Task 2.4.2 — Exercise Malformed and Adversarial Inputs
 
@@ -240,16 +240,16 @@ boundary and assert bounded structured failure.
 **Description:** Cover short headers, unterminated descriptors, width mismatch,
 invalid markers, excessive counts, record truncation, and arithmetic overflow.
 
-- [ ] No malformed DBF case raises, loops indefinitely, or allocates beyond configured limits.
+- [x] No malformed DBF case raises, loops indefinitely, or allocates beyond configured limits.
 
 #### Subtask 2.4.2.2 — Test FPT Failures
 
 **Description:** Cover short headers, invalid block sizes, out-of-range pointers,
 short block headers, excessive payloads, overlap, and allocation overflow.
 
-- [ ] No invalid memo is exposed as a valid payload and all failures have stable codes.
+- [x] No invalid memo is exposed as a valid payload and all failures have stable codes.
 
-- [ ] Task 2.4.2 is complete with deterministic finding order across repeated runs.
+- [x] Task 2.4.2 is complete with deterministic finding order across repeated runs.
 
 ### Task 2.4.3 — Prove Raw Fidelity
 
@@ -261,28 +261,36 @@ show that the physical parser does not modify or normalize source bytes.
 **Description:** Seed unknown descriptor bytes, deleted records, binary memos,
 OLE-like payloads, padding, and trailing data.
 
-- [ ] All seeded opaque regions can be recovered byte-for-byte with original offsets.
+- [x] All seeded opaque regions can be recovered byte-for-byte with original offsets.
 
 #### Subtask 2.4.3.2 — Verify Parse Determinism
 
 **Description:** Parse identical snapshots repeatedly and compare values,
 findings, ordering, spans, and physical summaries.
 
-- [ ] No result depends on process order, wall-clock time, locale, or filesystem state.
+- [x] No result depends on process order, wall-clock time, locale, or filesystem state.
 
-- [ ] Task 2.4.3 is complete with deterministic results under the full Phase 2 suite.
+- [x] Task 2.4.3 is complete with deterministic results under the full Phase 2 suite.
 
 ## Phase 2 Completion Evidence
 
 **Description:** Record proof only after every Phase 2 task and integration test
 is complete.
 
-- [ ] DBF and FPT unit-test commands and golden-vector locations are linked.
-- [ ] Property-based results include reproducible seed handling.
-- [ ] Malformed-input tests prove bounded, non-raising behavior.
-- [ ] Raw and opaque byte-fidelity assertions pass.
-- [ ] No codec function performs filesystem or MCP side effects.
-- [ ] Phase status and the stream index are updated only after all evidence is linked.
+- [x] DBF and FPT unit and golden-vector evidence is in
+  [`dbf_test.exs`](../../../test/vfp_mcp/codec/dbf_test.exs),
+  [`fpt_test.exs`](../../../test/vfp_mcp/codec/fpt_test.exs), and
+  [`phase_2_physical_codec_test.exs`](../../../test/integration/phase_2_physical_codec_test.exs).
+- [x] The documented [`mix phase2` gate](../../../docs/testing/phase-2-codec-suite.md)
+  uses seed `24680`; StreamData reports replay seeds and minimized failures.
+- [x] Named DBF/FPT boundary cases and 100 arbitrary bounded byte-pair cases prove
+  structured, bounded, non-raising failure in the Phase 2 integration test.
+- [x] Raw headers, descriptors, records, deleted rows, binary memos, padding,
+  allocation regions, and trailing bytes are recovered exactly in fidelity assertions.
+- [x] The pure-boundary integration case uses nonexistent identity paths and proves
+  that codec output contains neither effect handles nor MCP SDK values.
+- [x] `mix phase2` passes 72 tests, including three properties, and strict SpecLed
+  validation; this phase and the [stream index](README.md) are now `Complete`.
 
 ## Connections
 

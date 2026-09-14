@@ -12,6 +12,7 @@ specled covers:
 - vfp_mcp.read.immutable_snapshot
 - vfp_mcp.read.validation_findings
 - vfp_mcp.read.source_fidelity
+- vfp_mcp.protocol.sdk_boundary
 -->
 
 `VfpMcp.Codec.parse_pair/2` is a deterministic transformation of an immutable

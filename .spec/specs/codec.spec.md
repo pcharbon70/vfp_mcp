@@ -37,6 +37,7 @@ surface:
   - test/vfp_mcp/codec/encoding_test.exs
   - test/vfp_mcp/codec/fpt_test.exs
   - test/vfp_mcp/codec/physical_codec_test.exs
+  - test/integration/phase_2_physical_codec_test.exs
   - test/vfp_mcp/limits_test.exs
 decisions:
   - vfp_mcp.custom_vfp_codec
@@ -268,6 +269,19 @@ decisions:
     - vfp_mcp.codec.lossless_encoding
     - vfp_mcp.codec.raw_fidelity
     - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.pure_planning
+    - vfp_mcp.codec.parse_mixed_endian_pair
+    - vfp_mcp.codec.reject_invalid_memo
+
+- kind: test_file
+  target: test/integration/phase_2_physical_codec_test.exs
+  covers:
+    - vfp_mcp.codec.dbf_structure
+    - vfp_mcp.codec.memo_pointer
+    - vfp_mcp.codec.fpt_structure
+    - vfp_mcp.codec.memo_block
+    - vfp_mcp.codec.lossless_encoding
+    - vfp_mcp.codec.raw_fidelity
     - vfp_mcp.codec.pure_planning
     - vfp_mcp.codec.parse_mixed_endian_pair
     - vfp_mcp.codec.reject_invalid_memo

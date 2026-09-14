@@ -443,10 +443,7 @@ defmodule VfpMcp.Codec.Fpt do
       blocks
       |> Map.values()
       |> Enum.sort_by(& &1.offset)
-      |> Enum.chunk_every(2, 1, :discard)
-      |> Enum.filter(fn [left, right] ->
-        left.allocation_span.offset + left.allocation_span.length > right.allocation_span.offset
-      end)
+      |> overlapping_pairs()
 
     if existing_findings + length(overlaps) > limits.findings do
       limit_findings_error(limits, existing_findings + length(overlaps), 0)
@@ -493,6 +490,29 @@ defmodule VfpMcp.Codec.Fpt do
 
       {:ok, next_refs, next_blocks, findings}
     end
+  end
+
+  defp overlapping_pairs(blocks) do
+    blocks
+    |> Enum.reduce({[], nil, 0}, fn block, {overlaps, active, active_end} ->
+      block_end = block.allocation_span.offset + block.allocation_span.length
+
+      cond do
+        is_nil(active) ->
+          {overlaps, block, block_end}
+
+        block.offset < active_end and block_end > active_end ->
+          {[[active, block] | overlaps], block, block_end}
+
+        block.offset < active_end ->
+          {[[active, block] | overlaps], active, active_end}
+
+        true ->
+          {overlaps, block, block_end}
+      end
+    end)
+    |> elem(0)
+    |> Enum.reverse()
   end
 
   defp memo_ref(record_index, value, pointer, resolution, block \\ nil) do

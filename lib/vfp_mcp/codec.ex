@@ -18,6 +18,7 @@ defmodule VfpMcp.Codec do
   # - vfp_mcp.read.immutable_snapshot
   # - vfp_mcp.read.validation_findings
   # - vfp_mcp.read.source_fidelity
+  # - vfp_mcp.protocol.sdk_boundary
 
   alias VfpMcp.Codec.{Dbf, Encoding, Fpt}
   alias VfpMcp.{Document, Finding, Limits}
