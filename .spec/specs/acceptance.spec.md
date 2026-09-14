@@ -26,11 +26,13 @@ surface:
   - docs/testing/vfp9-native-workflow.md
   - docs/testing/phase-1-safe-suite.md
   - docs/testing/phase-2-codec-suite.md
+  - docs/testing/phase-3-semantic-suite.md
   - mix.exs
   - priv/evidence/native-evidence.schema.json
   - lib/vfp_mcp/acceptance/evidence.ex
   - lib/vfp_mcp/acceptance/fixture_admission.ex
   - lib/vfp_mcp/acceptance/fixture_safety.ex
+  - lib/vfp_mcp/codec/semantic_summary.ex
   - test/support/evidence_factory.ex
   - test/support/vfp_pair_builder.ex
   - test/fixtures/evidence/valid/native-evidence.json
@@ -42,6 +44,8 @@ surface:
   - test/vfp_mcp/test_support/pair_builder_test.exs
   - test/integration/phase_1_foundations_test.exs
   - test/integration/phase_2_physical_codec_test.exs
+  - test/integration/phase_3_semantic_codec_test.exs
+  - test/vfp_mcp/codec/semantic_test.exs
 decisions:
   - vfp_mcp.source_access_boundary
   - vfp_mcp.versioned_capability_rollout
@@ -194,6 +198,18 @@ decisions:
     - vfp_mcp.acceptance.quality_gate
     - vfp_mcp.acceptance.deterministic_test_vectors
 
+- id: vfp_mcp.acceptance.run_phase3_semantic_suite
+  given:
+    - dependencies are available and only generated immutable pair bytes are configured
+  when:
+    - the Phase 3 semantic codec suite runs with its fixed seed
+  then:
+    - form and class-library manifests, malformed semantics, hierarchy, fidelity, determinism, no-hidden-effects, and strict specification checks pass without external source roots
+  covers:
+    - vfp_mcp.acceptance.codec_evidence
+    - vfp_mcp.acceptance.quality_gate
+    - vfp_mcp.acceptance.deterministic_test_vectors
+
 - id: vfp_mcp.acceptance.accept_edit_class
   given:
     - an edit class passes automated semantic and byte-footprint checks on a disposable native fixture
@@ -283,6 +299,14 @@ decisions:
     - vfp_mcp.acceptance.quality_gate
     - vfp_mcp.acceptance.run_phase2_codec_suite
 
+- kind: guide_file
+  target: docs/testing/phase-3-semantic-suite.md
+  covers:
+    - vfp_mcp.acceptance.codec_evidence
+    - vfp_mcp.acceptance.quality_gate
+    - vfp_mcp.acceptance.deterministic_test_vectors
+    - vfp_mcp.acceptance.run_phase3_semantic_suite
+
 - kind: source_file
   target: lib/vfp_mcp/acceptance/fixture_admission.ex
   covers:
@@ -336,12 +360,31 @@ decisions:
   covers:
     - vfp_mcp.acceptance.codec_evidence
     - vfp_mcp.acceptance.run_phase2_codec_suite
+    - vfp_mcp.acceptance.run_phase3_semantic_suite
 
 - kind: test_file
   target: test/integration/phase_2_physical_codec_test.exs
   covers:
     - vfp_mcp.acceptance.codec_evidence
     - vfp_mcp.acceptance.run_phase2_codec_suite
+
+- kind: source_file
+  target: lib/vfp_mcp/codec/semantic_summary.ex
+  covers:
+    - vfp_mcp.acceptance.codec_evidence
+
+- kind: test_file
+  target: test/integration/phase_3_semantic_codec_test.exs
+  covers:
+    - vfp_mcp.acceptance.codec_evidence
+    - vfp_mcp.acceptance.deterministic_test_vectors
+    - vfp_mcp.acceptance.run_phase3_semantic_suite
+
+- kind: test_file
+  target: test/vfp_mcp/codec/semantic_test.exs
+  covers:
+    - vfp_mcp.acceptance.deterministic_test_vectors
+    - vfp_mcp.acceptance.codec_evidence
 
 - kind: command
   target: 'cd "$OLDPWD" && mix phase2'
@@ -350,6 +393,15 @@ decisions:
     - vfp_mcp.acceptance.codec_evidence
     - vfp_mcp.acceptance.quality_gate
     - vfp_mcp.acceptance.run_phase2_codec_suite
+
+- kind: command
+  target: 'cd "$OLDPWD" && mix phase3'
+  execute: true
+  covers:
+    - vfp_mcp.acceptance.codec_evidence
+    - vfp_mcp.acceptance.quality_gate
+    - vfp_mcp.acceptance.deterministic_test_vectors
+    - vfp_mcp.acceptance.run_phase3_semantic_suite
 
 - kind: command
   target: 'cd "$OLDPWD" && mix phase1'

@@ -43,14 +43,19 @@ defmodule VfpMcp.Codec.PhysicalCodecTest do
     assert document.physical.raw == %{dbf: built.dbf, fpt: built.fpt}
     assert document.schema == document.physical.dbf.fields
     assert document.records == document.physical.dbf.records
-    assert document.objects == []
+    assert [object] = document.objects
+    assert object.record_index == 0
+    assert object.identity_fields.objname.value == "Café"
 
     assert Enum.map(document.physical.text_views, &{&1.source, &1.field, &1.text}) == [
              {:field, "OBJNAME", "Café        "},
              {:memo, "PROPERTIES", "Caption = Café"}
            ]
 
-    assert document.findings == []
+    assert Enum.all?(
+             document.findings,
+             &(&1.code in [:property_unsupported_literal, :semantic_identity_field_missing])
+           )
   end
 
   test "unsupported and invalid text remains available only as raw bytes" do
@@ -58,7 +63,7 @@ defmodule VfpMcp.Codec.PhysicalCodecTest do
     assert {:ok, document} = Codec.parse_pair(unsupported.snapshot)
     assert document.encoding == nil
     assert document.physical.text_views == []
-    assert Enum.map(document.findings, & &1.code) == [:codec_unsupported_code_page]
+    assert Enum.any?(document.findings, &(&1.code == :codec_unsupported_code_page))
     assert document.physical.raw.dbf == unsupported.dbf
 
     invalid =

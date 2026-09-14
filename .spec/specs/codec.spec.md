@@ -21,11 +21,21 @@ surface:
   - docs/components.md
   - docs/contracts/codec-domain.md
   - docs/contracts/physical-codec.md
+  - docs/contracts/semantic-codec.md
+  - docs/testing/phase-3-semantic-suite.md
   - lib/vfp_mcp/codec.ex
   - lib/vfp_mcp/codec/dbf.ex
   - lib/vfp_mcp/codec/encoding.ex
   - lib/vfp_mcp/codec/fpt.ex
   - lib/vfp_mcp/codec/physical_summary.ex
+  - lib/vfp_mcp/codec/properties.ex
+  - lib/vfp_mcp/codec/methods.ex
+  - lib/vfp_mcp/codec/semantic_text.ex
+  - lib/vfp_mcp/codec/semantic.ex
+  - lib/vfp_mcp/codec/semantic_summary.ex
+  - lib/vfp_mcp/codec/tree.ex
+  - lib/vfp_mcp/source/path.ex
+  - lib/vfp_mcp/validate.ex
   - lib/vfp_mcp/document.ex
   - lib/vfp_mcp/edit_plan.ex
   - lib/vfp_mcp/finding.ex
@@ -37,7 +47,14 @@ surface:
   - test/vfp_mcp/codec/encoding_test.exs
   - test/vfp_mcp/codec/fpt_test.exs
   - test/vfp_mcp/codec/physical_codec_test.exs
+  - test/vfp_mcp/codec/properties_test.exs
+  - test/vfp_mcp/codec/methods_test.exs
+  - test/vfp_mcp/codec/semantic_test.exs
+  - test/vfp_mcp/codec/tree_test.exs
+  - test/vfp_mcp/source/path_test.exs
+  - test/vfp_mcp/validate_test.exs
   - test/integration/phase_2_physical_codec_test.exs
+  - test/integration/phase_3_semantic_codec_test.exs
   - test/vfp_mcp/limits_test.exs
 decisions:
   - vfp_mcp.custom_vfp_codec
@@ -251,6 +268,74 @@ decisions:
     - vfp_mcp.codec.raw_fidelity
     - vfp_mcp.codec.pure_planning
 
+- kind: guide_file
+  target: docs/contracts/semantic-codec.md
+  covers:
+    - vfp_mcp.codec.property_edit_scope
+    - vfp_mcp.codec.method_edit_scope
+    - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.hierarchy_integrity
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+
+- kind: guide_file
+  target: docs/testing/phase-3-semantic-suite.md
+  covers:
+    - vfp_mcp.codec.property_edit_scope
+    - vfp_mcp.codec.method_edit_scope
+    - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.hierarchy_integrity
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+
+- kind: source_file
+  target: lib/vfp_mcp/codec/semantic.ex
+  covers:
+    - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+
+- kind: source_file
+  target: lib/vfp_mcp/codec/properties.ex
+  covers:
+    - vfp_mcp.codec.property_edit_scope
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+
+- kind: source_file
+  target: lib/vfp_mcp/codec/methods.ex
+  covers:
+    - vfp_mcp.codec.method_edit_scope
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+
+- kind: source_file
+  target: lib/vfp_mcp/codec/tree.ex
+  covers:
+    - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.hierarchy_integrity
+    - vfp_mcp.codec.pure_planning
+
+- kind: source_file
+  target: lib/vfp_mcp/source/path.ex
+  covers:
+    - vfp_mcp.codec.hierarchy_integrity
+    - vfp_mcp.codec.pure_planning
+
+- kind: source_file
+  target: lib/vfp_mcp/validate.ex
+  covers:
+    - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.hierarchy_integrity
+    - vfp_mcp.codec.pure_planning
+
+- kind: source_file
+  target: lib/vfp_mcp/codec/semantic_summary.ex
+  covers:
+    - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+
 - kind: test_file
   target: test/vfp_mcp/codec/encoding_test.exs
   covers:
@@ -274,6 +359,47 @@ decisions:
     - vfp_mcp.codec.reject_invalid_memo
 
 - kind: test_file
+  target: test/vfp_mcp/codec/semantic_test.exs
+  covers:
+    - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+
+- kind: test_file
+  target: test/vfp_mcp/codec/properties_test.exs
+  covers:
+    - vfp_mcp.codec.property_edit_scope
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+
+- kind: test_file
+  target: test/vfp_mcp/codec/methods_test.exs
+  covers:
+    - vfp_mcp.codec.method_edit_scope
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+
+- kind: test_file
+  target: test/vfp_mcp/codec/tree_test.exs
+  covers:
+    - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.hierarchy_integrity
+    - vfp_mcp.codec.pure_planning
+
+- kind: test_file
+  target: test/vfp_mcp/source/path_test.exs
+  covers:
+    - vfp_mcp.codec.hierarchy_integrity
+    - vfp_mcp.codec.pure_planning
+
+- kind: test_file
+  target: test/vfp_mcp/validate_test.exs
+  covers:
+    - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.hierarchy_integrity
+    - vfp_mcp.codec.pure_planning
+
+- kind: test_file
   target: test/integration/phase_2_physical_codec_test.exs
   covers:
     - vfp_mcp.codec.dbf_structure
@@ -285,6 +411,16 @@ decisions:
     - vfp_mcp.codec.pure_planning
     - vfp_mcp.codec.parse_mixed_endian_pair
     - vfp_mcp.codec.reject_invalid_memo
+
+- kind: test_file
+  target: test/integration/phase_3_semantic_codec_test.exs
+  covers:
+    - vfp_mcp.codec.property_edit_scope
+    - vfp_mcp.codec.method_edit_scope
+    - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.hierarchy_integrity
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
 
 - kind: test_file
   target: test/vfp_mcp/codec_contract_test.exs

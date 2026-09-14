@@ -17,7 +17,10 @@ surface:
   - mix.exs
   - docs/contracts/physical-codec.md
   - lib/vfp_mcp/codec.ex
+  - lib/vfp_mcp/codec/semantic.ex
+  - test/vfp_mcp/codec/semantic_test.exs
   - test/integration/phase_2_physical_codec_test.exs
+  - test/integration/phase_3_semantic_codec_test.exs
   - docs/architecture.md
   - docs/components.md
 decisions:
@@ -121,6 +124,16 @@ decisions:
   covers:
     - vfp_mcp.protocol.sdk_boundary
 
+- kind: source_file
+  target: lib/vfp_mcp/codec/semantic.ex
+  covers:
+    - vfp_mcp.protocol.sdk_boundary
+
+- kind: test_file
+  target: test/vfp_mcp/codec/semantic_test.exs
+  covers:
+    - vfp_mcp.protocol.sdk_boundary
+
 - kind: guide_file
   target: docs/contracts/physical-codec.md
   covers:
@@ -128,6 +141,11 @@ decisions:
 
 - kind: test_file
   target: test/integration/phase_2_physical_codec_test.exs
+  covers:
+    - vfp_mcp.protocol.sdk_boundary
+
+- kind: test_file
+  target: test/integration/phase_3_semantic_codec_test.exs
   covers:
     - vfp_mcp.protocol.sdk_boundary
 
