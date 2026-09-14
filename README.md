@@ -18,6 +18,9 @@ intake workflow. The MCP server is being built incrementally: read-only parsing
 first, followed by guarded SCX property and method edits after VFP 6/9
 acceptance testing.
 
+The executable scope and development-input rules for the current spike are in
+[`docs/contracts/milestone-0.md`](docs/contracts/milestone-0.md).
+
 ## Development
 
 The project requires an Elixir/Erlang toolchain:

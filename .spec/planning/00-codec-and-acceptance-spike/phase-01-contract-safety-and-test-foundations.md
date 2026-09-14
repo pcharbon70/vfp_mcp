@@ -17,7 +17,7 @@ aliases: []
 infrastructure, and safe fixture/evidence workflow required before parsing or
 editing Visual FoxPro source pairs.
 
-**Status:** Planned
+**Status:** In progress
 
 **Dependencies:** None. This phase is the prerequisite for every later phase.
 
@@ -37,16 +37,16 @@ write capabilities must remain absent.
 targeted edit spike, and native acceptance bundle as separately testable
 deliverables.
 
-- [ ] The contract names an observable result and evidence type for every required outcome.
+- [x] The contract names an observable result and evidence type for every required outcome.
 
 #### Subtask 1.1.1.2 — Define Excluded Capabilities
 
 **Description:** State that MCP tools, production file transactions, structural
 editing, IDE automation, and application-data access are outside this milestone.
 
-- [ ] Tests can assert that excluded runtime modules and tool registrations are not introduced by Milestone 0.
+- [x] Tests can assert that excluded runtime modules and tool registrations are not introduced by Milestone 0.
 
-- [ ] Task 1.1.1 is complete with its contract reviewed against the architecture milestone.
+- [x] Task 1.1.1 is complete with its contract reviewed against the architecture milestone.
 
 ### Task 1.1.2 — Encode the Development Isolation Rules
 
@@ -58,16 +58,16 @@ and test workflows rather than relying only on operator memory.
 **Description:** Permit generated binary vectors, committed synthetic fixtures,
 and explicitly created disposable copies while denying implicit external roots.
 
-- [ ] The default test configuration resolves all inputs within the repository or its isolated temporary directory.
+- [x] The default test configuration resolves all inputs within the repository or its isolated temporary directory.
 
 #### Subtask 1.1.2.2 — Define Forbidden Operations
 
 **Description:** Prevent tests from opening, modifying, compiling, executing, or
 running tools against original LecoWin2 or SBT sources and all associated data.
 
-- [ ] A guard produces a clear failure before a prohibited root or live dependency can be used.
+- [x] A guard produces a clear failure before a prohibited root or live dependency can be used.
 
-- [ ] Task 1.1.2 is complete with positive and negative boundary examples documented.
+- [x] Task 1.1.2 is complete with positive and negative boundary examples documented.
 
 ## Section 1.2 — Codec and Domain Contracts
 

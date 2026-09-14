@@ -13,6 +13,9 @@ surface:
   - mix.exs
   - lib/vfp_mcp.ex
   - lib/vfp_mcp/application.ex
+  - lib/vfp_mcp/milestone_0/contract.ex
+  - docs/contracts/milestone-0.md
+  - test/vfp_mcp/milestone_0/contract_test.exs
 decisions:
   - vfp_mcp.custom_vfp_codec
   - vfp_mcp.stdio_protocol_boundary
@@ -96,6 +99,27 @@ decisions:
   covers:
     - vfp_mcp.package.elixir_otp_runtime
     - vfp_mcp.package.dependency_boundaries
+
+- kind: guide_file
+  target: docs/contracts/milestone-0.md
+  covers:
+    - vfp_mcp.package.milestone_delivery
+    - vfp_mcp.package.excluded_operations
+    - vfp_mcp.package.capability_sequence
+
+- kind: source_file
+  target: lib/vfp_mcp/milestone_0/contract.ex
+  covers:
+    - vfp_mcp.package.milestone_delivery
+    - vfp_mcp.package.excluded_operations
+    - vfp_mcp.package.capability_sequence
+
+- kind: test_file
+  target: test/vfp_mcp/milestone_0/contract_test.exs
+  covers:
+    - vfp_mcp.package.milestone_delivery
+    - vfp_mcp.package.excluded_operations
+    - vfp_mcp.package.capability_sequence
 
 - kind: command
   target: 'cd "$OLDPWD" && mix test'

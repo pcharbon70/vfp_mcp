@@ -10,7 +10,7 @@ testable work without asserting that the work is already implemented.
 
 | Milestone | Planning stream | Status |
 |---|---|---|
-| 0 — Codec and acceptance spike | [00-codec-and-acceptance-spike](00-codec-and-acceptance-spike/README.md) | Planned |
+| 0 — Codec and acceptance spike | [00-codec-and-acceptance-spike](00-codec-and-acceptance-spike/README.md) | In progress |
 | 1 — Read-only MCP server | Not yet created | Not planned |
 | 2 — Guarded property and code edits | Not yet created | Not planned |
 | 3 — Structural editing | Not yet created | Not planned |
