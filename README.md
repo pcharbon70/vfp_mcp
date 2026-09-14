@@ -1,5 +1,14 @@
 # VFP MCP
 
+<!--
+specled covers:
+- vfp_mcp.package.independent_application
+- vfp_mcp.package.supported_sources
+- vfp_mcp.package.milestone_delivery
+- vfp_mcp.package.excluded_operations
+- vfp_mcp.package.capability_sequence
+-->
+
 An Elixir/OTP MCP server for understanding and safely editing Visual FoxPro 6
 and Visual FoxPro 9 form and class-library source pairs.
 

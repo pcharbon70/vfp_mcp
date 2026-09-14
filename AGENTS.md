@@ -1,5 +1,17 @@
 # Repository Instructions
 
+<!--
+specled covers:
+- vfp_mcp.boundary.development_isolation
+- vfp_mcp.boundary.fixture_intake
+- vfp_mcp.boundary.explicit_root
+- vfp_mcp.boundary.source_pairs_only
+- vfp_mcp.boundary.read_only_start
+- vfp_mcp.boundary.no_vfp_execution
+- vfp_mcp.boundary.explicit_deployment_authorization
+- vfp_mcp.boundary.safe_fixture_intake
+-->
+
 ## Project isolation
 
 This repository is an independent Visual FoxPro MCP project. It is not part of

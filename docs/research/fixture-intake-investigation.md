@@ -1,5 +1,12 @@
 # Initial Fixture Intake Investigation
 
+<!--
+specled covers:
+- vfp_mcp.boundary.safe_fixture_intake
+- vfp_mcp.acceptance.raw_intake_quarantine
+- vfp_mcp.acceptance.reject_raw_application_fixture
+-->
+
 **Date:** August 31, 2026  
 **Status:** Raw copies isolated; neither is approved as a committed or runnable fixture
 
@@ -122,4 +129,3 @@ to attempting to sanitize this form in binary.
    in `docs/testing/fixture-authoring-checklist.md`.
 5. Use raw intake pairs only for local read-only parser comparisons until they
    are deleted under an explicitly approved cleanup operation.
-

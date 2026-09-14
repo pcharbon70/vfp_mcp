@@ -1,5 +1,27 @@
 # VFP MCP Component Design
 
+<!--
+specled covers:
+- vfp_mcp.codec.pure_planning
+- vfp_mcp.read.discovery_pairs
+- vfp_mcp.read.external_references
+- vfp_mcp.read.validation_findings
+- vfp_mcp.read.query_shapes
+- vfp_mcp.read.missing_companion
+- vfp_mcp.read.external_class_reference
+- vfp_mcp.protocol.initial_read_tools
+- vfp_mcp.protocol.tool_contracts
+- vfp_mcp.protocol.domain_errors
+- vfp_mcp.protocol.read_only_startup
+- vfp_mcp.protocol.recoverable_tool_error
+- vfp_mcp.mutation.scx_only
+- vfp_mcp.mutation.restricted_footprint
+- vfp_mcp.mutation.append_memo
+- vfp_mcp.mutation.method_objcode
+- vfp_mcp.mutation.named_method_update
+- vfp_mcp.mutation.reject_unsupported_write
+-->
+
 **Status:** Draft for review  
 **Companion:** [Architecture](architecture.md)
 
@@ -234,7 +256,7 @@ preserves unrelated blocks, plans the `METHODS` append, and clears `OBJCODE`.
 
 ### `VfpMcp.Edit.Structure`
 
-Reserved for Phase 3. It must remain disabled until record conventions,
+Reserved for Milestone 3. It must remain disabled until record conventions,
 bookends, `UNIQUEID`, timestamp behavior, subtree deletion, and Z-order have
 passed VFP-authored comparison tests.
 

@@ -1,5 +1,16 @@
 # VFP form direct-access research: progress to date
 
+<!--
+specled covers:
+- vfp_mcp.codec.lossless_encoding
+- vfp_mcp.codec.raw_fidelity
+- vfp_mcp.codec.property_edit_scope
+- vfp_mcp.codec.method_edit_scope
+- vfp_mcp.codec.reject_unrepresentable_text
+- vfp_mcp.codec.plan_named_method_edit
+- vfp_mcp.mutation.timestamp_gate
+-->
+
 **Project:** `vfp_mcp`  
 **Research source:** LecoWin2, a Visual FoxPro 9 production-management application  
 **Research period:** August 20–21, 2026  
