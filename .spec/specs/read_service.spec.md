@@ -17,8 +17,11 @@ surface:
   - docs/architecture.md
   - docs/components.md
   - docs/contracts/codec-domain.md
+  - docs/contracts/physical-codec.md
+  - lib/vfp_mcp/codec.ex
   - lib/vfp_mcp/source/pair_snapshot.ex
   - test/vfp_mcp/codec_contract_test.exs
+  - test/vfp_mcp/codec/physical_codec_test.exs
 decisions:
   - vfp_mcp.source_access_boundary
   - vfp_mcp.custom_vfp_codec
@@ -158,6 +161,27 @@ decisions:
   target: lib/vfp_mcp/source/pair_snapshot.ex
   covers:
     - vfp_mcp.read.immutable_snapshot
+
+- kind: source_file
+  target: lib/vfp_mcp/codec.ex
+  covers:
+    - vfp_mcp.read.immutable_snapshot
+    - vfp_mcp.read.validation_findings
+    - vfp_mcp.read.source_fidelity
+
+- kind: guide_file
+  target: docs/contracts/physical-codec.md
+  covers:
+    - vfp_mcp.read.immutable_snapshot
+    - vfp_mcp.read.validation_findings
+    - vfp_mcp.read.source_fidelity
+
+- kind: test_file
+  target: test/vfp_mcp/codec/physical_codec_test.exs
+  covers:
+    - vfp_mcp.read.immutable_snapshot
+    - vfp_mcp.read.validation_findings
+    - vfp_mcp.read.source_fidelity
 
 - kind: test_file
   target: test/vfp_mcp/codec_contract_test.exs

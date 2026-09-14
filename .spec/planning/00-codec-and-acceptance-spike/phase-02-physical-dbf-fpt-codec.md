@@ -172,16 +172,16 @@ represent unknown or conflicting metadata as findings.
 **Description:** Decode supported text to UTF-8 while retaining original bytes
 and implement strict round-trip encoding for the initial write-compatible page.
 
-- [ ] Unrepresentable text is rejected without producing replacement bytes.
+- [x] Unrepresentable text is rejected without producing replacement bytes.
 
 #### Subtask 2.3.1.2 — Preserve Unsupported Encodings
 
 **Description:** Keep all raw content inspectable when text decoding is unknown
 or invalid, and prevent later planners from claiming safe writes.
 
-- [ ] Decode findings distinguish unsupported metadata from invalid byte sequences.
+- [x] Decode findings distinguish unsupported metadata from invalid byte sequences.
 
-- [ ] Task 2.3.1 is complete with ASCII, extended Windows-1252, unknown-page, and invalid-text cases.
+- [x] Task 2.3.1 is complete with ASCII, extended Windows-1252, unknown-page, and invalid-text cases.
 
 ### Task 2.3.2 — Define Physical Fidelity Views
 
@@ -193,16 +193,16 @@ a rewrite of the source container.
 **Description:** Retain DBF header, descriptors, records, EOF/trailing bytes and
 FPT header, blocks, opaque content, padding, and unused ranges.
 
-- [ ] Every decoded value has enough provenance to explain its bytes without normalizing unrelated regions.
+- [x] Every decoded value has enough provenance to explain its bytes without normalizing unrelated regions.
 
 #### Subtask 2.3.2.2 — Produce Deterministic Physical Summaries
 
 **Description:** Provide bounded summaries of offsets, lengths, hashes, and
 findings for golden tests without embedding full proprietary content.
 
-- [ ] Equal byte snapshots produce equal summaries and finding order.
+- [x] Equal byte snapshots produce equal summaries and finding order.
 
-- [ ] Task 2.3.2 is complete with stable serialized summaries for all golden vectors.
+- [x] Task 2.3.2 is complete with stable serialized summaries for all golden vectors.
 
 ## Section 2.4 — Phase 2 Integration Tests
 

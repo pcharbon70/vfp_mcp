@@ -23,10 +23,10 @@ opens their optional identity paths. A success owns warnings and
 mutation-blocking findings inside the document. An error returns only fatal
 findings and must not expose guessed semantic content as valid.
 
-Until Phase 2 implements physical decoding, a valid bounded snapshot returns
-the fatal code `:codec_not_implemented`. This explicit unavailable result keeps
-the interface testable without pretending that compilation or a stub satisfies
-the codec milestone.
+Phase 2 implements physical decoding as documented in
+[the physical codec contract](physical-codec.md). Semantic object, property,
+method, and hierarchy construction remain unavailable until their later phase;
+an empty semantic view does not imply that physical content was discarded.
 
 ## Source identity and provenance
 

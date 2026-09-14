@@ -30,6 +30,14 @@ Text is UTF-8 inside the application and is decoded or encoded only at the
 source boundary. Writes are allowed only when the source code page is supported
 and the round trip is lossless.
 
+The physical stage validates the complete DBF schema before slicing records,
+then resolves little-endian memo pointers against big-endian FPT allocation
+metadata. Invalid or overlapping blocks retain physical bytes but do not expose
+payloads as valid through memo references. Initial text support recognizes DBF
+driver IDs `0x03` and `0x57` as Windows-1252; unsupported metadata and undefined
+bytes remain raw and block mutation. Evidence summaries contain canonical
+offset, length, scalar, and SHA-256 data rather than source bodies.
+
 The pure boundary accepts an immutable `PairSnapshot` containing both members,
 their individual identities, and a complete pair hash. Semantic documents and
 edit plans retain explicit byte spans and memo references. Stable findings
