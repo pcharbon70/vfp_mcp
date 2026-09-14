@@ -30,6 +30,13 @@ Text is UTF-8 inside the application and is decoded or encoded only at the
 source boundary. Writes are allowed only when the source code page is supported
 and the round trip is lossless.
 
+The pure boundary accepts an immutable `PairSnapshot` containing both members,
+their individual identities, and a complete pair hash. Semantic documents and
+edit plans retain explicit byte spans and memo references. Stable findings
+separate unreadable input, mutation-blocking ambiguity, preserved unknown
+content, and informational compatibility notes. All parsers and traversals use
+shared configurable limits before allocation or descent.
+
 ## Consequences
 
 The team owns format correctness, malformed-input handling, and byte-level test

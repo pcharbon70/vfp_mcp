@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "evidence_id": "invalid-example",
+  "scenario_id": "fixture_authoring",
+  "vfp_version": 9,
+  "ide_version": "Microsoft Visual FoxPro 9.0",
+  "operator": "Fixture Author",
+  "recorded_at": "not-a-timestamp",
+  "outcome": "waived",
+  "source_pair": {
+    "kind": "scx",
+    "pair_sha256": "not-a-hash",
+    "dbf": {
+      "name": "basic_form.scx",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "bytes": 128
+    }
+  },
+  "actions": [],
+  "observations": {},
+  "signoff_file": "native-evidence-signoff.md"
+}

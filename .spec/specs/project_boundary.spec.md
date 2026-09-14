@@ -18,6 +18,10 @@ surface:
   - docs/architecture.md
   - docs/research/fixture-intake-investigation.md
   - docs/testing/fixture-authoring-checklist.md
+  - docs/contracts/milestone-0.md
+  - lib/vfp_mcp/development/isolation_policy.ex
+  - test/vfp_mcp/development/isolation_policy_test.exs
+  - test/test_helper.exs
   - scripts/intake-fixtures.ps1
 decisions:
   - vfp_mcp.source_access_boundary
@@ -143,4 +147,16 @@ decisions:
   target: docs/testing/fixture-authoring-checklist.md
   covers:
     - vfp_mcp.boundary.fixture_intake
+
+- kind: source_file
+  target: lib/vfp_mcp/development/isolation_policy.ex
+  covers:
+    - vfp_mcp.boundary.development_isolation
+    - vfp_mcp.boundary.no_vfp_execution
+
+- kind: test_file
+  target: test/vfp_mcp/development/isolation_policy_test.exs
+  covers:
+    - vfp_mcp.boundary.development_isolation
+    - vfp_mcp.boundary.no_vfp_execution
 ```

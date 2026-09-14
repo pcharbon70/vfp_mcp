@@ -11,8 +11,12 @@ summary: Elixir/OTP MCP server for safe comprehension and milestone-gated editin
 surface:
   - README.md
   - mix.exs
+  - mix.lock
   - lib/vfp_mcp.ex
   - lib/vfp_mcp/application.ex
+  - lib/vfp_mcp/milestone_0/contract.ex
+  - docs/contracts/milestone-0.md
+  - test/vfp_mcp/milestone_0/contract_test.exs
 decisions:
   - vfp_mcp.custom_vfp_codec
   - vfp_mcp.stdio_protocol_boundary
@@ -38,7 +42,7 @@ decisions:
   stability: stable
 
 - id: vfp_mcp.package.dependency_boundaries
-  statement: The package shall pin ex_mcp at 1.0.0-rc.8 behind the protocol boundary and shall keep spec_led_ex as a development and test dependency with runtime disabled.
+  statement: The package shall pin ex_mcp at 1.0.0-rc.8 behind the protocol boundary, declare Jason directly for evidence JSON, keep spec_led_ex as a development and test dependency with runtime disabled, and keep StreamData test-only.
   priority: must
   stability: stable
 
@@ -96,6 +100,27 @@ decisions:
   covers:
     - vfp_mcp.package.elixir_otp_runtime
     - vfp_mcp.package.dependency_boundaries
+
+- kind: guide_file
+  target: docs/contracts/milestone-0.md
+  covers:
+    - vfp_mcp.package.milestone_delivery
+    - vfp_mcp.package.excluded_operations
+    - vfp_mcp.package.capability_sequence
+
+- kind: source_file
+  target: lib/vfp_mcp/milestone_0/contract.ex
+  covers:
+    - vfp_mcp.package.milestone_delivery
+    - vfp_mcp.package.excluded_operations
+    - vfp_mcp.package.capability_sequence
+
+- kind: test_file
+  target: test/vfp_mcp/milestone_0/contract_test.exs
+  covers:
+    - vfp_mcp.package.milestone_delivery
+    - vfp_mcp.package.excluded_operations
+    - vfp_mcp.package.capability_sequence
 
 - kind: command
   target: 'cd "$OLDPWD" && mix test'

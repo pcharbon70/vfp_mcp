@@ -19,6 +19,16 @@ surface:
   - docs/research/progress-to-date.md
   - docs/architecture.md
   - docs/components.md
+  - docs/contracts/codec-domain.md
+  - lib/vfp_mcp/codec.ex
+  - lib/vfp_mcp/document.ex
+  - lib/vfp_mcp/edit_plan.ex
+  - lib/vfp_mcp/finding.ex
+  - lib/vfp_mcp/limits.ex
+  - lib/vfp_mcp/source/pair_snapshot.ex
+  - lib/vfp_mcp/source/span.ex
+  - test/vfp_mcp/codec_contract_test.exs
+  - test/vfp_mcp/limits_test.exs
 decisions:
   - vfp_mcp.custom_vfp_codec
 ```
@@ -164,6 +174,22 @@ decisions:
 
 - kind: guide_file
   target: docs/components.md
+  covers:
+    - vfp_mcp.codec.pure_planning
+
+- kind: source_file
+  target: lib/vfp_mcp/codec.ex
+  covers:
+    - vfp_mcp.codec.pure_planning
+
+- kind: test_file
+  target: test/vfp_mcp/codec_contract_test.exs
+  covers:
+    - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.pure_planning
+
+- kind: test_file
+  target: test/vfp_mcp/limits_test.exs
   covers:
     - vfp_mcp.codec.pure_planning
 ```

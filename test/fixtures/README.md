@@ -14,5 +14,9 @@ Use this workflow:
    `docs/testing/fixture-authoring-checklist.md`.
 5. Run the same script with `-Promote` only after review.
 
+The state transitions and hash-bound JSON plus Markdown evidence format are in
+`docs/testing/fixture-lifecycle-and-evidence.md`. Files under `evidence/` are
+invented passing and failing protocol samples; they are not native acceptance.
+
 The intake rejects data bindings, database commands, external paths, and
 external class locations. It records hashes and format metadata for every pair.

@@ -35,3 +35,9 @@ Users must launch separate processes for different compatibility targets.
 Useful mutations arrive later, but no write capability ships on the strength of
 self-parsing alone. Each native VFP version must accept its own edited synthetic
 fixtures before that edit class is enabled.
+
+VFP 9 fixture authoring and native acceptance use the local IDE through a human
+operator. VFP 6 uses a bounded external-machine human handoff. Both workflows
+return versioned JSON evidence plus Markdown signoff bound to exact pair hashes;
+automation validates those records but never drives the IDE or claims the human
+actions.

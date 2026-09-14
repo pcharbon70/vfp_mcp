@@ -15,6 +15,11 @@ specled covers:
 **Purpose:** Create synthetic, commit-safe SCX/SCT and VCX/VCT pairs for codec,
 edit, recovery, and manual acceptance testing.
 
+Use the admission states and evidence bundle defined in
+[`fixture-lifecycle-and-evidence.md`](fixture-lifecycle-and-evidence.md). VFP6
+operators also follow [`vfp6-handoff.md`](vfp6-handoff.md); local VFP9 operators
+follow [`vfp9-native-workflow.md`](vfp9-native-workflow.md).
+
 Create the VFP 6 suite in Visual FoxPro 6 and the VFP 9 suite independently in
 Visual FoxPro 9. Do not derive captions, names, methods, paths, classes, or data
 bindings from an existing application.
@@ -151,7 +156,9 @@ fixture-drop/
 
 Before committing them, automated intake will inventory all records, memo
 fields, bindings, code, class locations, and strings. A human then confirms
-that the files contain only the synthetic content described here.
+that the files contain only the synthetic content described here. Promotion is
+allowed only when both reviews refer to the same member and pair hashes and the
+admission manifest records both evidence IDs.
 
 ## Manual acceptance matrix
 

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "evidence_id": "vfp9-fixture-authoring-basic-form",
+  "scenario_id": "fixture_authoring",
+  "vfp_version": 9,
+  "ide_version": "Microsoft Visual FoxPro 9.0",
+  "operator": "Fixture Author",
+  "recorded_at": "2026-09-14T12:00:00Z",
+  "outcome": "pass",
+  "source_pair": {
+    "kind": "scx",
+    "pair_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "dbf": {
+      "name": "basic_form.scx",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "bytes": 128
+    },
+    "fpt": {
+      "name": "basic_form.sct",
+      "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "bytes": 512
+    }
+  },
+  "result_pair": null,
+  "actions": [
+    { "id": "create", "outcome": "pass", "observation": "created in an empty synthetic workspace" },
+    { "id": "save", "outcome": "pass", "observation": "saved both pair members" },
+    { "id": "close", "outcome": "pass", "observation": "closed VFP before hashing" },
+    { "id": "hash", "outcome": "pass", "observation": "recorded member and pair hashes" },
+    { "id": "review", "outcome": "pass", "observation": "review found only declared synthetic content" }
+  ],
+  "observations": {
+    "dependencies": "none",
+    "synthetic_content": true
+  },
+  "signoff_file": "native-evidence-signoff.md"
+}
