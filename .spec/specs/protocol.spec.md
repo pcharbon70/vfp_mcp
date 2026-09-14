@@ -36,7 +36,7 @@ decisions:
   stability: stable
 
 - id: vfp_mcp.protocol.sdk_boundary
-  statement: ex_mcp types and callbacks shall remain inside the server and protocol adapter so domain and codec modules accept and return SDK-neutral values.
+  statement: ex_mcp types and callbacks shall remain inside the server and protocol adapter so domain, codec, acceptance-evidence, and test-support modules accept and return SDK-neutral values.
   priority: must
   stability: stable
 

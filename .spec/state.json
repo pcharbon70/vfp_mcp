@@ -148,6 +148,30 @@
       },
       {
         "file": ".spec/specs/acceptance.spec.md",
+        "id": "vfp_mcp.acceptance.deterministic_test_vectors",
+        "priority": "must",
+        "stability": "evolving",
+        "statement": "Automated codec tests shall use deterministic in-memory builders that control DBF schema and offsets, DBF and FPT endianness, deletion markers, memo pointers, FPT block sizes, and opaque byte regions without external files.",
+        "subject_id": "vfp_mcp.acceptance"
+      },
+      {
+        "file": ".spec/specs/acceptance.spec.md",
+        "id": "vfp_mcp.acceptance.evidence_bundle_integrity",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Native evidence shall use a versioned JSON record plus a Markdown signoff bound to the same evidence ID and exact source and result pair hashes, and validation shall reject missing members, malformed hashes, omitted actions, unchecked review items, or mismatched signoff.",
+        "subject_id": "vfp_mcp.acceptance"
+      },
+      {
+        "file": ".spec/specs/acceptance.spec.md",
+        "id": "vfp_mcp.acceptance.fixture_admission_protocol",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "A fixture shall move from version-specific quarantine to admitted status only after passing automated inventory and hash-bound human review, and a rejection shall remain terminal for that artifact.",
+        "subject_id": "vfp_mcp.acceptance"
+      },
+      {
+        "file": ".spec/specs/acceptance.spec.md",
         "id": "vfp_mcp.acceptance.fixture_review",
         "priority": "must",
         "stability": "stable",
@@ -216,6 +240,14 @@
         "priority": "must",
         "stability": "stable",
         "statement": "VFP 6 and VFP 9 shall each accept edits to their native fixtures, while cross-opening VFP 6 fixtures in VFP 9 is additional evidence and VFP 6 acceptance of VFP 9-only features is not a release gate.",
+        "subject_id": "vfp_mcp.acceptance"
+      },
+      {
+        "file": ".spec/specs/acceptance.spec.md",
+        "id": "vfp_mcp.acceptance.version_native_handoff",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "VFP 9 native work shall be performed manually in the local VFP 9 IDE, VFP 6 native work shall use a documented external-machine human handoff, and neither workflow shall automate the IDE or access an original application tree.",
         "subject_id": "vfp_mcp.acceptance"
       },
       {
@@ -439,7 +471,7 @@
         "id": "vfp_mcp.package.dependency_boundaries",
         "priority": "must",
         "stability": "stable",
-        "statement": "The package shall pin ex_mcp at 1.0.0-rc.8 behind the protocol boundary and shall keep spec_led_ex as a development and test dependency with runtime disabled.",
+        "statement": "The package shall pin ex_mcp at 1.0.0-rc.8 behind the protocol boundary, declare Jason directly for evidence JSON, keep spec_led_ex as a development and test dependency with runtime disabled, and keep StreamData test-only.",
         "subject_id": "vfp_mcp.package"
       },
       {
@@ -591,7 +623,7 @@
         "id": "vfp_mcp.protocol.sdk_boundary",
         "priority": "must",
         "stability": "stable",
-        "statement": "ex_mcp types and callbacks shall remain inside the server and protocol adapter so domain and codec modules accept and return SDK-neutral values.",
+        "statement": "ex_mcp types and callbacks shall remain inside the server and protocol adapter so domain, codec, acceptance-evidence, and test-support modules accept and return SDK-neutral values.",
         "subject_id": "vfp_mcp.protocol"
       },
       {
@@ -715,7 +747,8 @@
         "covers": [
           "vfp_mcp.acceptance.synthetic_native_fixtures",
           "vfp_mcp.acceptance.no_live_dependencies",
-          "vfp_mcp.acceptance.fixture_review"
+          "vfp_mcp.acceptance.fixture_review",
+          "vfp_mcp.acceptance.fixture_admission_protocol"
         ],
         "file": ".spec/specs/acceptance.spec.md",
         "given": [
@@ -751,7 +784,8 @@
       {
         "covers": [
           "vfp_mcp.acceptance.no_live_dependencies",
-          "vfp_mcp.acceptance.raw_intake_quarantine"
+          "vfp_mcp.acceptance.raw_intake_quarantine",
+          "vfp_mcp.acceptance.fixture_admission_protocol"
         ],
         "file": ".spec/specs/acceptance.spec.md",
         "given": [
@@ -764,6 +798,23 @@
         ],
         "when": [
           "it is considered for commit or execution"
+        ]
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.evidence_bundle_integrity"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "given": [
+          "a JSON native evidence record and Markdown signoff identify exact source and result pairs"
+        ],
+        "id": "vfp_mcp.acceptance.validate_evidence_bundle",
+        "subject_id": "vfp_mcp.acceptance",
+        "then": [
+          "every required field, pair member, hash, native action, and review item must agree before the bundle is accepted"
+        ],
+        "when": [
+          "the evidence bundle is validated"
         ]
       },
       {
@@ -1196,7 +1247,23 @@
             "docs/testing/fixture-authoring-checklist.md",
             "docs/research/fixture-intake-investigation.md",
             "docs/architecture.md",
-            "scripts/intake-fixtures.ps1"
+            "scripts/intake-fixtures.ps1",
+            "docs/testing/fixture-lifecycle-and-evidence.md",
+            "docs/testing/native-evidence-signoff-template.md",
+            "docs/testing/vfp6-handoff.md",
+            "docs/testing/vfp9-native-workflow.md",
+            "priv/evidence/native-evidence.schema.json",
+            "lib/vfp_mcp/acceptance/evidence.ex",
+            "lib/vfp_mcp/acceptance/fixture_admission.ex",
+            "test/support/evidence_factory.ex",
+            "test/support/vfp_pair_builder.ex",
+            "test/fixtures/evidence/valid/native-evidence.json",
+            "test/fixtures/evidence/valid/native-evidence-signoff.md",
+            "test/fixtures/evidence/invalid/native-evidence.json",
+            "test/fixtures/evidence/invalid/native-evidence-signoff.md",
+            "test/vfp_mcp/acceptance/evidence_test.exs",
+            "test/vfp_mcp/acceptance/fixture_admission_test.exs",
+            "test/vfp_mcp/test_support/pair_builder_test.exs"
           ],
           "verification_minimum_strength": null
         },
@@ -1271,6 +1338,7 @@
           "surface": [
             "README.md",
             "mix.exs",
+            "mix.lock",
             "lib/vfp_mcp.ex",
             "lib/vfp_mcp/application.ex",
             "lib/vfp_mcp/milestone_0/contract.ex",
@@ -1481,6 +1549,90 @@
         "kind": "guide_file",
         "subject_id": "vfp_mcp.acceptance",
         "target": "docs/architecture.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.raw_intake_quarantine",
+          "vfp_mcp.acceptance.fixture_review",
+          "vfp_mcp.acceptance.fixture_admission_protocol",
+          "vfp_mcp.acceptance.evidence_bundle_integrity",
+          "vfp_mcp.acceptance.version_native_handoff"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/fixture-lifecycle-and-evidence.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.no_live_dependencies",
+          "vfp_mcp.acceptance.version_native_handoff"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/vfp6-handoff.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.no_live_dependencies",
+          "vfp_mcp.acceptance.version_native_handoff"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/vfp9-native-workflow.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.raw_intake_quarantine",
+          "vfp_mcp.acceptance.fixture_review",
+          "vfp_mcp.acceptance.fixture_admission_protocol"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "source_file",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "lib/vfp_mcp/acceptance/fixture_admission.ex"
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.evidence_bundle_integrity",
+          "vfp_mcp.acceptance.version_native_handoff"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "source_file",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "lib/vfp_mcp/acceptance/evidence.ex"
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.raw_intake_quarantine",
+          "vfp_mcp.acceptance.fixture_review",
+          "vfp_mcp.acceptance.fixture_admission_protocol"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/vfp_mcp/acceptance/fixture_admission_test.exs"
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.evidence_bundle_integrity",
+          "vfp_mcp.acceptance.validate_evidence_bundle"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/vfp_mcp/acceptance/evidence_test.exs"
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.deterministic_test_vectors"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/vfp_mcp/test_support/pair_builder_test.exs"
       },
       {
         "covers": [
@@ -1824,10 +1976,10 @@
     "decisions": 5,
     "exceptions": 0,
     "findings": 0,
-    "requirements": 78,
-    "scenarios": 26,
+    "requirements": 82,
+    "scenarios": 27,
     "subjects": 8,
-    "verifications": 39
+    "verifications": 47
   },
   "verification": {
     "claims": [
@@ -2105,6 +2257,226 @@
         "subject_id": "vfp_mcp.acceptance",
         "target": "docs/architecture.md",
         "verification_index": 2
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.evidence_bundle_integrity",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/fixture-lifecycle-and-evidence.md",
+        "verification_index": 3
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.fixture_admission_protocol",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/fixture-lifecycle-and-evidence.md",
+        "verification_index": 3
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.fixture_review",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/fixture-lifecycle-and-evidence.md",
+        "verification_index": 3
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.raw_intake_quarantine",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/fixture-lifecycle-and-evidence.md",
+        "verification_index": 3
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.version_native_handoff",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/fixture-lifecycle-and-evidence.md",
+        "verification_index": 3
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.no_live_dependencies",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/vfp6-handoff.md",
+        "verification_index": 4
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.version_native_handoff",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/vfp6-handoff.md",
+        "verification_index": 4
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.no_live_dependencies",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/vfp9-native-workflow.md",
+        "verification_index": 5
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.version_native_handoff",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/vfp9-native-workflow.md",
+        "verification_index": 5
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.fixture_admission_protocol",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "lib/vfp_mcp/acceptance/fixture_admission.ex",
+        "verification_index": 6
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.fixture_review",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "lib/vfp_mcp/acceptance/fixture_admission.ex",
+        "verification_index": 6
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.raw_intake_quarantine",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "lib/vfp_mcp/acceptance/fixture_admission.ex",
+        "verification_index": 6
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.evidence_bundle_integrity",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "lib/vfp_mcp/acceptance/evidence.ex",
+        "verification_index": 7
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.version_native_handoff",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "lib/vfp_mcp/acceptance/evidence.ex",
+        "verification_index": 7
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.fixture_admission_protocol",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/vfp_mcp/acceptance/fixture_admission_test.exs",
+        "verification_index": 8
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.fixture_review",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/vfp_mcp/acceptance/fixture_admission_test.exs",
+        "verification_index": 8
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.raw_intake_quarantine",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/vfp_mcp/acceptance/fixture_admission_test.exs",
+        "verification_index": 8
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.evidence_bundle_integrity",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/vfp_mcp/acceptance/evidence_test.exs",
+        "verification_index": 9
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.validate_evidence_bundle",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/vfp_mcp/acceptance/evidence_test.exs",
+        "verification_index": 9
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.deterministic_test_vectors",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/vfp_mcp/test_support/pair_builder_test.exs",
+        "verification_index": 10
       },
       {
         "cover_id": "vfp_mcp.codec.dbf_structure",
@@ -3223,7 +3595,7 @@
     "strength_summary": {
       "claimed": 2,
       "executed": 1,
-      "linked": 123
+      "linked": 143
     },
     "threshold_failures": 0
   },

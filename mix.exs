@@ -11,6 +11,7 @@ defmodule VfpMcp.MixProject do
       version: "0.1.0",
       elixir: "~> 1.20",
       start_permanent: Mix.env() == :prod,
+      elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps()
     ]
   end
@@ -39,7 +40,12 @@ defmodule VfpMcp.MixProject do
        github: "specleddev/specled_ex",
        ref: "301fad7cd490ea7328d47ec2f46c3d3f0c20a225",
        only: [:dev, :test],
-       runtime: false}
+       runtime: false},
+      {:jason, "~> 1.4"},
+      {:stream_data, "~> 1.4", only: :test}
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_env), do: ["lib"]
 end

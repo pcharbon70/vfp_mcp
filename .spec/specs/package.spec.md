@@ -11,6 +11,7 @@ summary: Elixir/OTP MCP server for safe comprehension and milestone-gated editin
 surface:
   - README.md
   - mix.exs
+  - mix.lock
   - lib/vfp_mcp.ex
   - lib/vfp_mcp/application.ex
   - lib/vfp_mcp/milestone_0/contract.ex
@@ -41,7 +42,7 @@ decisions:
   stability: stable
 
 - id: vfp_mcp.package.dependency_boundaries
-  statement: The package shall pin ex_mcp at 1.0.0-rc.8 behind the protocol boundary and shall keep spec_led_ex as a development and test dependency with runtime disabled.
+  statement: The package shall pin ex_mcp at 1.0.0-rc.8 behind the protocol boundary, declare Jason directly for evidence JSON, keep spec_led_ex as a development and test dependency with runtime disabled, and keep StreamData test-only.
   priority: must
   stability: stable
 

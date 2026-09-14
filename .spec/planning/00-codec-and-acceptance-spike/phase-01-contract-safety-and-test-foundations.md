@@ -152,7 +152,7 @@ disposable mutation outputs with explicit transitions.
 **Description:** Document drop, inventory, automated rejection, human review,
 promotion, and admitted states without ever executing raw intake.
 
-- [ ] Each transition identifies its permitted input directory, output directory, and required evidence.
+- [x] Each transition identifies its permitted input directory, output directory, and required evidence.
 
 #### Subtask 1.3.1.2 — Define Sanitization and Dependency Rules
 
@@ -160,9 +160,9 @@ promotion, and admitted states without ever executing raw intake.
 identifying content, application paths, tables, databases, connections, and
 external class dependencies.
 
-- [ ] Promotion fails when either automated inventory or human review cannot establish safe isolation.
+- [x] Promotion fails when either automated inventory or human review cannot establish safe isolation.
 
-- [ ] Task 1.3.1 is complete with an auditable promotion checklist.
+- [x] Task 1.3.1 is complete with an auditable promotion checklist.
 
 ### Task 1.3.2 — Define the Native Evidence Bundle
 
@@ -175,23 +175,23 @@ version-native authoring or edit-acceptance run.
 version, IDE version, fixture and result hashes, exact actions, observations,
 timestamps, operator, and outcome.
 
-- [ ] A schema rejects missing pair members, invalid hashes, unknown outcomes, and result hashes not bound to the declared inputs.
+- [x] A schema rejects missing pair members, invalid hashes, unknown outcomes, and result hashes not bound to the declared inputs.
 
 #### Subtask 1.3.2.2 — Define Markdown Review Signoff
 
 **Description:** Provide a human checklist covering synthetic content, closed
 pairs, dependency removal, native actions, observations, anomalies, and review.
 
-- [ ] The checklist references the JSON record and exact hashes rather than duplicating or weakening machine-readable evidence.
+- [x] The checklist references the JSON record and exact hashes rather than duplicating or weakening machine-readable evidence.
 
 #### Subtask 1.3.2.3 — Define Version-Specific Operation
 
 **Description:** Assign VFP9 authoring and acceptance to the local human-operated
 IDE and VFP6 work to a documented external-machine handoff.
 
-- [ ] Neither workflow requires automated IDE control or access to an original application tree.
+- [x] Neither workflow requires automated IDE control or access to an original application tree.
 
-- [ ] Task 1.3.2 is complete with sample passing and failing evidence packages.
+- [x] Task 1.3.2 is complete with sample passing and failing evidence packages.
 
 ### Task 1.3.3 — Establish Test Infrastructure
 
@@ -203,16 +203,16 @@ for binary inputs and evidence validation.
 **Description:** Add `{:stream_data, "~> 1.4", only: :test}` without changing the
 runtime dependency graph.
 
-- [ ] A minimal seeded property test runs under `mix test` and is reproducible when its seed is reported.
+- [x] A minimal seeded property test runs under `mix test` and is reproducible when its seed is reported.
 
 #### Subtask 1.3.3.2 — Create Binary Pair Builders
 
 **Description:** Build valid and deliberately malformed DBF/FPT byte strings
 from declarative test input without depending on VFP or external files.
 
-- [ ] Builders control endianness, offsets, block size, record schema, memo pointers, and raw opaque regions.
+- [x] Builders control endianness, offsets, block size, record schema, memo pointers, and raw opaque regions.
 
-- [ ] Task 1.3.3 is complete when later codec tests can express cases without hand-editing binary fixtures.
+- [x] Task 1.3.3 is complete when later codec tests can express cases without hand-editing binary fixtures.
 
 ## Section 1.4 — Phase 1 Integration Tests
 
