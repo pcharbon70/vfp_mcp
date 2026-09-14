@@ -14,6 +14,7 @@ kind: policy
 status: active
 summary: Isolated fixture admission and native VFP acceptance requirements.
 surface:
+  - .gitattributes
   - test/fixtures/README.md
   - docs/testing/fixture-authoring-checklist.md
   - docs/research/fixture-intake-investigation.md
@@ -88,7 +89,7 @@ decisions:
   stability: evolving
 
 - id: vfp_mcp.acceptance.phase1_safe_foundation
-  statement: The Phase 1 test gate shall require no external VFP root or IDE and shall reject path escapes, original-application root candidates, live data bindings, external class locations, and incomplete source pairs before execution, compilation, or mutation.
+  statement: The Phase 1 test gate shall run from a Windows or Unix checkout without line-ending drift, require no external VFP root or IDE, and reject path escapes, original-application root candidates, live data bindings, external class locations, and incomplete source pairs before execution, compilation, or mutation.
   priority: must
   stability: stable
 

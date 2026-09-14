@@ -104,16 +104,16 @@ values while retaining the full header and reserved bytes.
 **Description:** Treat a stored size of zero as 512 bytes and accept other sizes
 only when alignment and configured limits can be satisfied.
 
-- [ ] Stored and effective block sizes are both retained for evidence.
+- [x] Stored and effective block sizes are both retained for evidence.
 
 #### Subtask 2.2.1.2 — Validate Allocation Metadata
 
 **Description:** Check the header extent, next-free location, file alignment, and
 bounded allocation arithmetic without assuming unused bytes are zero.
 
-- [ ] Impossible allocation metadata blocks semantic exposure of memo payloads.
+- [x] Impossible allocation metadata blocks semantic exposure of memo payloads.
 
-- [ ] Task 2.2.1 is complete for block sizes 1, 64, 512, and malformed variants.
+- [x] Task 2.2.1 is complete for block sizes 1, 64, 512, and malformed variants.
 
 ### Task 2.2.2 — Resolve DBF Memo Pointers
 
@@ -125,16 +125,16 @@ number with zero representing an empty memo.
 **Description:** Multiply block number by effective block size using checked
 arithmetic and validate the memo-header range before reading it.
 
-- [ ] Overflow, before-header, and beyond-file pointers produce stable findings.
+- [x] Overflow, before-header, and beyond-file pointers produce stable findings.
 
 #### Subtask 2.2.2.2 — Preserve Pointer Provenance
 
 **Description:** Retain the DBF record, field, raw pointer bytes, block number,
 calculated offset, and resolution result.
 
-- [ ] Multiple references to one block remain distinguishable by source field while sharing resolved block identity.
+- [x] Multiple references to one block remain distinguishable by source field while sharing resolved block identity.
 
-- [ ] Task 2.2.2 is complete for empty, valid, shared, and invalid pointers.
+- [x] Task 2.2.2 is complete for empty, valid, shared, and invalid pointers.
 
 ### Task 2.2.3 — Decode Memo Blocks
 
@@ -146,16 +146,16 @@ bounds-checked payload while preserving source block type and allocation bytes.
 **Description:** Check header availability, declared payload end, file end, and
 configured memo-size limit before slicing.
 
-- [ ] Truncated and excessive lengths never yield a guessed or partial valid payload.
+- [x] Truncated and excessive lengths never yield a guessed or partial valid payload.
 
 #### Subtask 2.2.3.2 — Preserve Opaque and Padding Bytes
 
 **Description:** Store raw block-header bytes, payload bytes, allocation extent,
 and padding needed to compare untouched storage exactly.
 
-- [ ] Unknown block types are retained with a warning and are never decoded as text automatically.
+- [x] Unknown block types are retained with a warning and are never decoded as text automatically.
 
-- [ ] Task 2.2.3 is complete with bounded blocks, shared blocks, unknown types, and overlaps covered.
+- [x] Task 2.2.3 is complete with bounded blocks, shared blocks, unknown types, and overlaps covered.
 
 ## Section 2.3 — Encoding, Fidelity, and Physical Findings
 

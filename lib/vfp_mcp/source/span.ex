@@ -29,24 +29,36 @@ defmodule VfpMcp.Source.MemoRef do
 
   @enforce_keys [:field, :pointer, :pointer_bytes, :pointer_span]
   defstruct [
+    :record_index,
     :field,
     :pointer,
     :pointer_bytes,
     :pointer_span,
+    :resolution,
+    :block_id,
     :block_type,
     :block_span,
     :payload_span,
-    :payload_bytes
+    :payload_bytes,
+    :allocation_span,
+    :raw_block_header_bytes,
+    :padding_bytes
   ]
 
   @type t :: %__MODULE__{
+          record_index: non_neg_integer() | nil,
           field: String.t(),
-          pointer: non_neg_integer(),
+          pointer: non_neg_integer() | nil,
           pointer_bytes: binary(),
           pointer_span: Span.t(),
+          resolution: :empty | :resolved | {:error, atom()} | nil,
+          block_id: non_neg_integer() | nil,
           block_type: non_neg_integer() | nil,
           block_span: Span.t() | nil,
           payload_span: Span.t() | nil,
-          payload_bytes: binary() | nil
+          payload_bytes: binary() | nil,
+          allocation_span: Span.t() | nil,
+          raw_block_header_bytes: binary() | nil,
+          padding_bytes: binary() | nil
         }
 end
