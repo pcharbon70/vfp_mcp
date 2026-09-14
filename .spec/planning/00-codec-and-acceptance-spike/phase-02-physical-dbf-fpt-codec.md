@@ -17,7 +17,7 @@ aliases: []
 records and FPT memo blocks without interpreting application semantics or
 performing filesystem I/O.
 
-**Status:** Planned
+**Status:** In progress
 
 **Dependencies:** Phase 1 contracts, safety limits, findings, and binary builders.
 
@@ -36,16 +36,16 @@ record length, code-page byte, and reserved bytes from documented offsets.
 **Description:** Use explicit little-endian reads and checked range arithmetic
 before taking any byte slice.
 
-- [ ] Truncated values and arithmetic overflow return stable fatal findings without raising.
+- [x] Truncated values and arithmetic overflow return stable fatal findings without raising.
 
 #### Subtask 2.1.1.2 — Validate Container Extents
 
 **Description:** Reconcile header length, record count, record length, terminator,
 and available file bytes while retaining any permitted trailing content.
 
-- [ ] Impossible extents fail and unusual preserved trailing bytes produce a bounded finding.
+- [x] Impossible extents fail and unusual preserved trailing bytes produce a bounded finding.
 
-- [ ] Task 2.1.1 is complete with source offsets retained for every decoded header value.
+- [x] Task 2.1.1 is complete with source offsets retained for every decoded header value.
 
 ### Task 2.1.2 — Decode Field Descriptors
 
@@ -57,16 +57,16 @@ assuming one fixed SCX or VCX schema.
 **Description:** Retain raw name bytes, logical name, type, length, decimal count,
 flags, reserved bytes, descriptor offset, and record-relative field offset.
 
-- [ ] Duplicate names, zero lengths, unknown types, and cumulative-width mismatches receive stable findings.
+- [x] Duplicate names, zero lengths, unknown types, and cumulative-width mismatches receive stable findings.
 
 #### Subtask 2.1.2.2 — Validate Schema Bounds
 
 **Description:** Prove that the deletion marker and all declared fields fit
 inside the record length with no overflow or overlap.
 
-- [ ] No record-field slice is attempted from an invalid schema.
+- [x] No record-field slice is attempted from an invalid schema.
 
-- [ ] Task 2.1.2 is complete across reordered fields and synthetic nonstandard schemas.
+- [x] Task 2.1.2 is complete across reordered fields and synthetic nonstandard schemas.
 
 ### Task 2.1.3 — Decode Physical Records
 
@@ -78,16 +78,16 @@ deletion markers, raw field slices, and stable physical indices.
 **Description:** Interpret standard active and deleted markers while preserving
 all record bytes regardless of semantic support.
 
-- [ ] Deleted records remain available to fidelity and validation logic and are not silently discarded.
+- [x] Deleted records remain available to fidelity and validation logic and are not silently discarded.
 
 #### Subtask 2.1.3.2 — Decode Fixed-Width Field Values Conservatively
 
 **Description:** Expose raw bytes for every field and decode only physical scalar
 types required by source containers, leaving unsupported types opaque.
 
-- [ ] Unsupported fields remain byte-faithful and cannot shift later field boundaries.
+- [x] Unsupported fields remain byte-faithful and cannot shift later field boundaries.
 
-- [ ] Task 2.1.3 is complete with record, marker, and field spans proven against generated vectors.
+- [x] Task 2.1.3 is complete with record, marker, and field spans proven against generated vectors.
 
 ## Section 2.2 — FPT Header, Pointer, and Memo Decoding
 
