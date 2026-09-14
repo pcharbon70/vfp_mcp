@@ -173,16 +173,16 @@ fields rather than physical adjacency or presumed record order.
 **Description:** Build lookup indexes using the documented case policy and
 retain unresolved or multiply resolved references as findings.
 
-- [ ] Reordering physical records does not alter an otherwise unambiguous containment graph.
+- [x] Reordering physical records does not alter an otherwise unambiguous containment graph.
 
 #### Subtask 3.3.1.2 — Detect Invalid Graphs
 
 **Description:** Detect missing parents, self-parenting, cycles, excessive depth,
 and incompatible container relationships with bounded traversal.
 
-- [ ] Invalid graphs never loop and each involved physical record remains inspectable.
+- [x] Invalid graphs never loop and each involved physical record remains inspectable.
 
-- [ ] Task 3.3.1 is complete for forms, nested containers, grids, and class-library records.
+- [x] Task 3.3.1 is complete for forms, nested containers, grids, and class-library records.
 
 ### Task 3.3.2 — Construct Canonical Object Paths
 
@@ -194,16 +194,16 @@ names in distinct containers remain unambiguous.
 **Description:** Use slash-separated, percent-escaped path segments with one
 shared comparison and canonicalization policy for construction and lookup.
 
-- [ ] Names containing separators, percent characters, spaces, and mixed case round-trip through path parsing.
+- [x] Names containing separators, percent characters, spaces, and mixed case round-trip through path parsing.
 
 #### Subtask 3.3.2.2 — Detect Path Ambiguity
 
 **Description:** Report duplicate sibling identities, canonicalization collisions,
 and multiple objects resolving to the same full path.
 
-- [ ] Ambiguous paths cannot become mutation targets even when one record appears first.
+- [x] Ambiguous paths cannot become mutation targets even when one record appears first.
 
-- [ ] Task 3.3.2 is complete with deterministic path and collision findings.
+- [x] Task 3.3.2 is complete with deterministic path and collision findings.
 
 ### Task 3.3.3 — Implement Named Validation Rules
 
@@ -215,16 +215,16 @@ property, method, hierarchy, and compatibility invariants.
 **Description:** Give each rule a stable code, documented severity, bounded
 evidence, and exact source location where available.
 
-- [ ] Finding output is sorted deterministically by physical location, rule code, and semantic identity.
+- [x] Finding output is sorted deterministically by physical location, rule code, and semantic identity.
 
 #### Subtask 3.3.3.2 — Separate Inspectability from Edit Eligibility
 
 **Description:** Define which findings are fatal, which permit read inspection,
 and which block the later property or method planner.
 
-- [ ] A document exposes an explicit eligibility result instead of requiring callers to infer it from messages.
+- [x] A document exposes an explicit eligibility result instead of requiring callers to infer it from messages.
 
-- [ ] Task 3.3.3 is complete with a rule matrix and focused tests.
+- [x] Task 3.3.3 is complete with a rule matrix and focused tests.
 
 ## Section 3.4 — Phase 3 Integration Tests
 

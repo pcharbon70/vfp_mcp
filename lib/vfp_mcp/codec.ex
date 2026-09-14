@@ -21,8 +21,8 @@ defmodule VfpMcp.Codec do
   # - vfp_mcp.read.source_fidelity
   # - vfp_mcp.protocol.sdk_boundary
 
-  alias VfpMcp.Codec.{Dbf, Encoding, Fpt, Methods, Properties, Semantic}
-  alias VfpMcp.{Document, Finding, Limits}
+  alias VfpMcp.Codec.{Dbf, Encoding, Fpt, Methods, Properties, Semantic, Tree}
+  alias VfpMcp.{Document, Finding, Limits, Validate}
   alias VfpMcp.Source.PairSnapshot
 
   @type option :: {:limits, Limits.t()} | {:expected_encoding, Encoding.encoding() | nil}
@@ -54,8 +54,9 @@ defmodule VfpMcp.Codec do
          {:ok, objects, property_findings} <-
            Properties.attach(objects, text_views, encoding),
          {:ok, objects, method_findings} <- Methods.attach(objects, text_views, encoding),
+         {:ok, objects, tree, path_index, hierarchy_findings} <- Tree.build(objects, limits),
          {:ok, findings} <-
-           collect_findings(
+           Validate.finalize(
              dbf_findings ++
                fpt_findings ++
                encoding_findings ++
@@ -63,10 +64,13 @@ defmodule VfpMcp.Codec do
                semantic_findings ++
                property_findings ++
                method_findings ++
+               hierarchy_findings ++
                compatibility_findings(snapshot, dbf),
              limits
            ) do
-      edit_eligibility = edit_eligibility(findings)
+      edit_eligibility = Validate.document_eligibility(findings)
+      objects = Validate.apply_object_eligibility(objects, findings)
+      path_index = refresh_path_index(path_index, objects)
 
       {:ok,
        %Document{
@@ -82,8 +86,10 @@ defmodule VfpMcp.Codec do
          schema: dbf.fields,
          records: dbf.records,
          semantic_records: semantic_records,
-         objects: Enum.map(objects, &%{&1 | edit_eligibility: edit_eligibility}),
+         objects: objects,
          data_environment: data_environment,
+         tree: tree,
+         path_index: path_index,
          inspectability: :inspectable,
          edit_eligibility: edit_eligibility,
          findings: findings
@@ -132,33 +138,12 @@ defmodule VfpMcp.Codec do
     Limits.check(limits, :member_bytes, byte_size(bytes), %{member: member, offset: 0})
   end
 
-  defp collect_findings(findings, limits) do
-    findings =
-      Enum.sort_by(findings, fn finding ->
-        {Atom.to_string(finding.code), inspect(finding.location), inspect(finding.evidence)}
-      end)
+  defp refresh_path_index(path_index, objects) do
+    objects_by_record = Map.new(objects, &{&1.record_index, &1})
 
-    if length(findings) <= limits.findings do
-      {:ok, findings}
-    else
-      {:error,
-       [
-         Finding.fatal(:limit_findings_exceeded, "findings limit exceeded",
-           evidence: %{actual: length(findings), maximum: limits.findings}
-         )
-       ]}
-    end
-  end
-
-  defp edit_eligibility(findings) do
-    codes =
-      findings
-      |> Enum.filter(&(&1.impact == :mutation_blocked))
-      |> Enum.map(& &1.code)
-      |> Enum.uniq()
-      |> Enum.sort()
-
-    if codes == [], do: :eligible, else: {:blocked, codes}
+    Map.new(path_index, fn {path, object} ->
+      {path, Map.fetch!(objects_by_record, object.record_index)}
+    end)
   end
 
   defp compatibility_findings(snapshot, dbf) do

@@ -31,6 +31,9 @@ surface:
   - lib/vfp_mcp/codec/methods.ex
   - lib/vfp_mcp/codec/semantic_text.ex
   - lib/vfp_mcp/codec/semantic.ex
+  - lib/vfp_mcp/codec/tree.ex
+  - lib/vfp_mcp/source/path.ex
+  - lib/vfp_mcp/validate.ex
   - lib/vfp_mcp/document.ex
   - lib/vfp_mcp/edit_plan.ex
   - lib/vfp_mcp/finding.ex
@@ -45,6 +48,9 @@ surface:
   - test/vfp_mcp/codec/properties_test.exs
   - test/vfp_mcp/codec/methods_test.exs
   - test/vfp_mcp/codec/semantic_test.exs
+  - test/vfp_mcp/codec/tree_test.exs
+  - test/vfp_mcp/source/path_test.exs
+  - test/vfp_mcp/validate_test.exs
   - test/integration/phase_2_physical_codec_test.exs
   - test/vfp_mcp/limits_test.exs
 decisions:
@@ -265,6 +271,7 @@ decisions:
     - vfp_mcp.codec.property_edit_scope
     - vfp_mcp.codec.method_edit_scope
     - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.hierarchy_integrity
     - vfp_mcp.codec.raw_fidelity
     - vfp_mcp.codec.pure_planning
 
@@ -287,6 +294,26 @@ decisions:
   covers:
     - vfp_mcp.codec.method_edit_scope
     - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+
+- kind: source_file
+  target: lib/vfp_mcp/codec/tree.ex
+  covers:
+    - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.hierarchy_integrity
+    - vfp_mcp.codec.pure_planning
+
+- kind: source_file
+  target: lib/vfp_mcp/source/path.ex
+  covers:
+    - vfp_mcp.codec.hierarchy_integrity
+    - vfp_mcp.codec.pure_planning
+
+- kind: source_file
+  target: lib/vfp_mcp/validate.ex
+  covers:
+    - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.hierarchy_integrity
     - vfp_mcp.codec.pure_planning
 
 - kind: test_file
@@ -330,6 +357,26 @@ decisions:
   covers:
     - vfp_mcp.codec.method_edit_scope
     - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+
+- kind: test_file
+  target: test/vfp_mcp/codec/tree_test.exs
+  covers:
+    - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.hierarchy_integrity
+    - vfp_mcp.codec.pure_planning
+
+- kind: test_file
+  target: test/vfp_mcp/source/path_test.exs
+  covers:
+    - vfp_mcp.codec.hierarchy_integrity
+    - vfp_mcp.codec.pure_planning
+
+- kind: test_file
+  target: test/vfp_mcp/validate_test.exs
+  covers:
+    - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.hierarchy_integrity
     - vfp_mcp.codec.pure_planning
 
 - kind: test_file

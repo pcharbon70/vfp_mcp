@@ -59,6 +59,13 @@ procedure bookends but does not parse VFP statements. Each parsed region keeps
 both source-byte and decoded-text spans; unsupported or ambiguous syntax stays
 verbatim with explicit target eligibility.
 
+Containment is resolved from case-insensitive `OBJNAME`/`PARENT` identities,
+never from record adjacency. Display paths preserve spelling with percent-
+escaped UTF-8 segments; lookup keys decode, lowercase, and re-encode those same
+segments. Invalid edges, excessive depth, duplicate siblings, and case-folded
+path collisions never enter the target index. Named rule metadata and physical-
+location-first ordering determine document and per-object edit eligibility.
+
 ## Consequences
 
 The team owns format correctness, malformed-input handling, and byte-level test

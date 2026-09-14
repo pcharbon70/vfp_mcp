@@ -58,6 +58,12 @@ Successful documents are explicitly `:inspectable`. Their independent
 bounded semantic ambiguity can therefore remain readable without being
 mistaken for a safe mutation target.
 
+Hierarchy construction resolves `PARENT` by unambiguous semantic identity,
+builds escaped display paths, and stores only case-canonical, collision-free
+keys in `path_index`. `tree` contains record-index roots and children only for
+addressable objects. Invalid edges and ambiguous paths remain on the source
+objects and in findings, not in the target index.
+
 ## Finding taxonomy
 
 | Severity | Impact | Meaning |

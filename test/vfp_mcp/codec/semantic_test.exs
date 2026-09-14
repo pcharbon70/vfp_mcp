@@ -51,6 +51,9 @@ defmodule VfpMcp.Codec.SemanticTest do
     assert [%{name: "Caption", value: "Apply"}] = object.properties
     assert object.method_memo.raw_bytes == "PROCEDURE Click\r\nENDPROC\r\n"
     assert [%{name: "Click", body: ""}] = object.methods
+    assert object.path == "cmdApply"
+    assert document.path_index["cmdapply"].edit_eligibility == :eligible
+    assert document.tree.roots == [2]
 
     assert Enum.map(document.data_environment, & &1.record_index) == [1]
     assert document.inspectability == :inspectable
@@ -145,7 +148,6 @@ defmodule VfpMcp.Codec.SemanticTest do
       record("WINDOWS", "commandbutton", "cmdApply", true, %{
         "CLASS" => memo("customButton"),
         "CLASSLOC" => memo("synthetic.vcx"),
-        "PARENT" => memo("frmMain"),
         "PROPERTIES" => memo("Caption = \"Apply\""),
         "METHODS" => memo("PROCEDURE Click\r\nENDPROC\r\n"),
         "RESERVED1" => memo(<<1, 2, 3>>),

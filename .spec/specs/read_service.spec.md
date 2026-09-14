@@ -18,12 +18,19 @@ surface:
   - docs/components.md
   - docs/contracts/codec-domain.md
   - docs/contracts/physical-codec.md
+  - docs/contracts/semantic-codec.md
   - lib/vfp_mcp/codec.ex
   - lib/vfp_mcp/codec/semantic.ex
+  - lib/vfp_mcp/codec/tree.ex
+  - lib/vfp_mcp/source/path.ex
+  - lib/vfp_mcp/validate.ex
   - lib/vfp_mcp/source/pair_snapshot.ex
   - test/vfp_mcp/codec_contract_test.exs
   - test/vfp_mcp/codec/physical_codec_test.exs
   - test/vfp_mcp/codec/semantic_test.exs
+  - test/vfp_mcp/codec/tree_test.exs
+  - test/vfp_mcp/source/path_test.exs
+  - test/vfp_mcp/validate_test.exs
 decisions:
   - vfp_mcp.source_access_boundary
   - vfp_mcp.custom_vfp_codec
@@ -191,12 +198,51 @@ decisions:
     - vfp_mcp.read.validation_findings
     - vfp_mcp.read.source_fidelity
 
+- kind: guide_file
+  target: docs/contracts/semantic-codec.md
+  covers:
+    - vfp_mcp.read.full_path_identity
+    - vfp_mcp.read.validation_findings
+    - vfp_mcp.read.source_fidelity
+
 - kind: test_file
   target: test/vfp_mcp/codec/semantic_test.exs
   covers:
     - vfp_mcp.read.immutable_snapshot
     - vfp_mcp.read.validation_findings
     - vfp_mcp.read.source_fidelity
+
+- kind: source_file
+  target: lib/vfp_mcp/codec/tree.ex
+  covers:
+    - vfp_mcp.read.full_path_identity
+    - vfp_mcp.read.validation_findings
+
+- kind: source_file
+  target: lib/vfp_mcp/source/path.ex
+  covers:
+    - vfp_mcp.read.full_path_identity
+
+- kind: source_file
+  target: lib/vfp_mcp/validate.ex
+  covers:
+    - vfp_mcp.read.validation_findings
+
+- kind: test_file
+  target: test/vfp_mcp/codec/tree_test.exs
+  covers:
+    - vfp_mcp.read.full_path_identity
+    - vfp_mcp.read.validation_findings
+
+- kind: test_file
+  target: test/vfp_mcp/source/path_test.exs
+  covers:
+    - vfp_mcp.read.full_path_identity
+
+- kind: test_file
+  target: test/vfp_mcp/validate_test.exs
+  covers:
+    - vfp_mcp.read.validation_findings
 
 - kind: test_file
   target: test/vfp_mcp/codec_contract_test.exs
