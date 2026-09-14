@@ -52,6 +52,13 @@ only from unambiguous named fields. Inspectability and edit eligibility are
 separate document states so bounded ambiguous input remains readable without
 becoming a mutation target.
 
+Property and method indexing operates on original source bytes plus the strict
+decoded text view. Property parsing recognizes only the documented literal
+subset and keeps decimal spelling exact. Method parsing recognizes line-leading
+procedure bookends but does not parse VFP statements. Each parsed region keeps
+both source-byte and decoded-text spans; unsupported or ambiguous syntax stays
+verbatim with explicit target eligibility.
+
 ## Consequences
 
 The team owns format correctness, malformed-input handling, and byte-level test

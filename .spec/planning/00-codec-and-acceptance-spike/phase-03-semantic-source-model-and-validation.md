@@ -105,16 +105,16 @@ normalizing original text, ordering, expressions, whitespace, or line endings.
 integers, decimals, `.NULL.`, and explicitly tagged dates/datetimes where syntax
 is unambiguous.
 
-- [ ] Each recognized assignment retains name spelling, raw literal, semantic value, separators, and byte/text spans.
+- [x] Each recognized assignment retains name spelling, raw literal, semantic value, separators, and byte/text spans.
 
 #### Subtask 3.2.1.2 — Preserve Unsupported and Ambiguous Lines
 
 **Description:** Retain comments, blank lines, continuations, expressions,
 duplicates, and unknown constructs verbatim and mark unsafe edit targets.
 
-- [ ] Parsing an unsupported line never changes neighboring assignment boundaries.
+- [x] Parsing an unsupported line never changes neighboring assignment boundaries.
 
-- [ ] Task 3.2.1 is complete across CRLF, LF, empty, duplicate, and expression-rich memos.
+- [x] Task 3.2.1 is complete across CRLF, LF, empty, duplicate, and expression-rich memos.
 
 ### Task 3.2.2 — Parse Named Method Blocks Conservatively
 
@@ -126,16 +126,16 @@ retaining the full memo and every sibling block verbatim.
 **Description:** Recognize case-insensitive procedure markers only at valid line
 positions and retain declared names, signature text, body, terminator, and spans.
 
-- [ ] Phrases inside strings or comments do not create method boundaries.
+- [x] Phrases inside strings or comments do not create method boundaries.
 
 #### Subtask 3.2.2.2 — Report Ambiguous Method Structure
 
 **Description:** Detect duplicates, missing terminators, nested or overlapping
 boundaries, and unmatched terminators without inventing repair behavior.
 
-- [ ] Ambiguous method memos remain inspectable verbatim but are blocked from named-method planning.
+- [x] Ambiguous method memos remain inspectable verbatim but are blocked from named-method planning.
 
-- [ ] Task 3.2.2 is complete across multiple methods, mixed case, comments, and malformed bookends.
+- [x] Task 3.2.2 is complete across multiple methods, mixed case, comments, and malformed bookends.
 
 ### Task 3.2.3 — Preserve Text and Physical Span Correspondence
 
@@ -147,16 +147,16 @@ memo bytes so later replacement spans are safe and explainable.
 **Description:** Record byte offsets for parsed property lines and method blocks
 using the selected source encoding rather than Unicode character counts.
 
-- [ ] Extended Windows-1252 characters before and inside a target produce correct byte spans.
+- [x] Extended Windows-1252 characters before and inside a target produce correct byte spans.
 
 #### Subtask 3.2.3.2 — Retain Verbatim Memo Representations
 
 **Description:** Store original payload bytes, decoded text, line-ending style,
 and parse indexes without synthesizing a normalized rendering.
 
-- [ ] Re-reading semantic values does not require re-encoding or rewriting the memo.
+- [x] Re-reading semantic values does not require re-encoding or rewriting the memo.
 
-- [ ] Task 3.2.3 is complete with byte-span assertions for all supported text constructs.
+- [x] Task 3.2.3 is complete with byte-span assertions for all supported text constructs.
 
 ## Section 3.3 — Hierarchy, Paths, and Validation
 

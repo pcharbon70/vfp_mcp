@@ -21,7 +21,7 @@ defmodule VfpMcp.Codec do
   # - vfp_mcp.read.source_fidelity
   # - vfp_mcp.protocol.sdk_boundary
 
-  alias VfpMcp.Codec.{Dbf, Encoding, Fpt, Semantic}
+  alias VfpMcp.Codec.{Dbf, Encoding, Fpt, Methods, Properties, Semantic}
   alias VfpMcp.{Document, Finding, Limits}
   alias VfpMcp.Source.PairSnapshot
 
@@ -51,13 +51,19 @@ defmodule VfpMcp.Codec do
            Encoding.decode_physical(dbf, fpt, encoding, limits),
          {:ok, semantic_records, objects, data_environment, semantic_findings} <-
            Semantic.build(dbf, fpt, text_views),
+         {:ok, objects, property_findings} <-
+           Properties.attach(objects, text_views, encoding),
+         {:ok, objects, method_findings} <- Methods.attach(objects, text_views, encoding),
          {:ok, findings} <-
            collect_findings(
              dbf_findings ++
                fpt_findings ++
                encoding_findings ++
                text_findings ++
-               semantic_findings ++ compatibility_findings(snapshot, dbf),
+               semantic_findings ++
+               property_findings ++
+               method_findings ++
+               compatibility_findings(snapshot, dbf),
              limits
            ) do
       edit_eligibility = edit_eligibility(findings)

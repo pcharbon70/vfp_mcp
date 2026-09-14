@@ -47,6 +47,10 @@ defmodule VfpMcp.Codec.SemanticTest do
     assert Enum.any?(object.memo_refs, &(&1.field == "RESERVED1"))
     assert length(object.raw_fields) == length(document.schema)
     assert Enum.all?(object.spans, &(&1.length >= 0))
+    assert object.property_memo.raw_bytes == "Caption = \"Apply\""
+    assert [%{name: "Caption", value: "Apply"}] = object.properties
+    assert object.method_memo.raw_bytes == "PROCEDURE Click\r\nENDPROC\r\n"
+    assert [%{name: "Click", body: ""}] = object.methods
 
     assert Enum.map(document.data_environment, & &1.record_index) == [1]
     assert document.inspectability == :inspectable

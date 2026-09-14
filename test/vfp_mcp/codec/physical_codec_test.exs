@@ -52,7 +52,10 @@ defmodule VfpMcp.Codec.PhysicalCodecTest do
              {:memo, "PROPERTIES", "Caption = Café"}
            ]
 
-    assert Enum.all?(document.findings, &(&1.code == :semantic_identity_field_missing))
+    assert Enum.all?(
+             document.findings,
+             &(&1.code in [:property_unsupported_literal, :semantic_identity_field_missing])
+           )
   end
 
   test "unsupported and invalid text remains available only as raw bytes" do
