@@ -12,7 +12,8 @@ defmodule VfpMcp.MixProject do
       elixir: "~> 1.20",
       start_permanent: Mix.env() == :prod,
       elixirc_paths: elixirc_paths(Mix.env()),
-      deps: deps()
+      deps: deps(),
+      aliases: aliases()
     ]
   end
 
@@ -22,6 +23,10 @@ defmodule VfpMcp.MixProject do
       extra_applications: [:logger],
       mod: {VfpMcp.Application, []}
     ]
+  end
+
+  def cli do
+    [preferred_envs: [phase1: :test]]
   end
 
   # Run "mix help deps" to learn about dependencies.
@@ -48,4 +53,15 @@ defmodule VfpMcp.MixProject do
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_env), do: ["lib"]
+
+  defp aliases do
+    [
+      phase1: [
+        "format --check-formatted",
+        "compile --warnings-as-errors",
+        "test --warnings-as-errors --seed 12345",
+        "spec.validate --strict"
+      ]
+    ]
+  end
 end

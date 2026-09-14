@@ -46,13 +46,21 @@ The JSON records the schema version, evidence/scenario IDs, VFP and IDE
 versions, operator, UTC timestamp, overall outcome, complete pair identities,
 required actions, observations, and signoff filename. Every member has a byte
 size and SHA-256; every pair has the complete-pair SHA-256 produced by
-`PairSnapshot`.
+`PairSnapshot`. `VfpMcp.Acceptance.Evidence.validate_bundle/3` additionally
+compares those declarations with the exact caller-supplied source and result
+snapshots. The comparison is in memory and performs no file access.
 
 The Markdown signoff repeats only the evidence ID and pair hashes needed to
 bind the human review. It adds the reviewer, review timestamp, and required
 checks. Any unchecked item, missing companion, malformed hash, omitted action,
 failed action under an overall `pass`, mismatched signoff, or unknown outcome
 causes validation failure.
+
+Before a fixture can reach human review, intake tooling supplies its extracted
+pair names, data bindings, class locations, data commands, and path references
+to `VfpMcp.Acceptance.FixtureSafety`. That pure boundary rejects incomplete or
+mismatched pairs and every non-empty live-dependency entry. It never opens,
+compiles, executes, or mutates the inventoried source.
 
 Committed examples live under `test/fixtures/evidence/valid` and
 `test/fixtures/evidence/invalid`. They contain invented names and placeholder

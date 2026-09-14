@@ -8,6 +8,7 @@ defmodule VfpMcp.Acceptance.Evidence do
   # - vfp_mcp.acceptance.version_native_handoff
 
   alias VfpMcp.Finding
+  alias VfpMcp.Source.PairSnapshot
 
   @schema_version 1
   @hash_pattern ~r/\A[0-9a-f]{64}\z/
@@ -35,6 +36,10 @@ defmodule VfpMcp.Acceptance.Evidence do
   )
 
   @type evidence_record :: %{required(String.t()) => term()}
+  @type artifacts :: %{
+          required(:source_pair) => PairSnapshot.t(),
+          optional(:result_pair) => PairSnapshot.t()
+        }
   @type result :: {:ok, map()} | {:error, [Finding.t()]}
 
   @spec decode_json(binary()) :: {:ok, evidence_record()} | {:error, [Finding.t()]}
@@ -79,9 +84,54 @@ defmodule VfpMcp.Acceptance.Evidence do
   def validate_bundle(record, markdown) when is_map(record) and is_binary(markdown) do
     record_findings = result_findings(validate(record))
     signoff_findings = validate_signoff(record, markdown)
-    findings = Enum.sort_by(record_findings ++ signoff_findings, &Atom.to_string(&1.code))
+    findings = sort_findings(record_findings ++ signoff_findings)
 
     if findings == [], do: {:ok, summary(record)}, else: {:error, findings}
+  end
+
+  @doc """
+  Validates an evidence bundle and binds its declared hashes to pair snapshots.
+
+  Passing snapshots keeps file access outside this pure boundary while proving
+  that the evidence describes the exact bytes supplied by the caller.
+  """
+  @spec validate_bundle(evidence_record(), binary(), artifacts()) :: result()
+  def validate_bundle(record, markdown, artifacts)
+      when is_map(record) and is_binary(markdown) and is_map(artifacts) do
+    record_findings = result_findings(validate(record))
+    signoff_findings = validate_signoff(record, markdown)
+    artifact_findings = validate_artifacts(record, artifacts)
+    findings = sort_findings(record_findings ++ signoff_findings ++ artifact_findings)
+
+    if findings == [], do: {:ok, summary(record)}, else: {:error, findings}
+  end
+
+  def validate_bundle(_record, _markdown, _artifacts) do
+    {:error, [error(:evidence_invalid_artifacts, "evidence artifacts must be a map")]}
+  end
+
+  @doc """
+  Creates the JSON representation of a complete source pair from its snapshot.
+  """
+  @spec pair_record(PairSnapshot.t(), String.t(), String.t()) :: map()
+  def pair_record(%PairSnapshot{} = snapshot, dbf_name, fpt_name)
+      when is_binary(dbf_name) and is_binary(fpt_name) do
+    identity = snapshot.identity
+
+    %{
+      "kind" => Atom.to_string(identity.kind),
+      "pair_sha256" => identity.pair_sha256,
+      "dbf" => %{
+        "name" => dbf_name,
+        "sha256" => identity.dbf.sha256,
+        "bytes" => identity.dbf.byte_size
+      },
+      "fpt" => %{
+        "name" => fpt_name,
+        "sha256" => identity.fpt.sha256,
+        "bytes" => identity.fpt.byte_size
+      }
+    }
   end
 
   @spec summary(evidence_record()) :: map()
@@ -306,6 +356,89 @@ defmodule VfpMcp.Acceptance.Evidence do
     |> add_unless(checked >= 6, :evidence_signoff_incomplete, %{checked: checked})
   end
 
+  defp validate_artifacts(record, artifacts) do
+    required =
+      if record["scenario_id"] in ["property_edit", "method_edit"] do
+        [:source_pair, :result_pair]
+      else
+        [:source_pair]
+      end
+
+    Enum.reduce(required, [], fn role, findings ->
+      field = Atom.to_string(role)
+
+      case artifact(artifacts, role) do
+        %PairSnapshot{} = snapshot ->
+          compare_snapshot(findings, record, field, snapshot)
+
+        nil ->
+          [
+            error(:evidence_artifact_missing, "required pair snapshot is missing", field: field)
+            | findings
+          ]
+
+        _other ->
+          [
+            error(:evidence_invalid_artifacts, "evidence artifact is not a pair snapshot",
+              field: field
+            )
+            | findings
+          ]
+      end
+    end)
+  end
+
+  defp compare_snapshot(findings, record, field, snapshot) do
+    pair = record[field]
+
+    if PairSnapshot.validate(snapshot) == :ok and is_map(pair) do
+      identity = snapshot.identity
+
+      comparisons = [
+        {"#{field}.kind", pair["kind"], Atom.to_string(identity.kind)},
+        {"#{field}.pair_sha256", pair["pair_sha256"], identity.pair_sha256},
+        {"#{field}.dbf.sha256", nested_value(pair, "dbf", "sha256"), identity.dbf.sha256},
+        {"#{field}.dbf.bytes", nested_value(pair, "dbf", "bytes"), identity.dbf.byte_size},
+        {"#{field}.fpt.sha256", nested_value(pair, "fpt", "sha256"), identity.fpt.sha256},
+        {"#{field}.fpt.bytes", nested_value(pair, "fpt", "bytes"), identity.fpt.byte_size},
+        {"#{field}.vfp_version", record["vfp_version"], identity.declared_vfp_version}
+      ]
+
+      Enum.reduce(comparisons, findings, fn {path, declared, actual}, acc ->
+        if declared == actual do
+          acc
+        else
+          [
+            error(:evidence_artifact_mismatch, "evidence does not match supplied pair bytes",
+              field: path,
+              declared: declared,
+              actual: actual
+            )
+            | acc
+          ]
+        end
+      end)
+    else
+      [
+        error(:evidence_artifact_mismatch, "evidence pair snapshot is incomplete or invalid",
+          field: field
+        )
+        | findings
+      ]
+    end
+  end
+
+  defp artifact(artifacts, role) do
+    Map.get(artifacts, role) || Map.get(artifacts, Atom.to_string(role))
+  end
+
+  defp nested_value(map, outer, inner) do
+    case map[outer] do
+      nested when is_map(nested) -> nested[inner]
+      _other -> nil
+    end
+  end
+
   defp signoff_value(markdown, label) do
     escaped = Regex.escape(label)
 
@@ -317,6 +450,10 @@ defmodule VfpMcp.Acceptance.Evidence do
 
   defp result_findings({:ok, _summary}), do: []
   defp result_findings({:error, findings}), do: findings
+
+  defp sort_findings(findings) do
+    Enum.sort_by(findings, &{Atom.to_string(&1.code), inspect(&1.evidence)})
+  end
 
   defp add_unless(findings, true, _code, _evidence), do: findings
 

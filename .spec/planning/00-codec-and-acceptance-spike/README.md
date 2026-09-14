@@ -92,7 +92,7 @@ or disposable copies inside an approved isolated location.
 
 | Phase | Outcome | Depends on | Status |
 |---|---|---|---|
-| [1 — Contract, Safety, and Test Foundations](phase-01-contract-safety-and-test-foundations.md) | Executable contracts and safe harness | None | In progress |
+| [1 — Contract, Safety, and Test Foundations](phase-01-contract-safety-and-test-foundations.md) | Executable contracts and safe harness | None | Complete |
 | [2 — Physical DBF/FPT Codec](phase-02-physical-dbf-fpt-codec.md) | Loss-aware physical decoding | Phase 1 | Planned |
 | [3 — Semantic Source Model and Validation](phase-03-semantic-source-model-and-validation.md) | Conservative VFP source document | Phase 2 | Planned |
 | [4 — Native Fixture Corpus](phase-04-native-fixture-corpus.md) | Admitted VFP6/VFP9 fixtures | Phases 1–3 | Planned |

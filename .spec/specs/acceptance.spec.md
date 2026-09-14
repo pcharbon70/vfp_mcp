@@ -23,9 +23,11 @@ surface:
   - docs/testing/native-evidence-signoff-template.md
   - docs/testing/vfp6-handoff.md
   - docs/testing/vfp9-native-workflow.md
+  - docs/testing/phase-1-safe-suite.md
   - priv/evidence/native-evidence.schema.json
   - lib/vfp_mcp/acceptance/evidence.ex
   - lib/vfp_mcp/acceptance/fixture_admission.ex
+  - lib/vfp_mcp/acceptance/fixture_safety.ex
   - test/support/evidence_factory.ex
   - test/support/vfp_pair_builder.ex
   - test/fixtures/evidence/valid/native-evidence.json
@@ -35,6 +37,7 @@ surface:
   - test/vfp_mcp/acceptance/evidence_test.exs
   - test/vfp_mcp/acceptance/fixture_admission_test.exs
   - test/vfp_mcp/test_support/pair_builder_test.exs
+  - test/integration/phase_1_foundations_test.exs
 decisions:
   - vfp_mcp.source_access_boundary
   - vfp_mcp.versioned_capability_rollout
@@ -83,6 +86,11 @@ decisions:
   statement: Automated codec tests shall use deterministic in-memory builders that control DBF schema and offsets, DBF and FPT endianness, deletion markers, memo pointers, FPT block sizes, and opaque byte regions without external files.
   priority: must
   stability: evolving
+
+- id: vfp_mcp.acceptance.phase1_safe_foundation
+  statement: The Phase 1 test gate shall require no external VFP root or IDE and shall reject path escapes, original-application root candidates, live data bindings, external class locations, and incomplete source pairs before execution, compilation, or mutation.
+  priority: must
+  stability: stable
 
 - id: vfp_mcp.acceptance.codec_evidence
   statement: Automated codec evidence shall cover golden parsing, malformed and truncated inputs, endianness, block-size variants, code-page behavior, hierarchy errors, opaque memo preservation, and deterministic pure results.
@@ -157,6 +165,18 @@ decisions:
     - every required field, pair member, hash, native action, and review item must agree before the bundle is accepted
   covers:
     - vfp_mcp.acceptance.evidence_bundle_integrity
+
+- id: vfp_mcp.acceptance.run_phase1_safe_suite
+  given:
+    - dependencies are available and no external VFP source root is configured
+  when:
+    - the Phase 1 safe suite runs with its fixed seed
+  then:
+    - formatting, warning-free compilation, unit, property, safety, protocol, integration, and strict specification checks all pass using only authorized isolated inputs
+  covers:
+    - vfp_mcp.acceptance.quality_gate
+    - vfp_mcp.acceptance.phase1_safe_foundation
+    - vfp_mcp.acceptance.deterministic_test_vectors
 
 - id: vfp_mcp.acceptance.accept_edit_class
   given:
@@ -233,6 +253,13 @@ decisions:
     - vfp_mcp.acceptance.no_live_dependencies
     - vfp_mcp.acceptance.version_native_handoff
 
+- kind: guide_file
+  target: docs/testing/phase-1-safe-suite.md
+  covers:
+    - vfp_mcp.acceptance.quality_gate
+    - vfp_mcp.acceptance.phase1_safe_foundation
+    - vfp_mcp.acceptance.run_phase1_safe_suite
+
 - kind: source_file
   target: lib/vfp_mcp/acceptance/fixture_admission.ex
   covers:
@@ -245,6 +272,13 @@ decisions:
   covers:
     - vfp_mcp.acceptance.evidence_bundle_integrity
     - vfp_mcp.acceptance.version_native_handoff
+
+- kind: source_file
+  target: lib/vfp_mcp/acceptance/fixture_safety.ex
+  covers:
+    - vfp_mcp.acceptance.no_live_dependencies
+    - vfp_mcp.acceptance.fixture_review
+    - vfp_mcp.acceptance.phase1_safe_foundation
 
 - kind: test_file
   target: test/vfp_mcp/acceptance/fixture_admission_test.exs
@@ -263,4 +297,22 @@ decisions:
   target: test/vfp_mcp/test_support/pair_builder_test.exs
   covers:
     - vfp_mcp.acceptance.deterministic_test_vectors
+
+- kind: test_file
+  target: test/integration/phase_1_foundations_test.exs
+  covers:
+    - vfp_mcp.acceptance.no_live_dependencies
+    - vfp_mcp.acceptance.fixture_review
+    - vfp_mcp.acceptance.evidence_bundle_integrity
+    - vfp_mcp.acceptance.deterministic_test_vectors
+    - vfp_mcp.acceptance.phase1_safe_foundation
+    - vfp_mcp.acceptance.run_phase1_safe_suite
+
+- kind: command
+  target: 'cd "$OLDPWD" && mix phase1'
+  execute: true
+  covers:
+    - vfp_mcp.acceptance.quality_gate
+    - vfp_mcp.acceptance.phase1_safe_foundation
+    - vfp_mcp.acceptance.run_phase1_safe_suite
 ```

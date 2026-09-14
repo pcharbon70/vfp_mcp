@@ -204,6 +204,14 @@
       },
       {
         "file": ".spec/specs/acceptance.spec.md",
+        "id": "vfp_mcp.acceptance.phase1_safe_foundation",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "The Phase 1 test gate shall require no external VFP root or IDE and shall reject path escapes, original-application root candidates, live data bindings, external class locations, and incomplete source pairs before execution, compilation, or mutation.",
+        "subject_id": "vfp_mcp.acceptance"
+      },
+      {
+        "file": ".spec/specs/acceptance.spec.md",
         "id": "vfp_mcp.acceptance.quality_gate",
         "priority": "must",
         "stability": "evolving",
@@ -802,6 +810,25 @@
       },
       {
         "covers": [
+          "vfp_mcp.acceptance.quality_gate",
+          "vfp_mcp.acceptance.phase1_safe_foundation",
+          "vfp_mcp.acceptance.deterministic_test_vectors"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "given": [
+          "dependencies are available and no external VFP source root is configured"
+        ],
+        "id": "vfp_mcp.acceptance.run_phase1_safe_suite",
+        "subject_id": "vfp_mcp.acceptance",
+        "then": [
+          "formatting, warning-free compilation, unit, property, safety, protocol, integration, and strict specification checks all pass using only authorized isolated inputs"
+        ],
+        "when": [
+          "the Phase 1 safe suite runs with its fixed seed"
+        ]
+      },
+      {
+        "covers": [
           "vfp_mcp.acceptance.evidence_bundle_integrity"
         ],
         "file": ".spec/specs/acceptance.spec.md",
@@ -1252,9 +1279,11 @@
             "docs/testing/native-evidence-signoff-template.md",
             "docs/testing/vfp6-handoff.md",
             "docs/testing/vfp9-native-workflow.md",
+            "docs/testing/phase-1-safe-suite.md",
             "priv/evidence/native-evidence.schema.json",
             "lib/vfp_mcp/acceptance/evidence.ex",
             "lib/vfp_mcp/acceptance/fixture_admission.ex",
+            "lib/vfp_mcp/acceptance/fixture_safety.ex",
             "test/support/evidence_factory.ex",
             "test/support/vfp_pair_builder.ex",
             "test/fixtures/evidence/valid/native-evidence.json",
@@ -1263,7 +1292,8 @@
             "test/fixtures/evidence/invalid/native-evidence-signoff.md",
             "test/vfp_mcp/acceptance/evidence_test.exs",
             "test/vfp_mcp/acceptance/fixture_admission_test.exs",
-            "test/vfp_mcp/test_support/pair_builder_test.exs"
+            "test/vfp_mcp/test_support/pair_builder_test.exs",
+            "test/integration/phase_1_foundations_test.exs"
           ],
           "verification_minimum_strength": null
         },
@@ -1585,6 +1615,17 @@
       },
       {
         "covers": [
+          "vfp_mcp.acceptance.quality_gate",
+          "vfp_mcp.acceptance.phase1_safe_foundation",
+          "vfp_mcp.acceptance.run_phase1_safe_suite"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/phase-1-safe-suite.md"
+      },
+      {
+        "covers": [
           "vfp_mcp.acceptance.raw_intake_quarantine",
           "vfp_mcp.acceptance.fixture_review",
           "vfp_mcp.acceptance.fixture_admission_protocol"
@@ -1603,6 +1644,17 @@
         "kind": "source_file",
         "subject_id": "vfp_mcp.acceptance",
         "target": "lib/vfp_mcp/acceptance/evidence.ex"
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.no_live_dependencies",
+          "vfp_mcp.acceptance.fixture_review",
+          "vfp_mcp.acceptance.phase1_safe_foundation"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "source_file",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "lib/vfp_mcp/acceptance/fixture_safety.ex"
       },
       {
         "covers": [
@@ -1633,6 +1685,32 @@
         "kind": "test_file",
         "subject_id": "vfp_mcp.acceptance",
         "target": "test/vfp_mcp/test_support/pair_builder_test.exs"
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.no_live_dependencies",
+          "vfp_mcp.acceptance.fixture_review",
+          "vfp_mcp.acceptance.evidence_bundle_integrity",
+          "vfp_mcp.acceptance.deterministic_test_vectors",
+          "vfp_mcp.acceptance.phase1_safe_foundation",
+          "vfp_mcp.acceptance.run_phase1_safe_suite"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/integration/phase_1_foundations_test.exs"
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.quality_gate",
+          "vfp_mcp.acceptance.phase1_safe_foundation",
+          "vfp_mcp.acceptance.run_phase1_safe_suite"
+        ],
+        "execute": true,
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "command",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "cd \"$OLDPWD\" && mix phase1"
       },
       {
         "covers": [
@@ -1976,10 +2054,10 @@
     "decisions": 5,
     "exceptions": 0,
     "findings": 0,
-    "requirements": 82,
-    "scenarios": 27,
+    "requirements": 83,
+    "scenarios": 28,
     "subjects": 8,
-    "verifications": 47
+    "verifications": 51
   },
   "verification": {
     "claims": [
@@ -2358,6 +2436,39 @@
         "verification_index": 5
       },
       {
+        "cover_id": "vfp_mcp.acceptance.phase1_safe_foundation",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/phase-1-safe-suite.md",
+        "verification_index": 6
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.quality_gate",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/phase-1-safe-suite.md",
+        "verification_index": 6
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.run_phase1_safe_suite",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/phase-1-safe-suite.md",
+        "verification_index": 6
+      },
+      {
         "cover_id": "vfp_mcp.acceptance.fixture_admission_protocol",
         "file": ".spec/specs/acceptance.spec.md",
         "kind": "source_file",
@@ -2366,7 +2477,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "lib/vfp_mcp/acceptance/fixture_admission.ex",
-        "verification_index": 6
+        "verification_index": 7
       },
       {
         "cover_id": "vfp_mcp.acceptance.fixture_review",
@@ -2377,7 +2488,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "lib/vfp_mcp/acceptance/fixture_admission.ex",
-        "verification_index": 6
+        "verification_index": 7
       },
       {
         "cover_id": "vfp_mcp.acceptance.raw_intake_quarantine",
@@ -2388,7 +2499,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "lib/vfp_mcp/acceptance/fixture_admission.ex",
-        "verification_index": 6
+        "verification_index": 7
       },
       {
         "cover_id": "vfp_mcp.acceptance.evidence_bundle_integrity",
@@ -2399,7 +2510,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "lib/vfp_mcp/acceptance/evidence.ex",
-        "verification_index": 7
+        "verification_index": 8
       },
       {
         "cover_id": "vfp_mcp.acceptance.version_native_handoff",
@@ -2410,7 +2521,40 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "lib/vfp_mcp/acceptance/evidence.ex",
-        "verification_index": 7
+        "verification_index": 8
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.fixture_review",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "lib/vfp_mcp/acceptance/fixture_safety.ex",
+        "verification_index": 9
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.no_live_dependencies",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "lib/vfp_mcp/acceptance/fixture_safety.ex",
+        "verification_index": 9
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.phase1_safe_foundation",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "lib/vfp_mcp/acceptance/fixture_safety.ex",
+        "verification_index": 9
       },
       {
         "cover_id": "vfp_mcp.acceptance.fixture_admission_protocol",
@@ -2421,7 +2565,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "test/vfp_mcp/acceptance/fixture_admission_test.exs",
-        "verification_index": 8
+        "verification_index": 10
       },
       {
         "cover_id": "vfp_mcp.acceptance.fixture_review",
@@ -2432,7 +2576,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "test/vfp_mcp/acceptance/fixture_admission_test.exs",
-        "verification_index": 8
+        "verification_index": 10
       },
       {
         "cover_id": "vfp_mcp.acceptance.raw_intake_quarantine",
@@ -2443,7 +2587,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "test/vfp_mcp/acceptance/fixture_admission_test.exs",
-        "verification_index": 8
+        "verification_index": 10
       },
       {
         "cover_id": "vfp_mcp.acceptance.evidence_bundle_integrity",
@@ -2454,7 +2598,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "test/vfp_mcp/acceptance/evidence_test.exs",
-        "verification_index": 9
+        "verification_index": 11
       },
       {
         "cover_id": "vfp_mcp.acceptance.validate_evidence_bundle",
@@ -2465,7 +2609,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "test/vfp_mcp/acceptance/evidence_test.exs",
-        "verification_index": 9
+        "verification_index": 11
       },
       {
         "cover_id": "vfp_mcp.acceptance.deterministic_test_vectors",
@@ -2476,7 +2620,106 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "test/vfp_mcp/test_support/pair_builder_test.exs",
-        "verification_index": 10
+        "verification_index": 12
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.deterministic_test_vectors",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/integration/phase_1_foundations_test.exs",
+        "verification_index": 13
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.evidence_bundle_integrity",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/integration/phase_1_foundations_test.exs",
+        "verification_index": 13
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.fixture_review",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/integration/phase_1_foundations_test.exs",
+        "verification_index": 13
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.no_live_dependencies",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/integration/phase_1_foundations_test.exs",
+        "verification_index": 13
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.phase1_safe_foundation",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/integration/phase_1_foundations_test.exs",
+        "verification_index": 13
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.run_phase1_safe_suite",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/integration/phase_1_foundations_test.exs",
+        "verification_index": 13
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.phase1_safe_foundation",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "command",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "executed",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "cd \"$OLDPWD\" && mix phase1",
+        "verification_index": 14
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.quality_gate",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "command",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "executed",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "cd \"$OLDPWD\" && mix phase1",
+        "verification_index": 14
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.run_phase1_safe_suite",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "command",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "executed",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "cd \"$OLDPWD\" && mix phase1",
+        "verification_index": 14
       },
       {
         "cover_id": "vfp_mcp.codec.dbf_structure",
@@ -3594,8 +3837,8 @@
     "default_minimum_strength": "claimed",
     "strength_summary": {
       "claimed": 2,
-      "executed": 1,
-      "linked": 143
+      "executed": 4,
+      "linked": 155
     },
     "threshold_failures": 0
   },
