@@ -31,6 +31,7 @@ surface:
   - test/vfp_mcp/codec/tree_test.exs
   - test/vfp_mcp/source/path_test.exs
   - test/vfp_mcp/validate_test.exs
+  - test/integration/phase_3_semantic_codec_test.exs
 decisions:
   - vfp_mcp.source_access_boundary
   - vfp_mcp.custom_vfp_codec
@@ -243,6 +244,13 @@ decisions:
   target: test/vfp_mcp/validate_test.exs
   covers:
     - vfp_mcp.read.validation_findings
+
+- kind: test_file
+  target: test/integration/phase_3_semantic_codec_test.exs
+  covers:
+    - vfp_mcp.read.full_path_identity
+    - vfp_mcp.read.validation_findings
+    - vfp_mcp.read.source_fidelity
 
 - kind: test_file
   target: test/vfp_mcp/codec_contract_test.exs

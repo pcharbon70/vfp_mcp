@@ -20,6 +20,7 @@ surface:
   - lib/vfp_mcp/codec/semantic.ex
   - test/vfp_mcp/codec/semantic_test.exs
   - test/integration/phase_2_physical_codec_test.exs
+  - test/integration/phase_3_semantic_codec_test.exs
   - docs/architecture.md
   - docs/components.md
 decisions:
@@ -140,6 +141,11 @@ decisions:
 
 - kind: test_file
   target: test/integration/phase_2_physical_codec_test.exs
+  covers:
+    - vfp_mcp.protocol.sdk_boundary
+
+- kind: test_file
+  target: test/integration/phase_3_semantic_codec_test.exs
   covers:
     - vfp_mcp.protocol.sdk_boundary
 

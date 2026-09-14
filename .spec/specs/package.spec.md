@@ -16,6 +16,7 @@ surface:
   - lib/vfp_mcp/application.ex
   - lib/vfp_mcp/milestone_0/contract.ex
   - docs/contracts/milestone-0.md
+  - docs/testing/phase-3-semantic-suite.md
   - test/vfp_mcp/milestone_0/contract_test.exs
 decisions:
   - vfp_mcp.custom_vfp_codec
@@ -115,6 +116,19 @@ decisions:
   covers:
     - vfp_mcp.package.elixir_otp_runtime
     - vfp_mcp.package.dependency_boundaries
+    - vfp_mcp.package.phase_quality_gates
+    - vfp_mcp.package.run_phase_gate
+
+- kind: guide_file
+  target: docs/testing/phase-3-semantic-suite.md
+  covers:
+    - vfp_mcp.package.phase_quality_gates
+    - vfp_mcp.package.run_phase_gate
+
+- kind: command
+  target: 'cd "$OLDPWD" && mix phase3'
+  execute: true
+  covers:
     - vfp_mcp.package.phase_quality_gates
     - vfp_mcp.package.run_phase_gate
 

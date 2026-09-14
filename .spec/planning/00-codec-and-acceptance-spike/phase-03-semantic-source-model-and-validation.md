@@ -17,7 +17,7 @@ aliases: []
 semantic document of objects, properties, methods, paths, and containment while
 retaining every physical source span and unknown byte.
 
-**Status:** In progress
+**Status:** Complete
 
 **Dependencies:** Phase 2 physical codec and Phase 1 domain/finding contracts.
 
@@ -241,16 +241,16 @@ methods, nested containers, grids, columns, data-environment records, and opaque
 **Description:** Compare document values, object identity, property and method
 spans, hierarchy paths, and findings with explicit expected manifests.
 
-- [ ] Every expected semantic value points to the correct record, field, memo, and byte range.
+- [x] Every expected semantic value points to the correct record, field, memo, and byte range.
 
 #### Subtask 3.4.1.2 — Assert Verbatim Preservation
 
 **Description:** Compare all raw records, memo payloads, unsupported lines,
 comments, whitespace, line endings, OLE-like content, and record order.
 
-- [ ] Semantic parsing introduces no byte normalization or content loss.
+- [x] Semantic parsing introduces no byte normalization or content loss.
 
-- [ ] Task 3.4.1 is complete for both SCX/SCT and VCX/VCT generated pairs.
+- [x] Task 3.4.1 is complete for both SCX/SCT and VCX/VCT generated pairs.
 
 ### Task 3.4.2 — Exercise Invalid Semantic Structures
 
@@ -262,16 +262,16 @@ and assert stable, bounded validation behavior.
 **Description:** Cover duplicate siblings, missing parents, self-parenting,
 cycles, depth limits, escaping collisions, and record-order variation.
 
-- [ ] Each invalid graph produces deterministic findings and no ambiguous path target.
+- [x] Each invalid graph produces deterministic findings and no ambiguous path target.
 
 #### Subtask 3.4.2.2 — Test Property and Method Failures
 
 **Description:** Cover duplicate properties, unsupported expressions, malformed
 strings, duplicate methods, missing `ENDPROC`, and marker text in comments.
 
-- [ ] Unsafe targets are blocked while original memo bytes remain inspectable.
+- [x] Unsafe targets are blocked while original memo bytes remain inspectable.
 
-- [ ] Task 3.4.2 is complete with stable findings across repeated runs.
+- [x] Task 3.4.2 is complete with stable findings across repeated runs.
 
 ### Task 3.4.3 — Prove Pure Deterministic Orchestration
 
@@ -283,28 +283,28 @@ filesystem, clock, locale, or process-order influence.
 **Description:** Compare object order, path indexes, parsed spans, findings,
 physical references, and bounded summaries across runs.
 
-- [ ] Equal snapshots and options always produce structurally equal results.
+- [x] Equal snapshots and options always produce structurally equal results.
 
 #### Subtask 3.4.3.2 — Verify No Hidden Effects
 
 **Description:** Assert that parsing starts no processes, reads no paths, emits
 no protocol output, and creates no files.
 
-- [ ] The semantic codec remains usable as a pure library in unit tests.
+- [x] The semantic codec remains usable as a pure library in unit tests.
 
-- [ ] Task 3.4.3 is complete with the entire Phase 3 suite passing offline.
+- [x] Task 3.4.3 is complete with the entire Phase 3 suite passing offline.
 
 ## Phase 3 Completion Evidence
 
 **Description:** Record proof only after every Phase 3 task and integration test
 is complete.
 
-- [ ] Domain types and parse-boundary documentation are linked.
-- [ ] Property, method, hierarchy, and validation tests pass.
-- [ ] Generated SCX/SCT and VCX/VCT integration manifests pass.
-- [ ] Verbatim content and physical provenance assertions pass.
-- [ ] Determinism and no-hidden-effects evidence is recorded.
-- [ ] Phase status and the stream index are updated only after all evidence is linked.
+- [x] Domain types and parse-boundary documentation are linked.
+- [x] Property, method, hierarchy, and validation tests pass.
+- [x] Generated SCX/SCT and VCX/VCT integration manifests pass.
+- [x] Verbatim content and physical provenance assertions pass.
+- [x] Determinism and no-hidden-effects evidence is recorded.
+- [x] Phase status and the stream index are updated only after all evidence is linked.
 
 ## Connections
 

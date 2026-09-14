@@ -120,3 +120,11 @@ per-object eligibility values.
 | `limit_hierarchy_depth_exceeded` | error | mutation blocked | object |
 | `hierarchy_duplicate_sibling` | error | mutation blocked | objects |
 | `hierarchy_path_canonicalization_collision` | error | mutation blocked | objects |
+
+## Phase 3 evidence
+
+The fixed-seed Phase 3 suite builds complete synthetic form and class-library
+pairs in memory and compares semantic manifests, physical provenance, raw
+record and memo bytes, invalid findings, concurrent results, and content-safe
+canonical summaries. It also verifies that the pure codec ignores identity
+paths and produces no filesystem, process, clock, locale, or protocol effect.
