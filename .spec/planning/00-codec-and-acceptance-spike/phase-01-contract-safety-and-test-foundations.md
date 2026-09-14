@@ -84,16 +84,16 @@ cannot perform hidden file access.
 **Description:** Define a snapshot containing pair kind, logical identity,
 individual member identities and hashes, and DBF/FPT byte strings.
 
-- [ ] The type contract distinguishes SCX/SCT from VCX/VCT and requires both companion members.
+- [x] The type contract distinguishes SCX/SCT from VCX/VCT and requires both companion members.
 
 #### Subtask 1.2.1.2 — Specify the Public Parse Boundary
 
 **Description:** Define `VfpMcp.Codec.parse_pair/2` to return either a complete
 semantic document or structured fatal findings, without filesystem side effects.
 
-- [ ] Parse return types, warning ownership, and fatal-error behavior are documented and tested at the boundary.
+- [x] Parse return types, warning ownership, and fatal-error behavior are documented and tested at the boundary.
 
-- [ ] Task 1.2.1 is complete with typespec-oriented examples for success and failure.
+- [x] Task 1.2.1 is complete with typespec-oriented examples for success and failure.
 
 ### Task 1.2.2 — Define Domain Values and Pure Edit Plans
 
@@ -105,16 +105,16 @@ semantic parsing and the later edit spike.
 **Description:** Define `Document`, `Object`, `Finding`, physical spans, memo
 references, and pair identity without adding MCP presentation concerns.
 
-- [ ] Each semantic value can be traced to its source record, field, memo block, and byte span where applicable.
+- [x] Each semantic value can be traced to its source record, field, memo block, and byte span where applicable.
 
 #### Subtask 1.2.2.2 — Specify Planner Results
 
 **Description:** Define `EditPlan` as source-hash-bound DBF patches, FPT appends,
 expected footprint, and semantic postcondition that can be materialized purely.
 
-- [ ] The contract cannot write a file, omit the source identity, or authorize a production transaction.
+- [x] The contract cannot write a file, omit the source identity, or authorize a production transaction.
 
-- [ ] Task 1.2.2 is complete with property and method plan examples.
+- [x] Task 1.2.2 is complete with property and method plan examples.
 
 ### Task 1.2.3 — Define Findings and Resource Limits
 
@@ -126,16 +126,16 @@ malformed or adversarial binary input.
 **Description:** Give each finding a stable code, severity, physical or semantic
 location, safe message, and bounded evidence map.
 
-- [ ] Fatal parsing errors, mutation-blocking errors, preserved-content warnings, and compatibility notes are distinguishable.
+- [x] Fatal parsing errors, mutation-blocking errors, preserved-content warnings, and compatibility notes are distinguishable.
 
 #### Subtask 1.2.3.2 — Define Safety Limits
 
 **Description:** Set configurable defaults for member byte size, records,
 fields, memo payload, memo blocks, findings, hierarchy depth, and parsed text.
 
-- [ ] Every limit has a stable exceeded-limit finding and is enforced before unbounded allocation or traversal.
+- [x] Every limit has a stable exceeded-limit finding and is enforced before unbounded allocation or traversal.
 
-- [ ] Task 1.2.3 is complete with documented defaults and override rules for tests.
+- [x] Task 1.2.3 is complete with documented defaults and override rules for tests.
 
 ## Section 1.3 — Fixture and Native-Evidence Protocol
 

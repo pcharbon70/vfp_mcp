@@ -16,6 +16,9 @@ summary: Confined read pipeline over immutable source-pair snapshots.
 surface:
   - docs/architecture.md
   - docs/components.md
+  - docs/contracts/codec-domain.md
+  - lib/vfp_mcp/source/pair_snapshot.ex
+  - test/vfp_mcp/codec_contract_test.exs
 decisions:
   - vfp_mcp.source_access_boundary
   - vfp_mcp.custom_vfp_codec
@@ -150,4 +153,14 @@ decisions:
     - vfp_mcp.read.validation_findings
     - vfp_mcp.read.missing_companion
     - vfp_mcp.read.external_class_reference
+
+- kind: source_file
+  target: lib/vfp_mcp/source/pair_snapshot.ex
+  covers:
+    - vfp_mcp.read.immutable_snapshot
+
+- kind: test_file
+  target: test/vfp_mcp/codec_contract_test.exs
+  covers:
+    - vfp_mcp.read.immutable_snapshot
 ```
