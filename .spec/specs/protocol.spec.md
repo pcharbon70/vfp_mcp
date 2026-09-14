@@ -15,6 +15,9 @@ status: planned
 summary: Stdio MCP adapter with bounded schemas, structured results, and domain-neutral internals.
 surface:
   - mix.exs
+  - docs/contracts/physical-codec.md
+  - lib/vfp_mcp/codec.ex
+  - test/integration/phase_2_physical_codec_test.exs
   - docs/architecture.md
   - docs/components.md
 decisions:
@@ -110,6 +113,21 @@ decisions:
 ```spec-verification
 - kind: source_file
   target: mix.exs
+  covers:
+    - vfp_mcp.protocol.sdk_boundary
+
+- kind: source_file
+  target: lib/vfp_mcp/codec.ex
+  covers:
+    - vfp_mcp.protocol.sdk_boundary
+
+- kind: guide_file
+  target: docs/contracts/physical-codec.md
+  covers:
+    - vfp_mcp.protocol.sdk_boundary
+
+- kind: test_file
+  target: test/integration/phase_2_physical_codec_test.exs
   covers:
     - vfp_mcp.protocol.sdk_boundary
 

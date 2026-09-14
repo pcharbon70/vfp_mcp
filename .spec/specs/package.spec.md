@@ -55,6 +55,11 @@ decisions:
   statement: The package shall not execute or compile VFP code, automate the VFP IDE, access application data, or initially edit MNX, FRX, LBX, or other non-form source formats.
   priority: must
   stability: stable
+
+- id: vfp_mcp.package.phase_quality_gates
+  statement: Implemented milestone phases shall expose fixed-seed quality gates that check formatting, warning-free compilation, automated tests, and strict SpecLed validation without requiring an external VFP source root.
+  priority: must
+  stability: stable
 ```
 
 ## Scenarios
@@ -81,6 +86,16 @@ decisions:
   covers:
     - vfp_mcp.package.milestone_delivery
     - vfp_mcp.package.excluded_operations
+
+- id: vfp_mcp.package.run_phase_gate
+  given:
+    - dependencies for an implemented milestone phase are available
+  when:
+    - its named Mix quality gate is run from the repository root
+  then:
+    - the gate uses a fixed seed and verifies formatting, warning-free compilation, tests, and the SpecLed workspace without external application input
+  covers:
+    - vfp_mcp.package.phase_quality_gates
 ```
 
 ## Verification
@@ -100,6 +115,8 @@ decisions:
   covers:
     - vfp_mcp.package.elixir_otp_runtime
     - vfp_mcp.package.dependency_boundaries
+    - vfp_mcp.package.phase_quality_gates
+    - vfp_mcp.package.run_phase_gate
 
 - kind: guide_file
   target: docs/contracts/milestone-0.md

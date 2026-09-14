@@ -14,6 +14,7 @@ kind: policy
 status: active
 summary: Isolated fixture admission and native VFP acceptance requirements.
 surface:
+  - .gitattributes
   - test/fixtures/README.md
   - docs/testing/fixture-authoring-checklist.md
   - docs/research/fixture-intake-investigation.md
@@ -24,6 +25,8 @@ surface:
   - docs/testing/vfp6-handoff.md
   - docs/testing/vfp9-native-workflow.md
   - docs/testing/phase-1-safe-suite.md
+  - docs/testing/phase-2-codec-suite.md
+  - mix.exs
   - priv/evidence/native-evidence.schema.json
   - lib/vfp_mcp/acceptance/evidence.ex
   - lib/vfp_mcp/acceptance/fixture_admission.ex
@@ -38,6 +41,7 @@ surface:
   - test/vfp_mcp/acceptance/fixture_admission_test.exs
   - test/vfp_mcp/test_support/pair_builder_test.exs
   - test/integration/phase_1_foundations_test.exs
+  - test/integration/phase_2_physical_codec_test.exs
 decisions:
   - vfp_mcp.source_access_boundary
   - vfp_mcp.versioned_capability_rollout
@@ -88,7 +92,7 @@ decisions:
   stability: evolving
 
 - id: vfp_mcp.acceptance.phase1_safe_foundation
-  statement: The Phase 1 test gate shall require no external VFP root or IDE and shall reject path escapes, original-application root candidates, live data bindings, external class locations, and incomplete source pairs before execution, compilation, or mutation.
+  statement: The Phase 1 test gate shall run from a Windows or Unix checkout without line-ending drift, require no external VFP root or IDE, and reject path escapes, original-application root candidates, live data bindings, external class locations, and incomplete source pairs before execution, compilation, or mutation.
   priority: must
   stability: stable
 
@@ -178,6 +182,18 @@ decisions:
     - vfp_mcp.acceptance.phase1_safe_foundation
     - vfp_mcp.acceptance.deterministic_test_vectors
 
+- id: vfp_mcp.acceptance.run_phase2_codec_suite
+  given:
+    - dependencies are available and only generated immutable pair bytes are configured
+  when:
+    - the Phase 2 physical codec suite runs with its fixed seed
+  then:
+    - golden, property, malformed-input, mixed-endian, encoding, fidelity, determinism, and strict specification checks pass without filesystem, IDE, or MCP effects
+  covers:
+    - vfp_mcp.acceptance.codec_evidence
+    - vfp_mcp.acceptance.quality_gate
+    - vfp_mcp.acceptance.deterministic_test_vectors
+
 - id: vfp_mcp.acceptance.accept_edit_class
   given:
     - an edit class passes automated semantic and byte-footprint checks on a disposable native fixture
@@ -260,6 +276,13 @@ decisions:
     - vfp_mcp.acceptance.phase1_safe_foundation
     - vfp_mcp.acceptance.run_phase1_safe_suite
 
+- kind: guide_file
+  target: docs/testing/phase-2-codec-suite.md
+  covers:
+    - vfp_mcp.acceptance.codec_evidence
+    - vfp_mcp.acceptance.quality_gate
+    - vfp_mcp.acceptance.run_phase2_codec_suite
+
 - kind: source_file
   target: lib/vfp_mcp/acceptance/fixture_admission.ex
   covers:
@@ -307,6 +330,26 @@ decisions:
     - vfp_mcp.acceptance.deterministic_test_vectors
     - vfp_mcp.acceptance.phase1_safe_foundation
     - vfp_mcp.acceptance.run_phase1_safe_suite
+
+- kind: source_file
+  target: mix.exs
+  covers:
+    - vfp_mcp.acceptance.codec_evidence
+    - vfp_mcp.acceptance.run_phase2_codec_suite
+
+- kind: test_file
+  target: test/integration/phase_2_physical_codec_test.exs
+  covers:
+    - vfp_mcp.acceptance.codec_evidence
+    - vfp_mcp.acceptance.run_phase2_codec_suite
+
+- kind: command
+  target: 'cd "$OLDPWD" && mix phase2'
+  execute: true
+  covers:
+    - vfp_mcp.acceptance.codec_evidence
+    - vfp_mcp.acceptance.quality_gate
+    - vfp_mcp.acceptance.run_phase2_codec_suite
 
 - kind: command
   target: 'cd "$OLDPWD" && mix phase1'

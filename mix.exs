@@ -3,7 +3,11 @@ defmodule VfpMcp.MixProject do
 
   # covers: vfp_mcp.package.elixir_otp_runtime
   # covers: vfp_mcp.package.dependency_boundaries
+  # covers: vfp_mcp.package.phase_quality_gates
+  # covers: vfp_mcp.package.run_phase_gate
   # covers: vfp_mcp.protocol.sdk_boundary
+  # covers: vfp_mcp.acceptance.codec_evidence
+  # covers: vfp_mcp.acceptance.run_phase2_codec_suite
 
   def project do
     [
@@ -26,7 +30,7 @@ defmodule VfpMcp.MixProject do
   end
 
   def cli do
-    [preferred_envs: [phase1: :test]]
+    [preferred_envs: [phase1: :test, phase2: :test]]
   end
 
   # Run "mix help deps" to learn about dependencies.
@@ -60,6 +64,12 @@ defmodule VfpMcp.MixProject do
         "format --check-formatted",
         "compile --warnings-as-errors",
         "test --warnings-as-errors --seed 12345",
+        "spec.validate --strict"
+      ],
+      phase2: [
+        "format --check-formatted",
+        "compile --warnings-as-errors",
+        "test --warnings-as-errors --seed 24680",
         "spec.validate --strict"
       ]
     ]

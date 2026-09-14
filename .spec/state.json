@@ -207,7 +207,7 @@
         "id": "vfp_mcp.acceptance.phase1_safe_foundation",
         "priority": "must",
         "stability": "stable",
-        "statement": "The Phase 1 test gate shall require no external VFP root or IDE and shall reject path escapes, original-application root candidates, live data bindings, external class locations, and incomplete source pairs before execution, compilation, or mutation.",
+        "statement": "The Phase 1 test gate shall run from a Windows or Unix checkout without line-ending drift, require no external VFP root or IDE, and reject path escapes, original-application root candidates, live data bindings, external class locations, and incomplete source pairs before execution, compilation, or mutation.",
         "subject_id": "vfp_mcp.acceptance"
       },
       {
@@ -512,6 +512,14 @@
         "priority": "must",
         "stability": "stable",
         "statement": "Delivery shall proceed from codec and acceptance fixtures to read-only MCP tools, then guarded property and named-method edits, and finally separately accepted structural edits.",
+        "subject_id": "vfp_mcp.package"
+      },
+      {
+        "file": ".spec/specs/package.spec.md",
+        "id": "vfp_mcp.package.phase_quality_gates",
+        "priority": "must",
+        "stability": "stable",
+        "statement": "Implemented milestone phases shall expose fixed-seed quality gates that check formatting, warning-free compilation, automated tests, and strict SpecLed validation without requiring an external VFP source root.",
         "subject_id": "vfp_mcp.package"
       },
       {
@@ -829,6 +837,25 @@
       },
       {
         "covers": [
+          "vfp_mcp.acceptance.codec_evidence",
+          "vfp_mcp.acceptance.quality_gate",
+          "vfp_mcp.acceptance.deterministic_test_vectors"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "given": [
+          "dependencies are available and only generated immutable pair bytes are configured"
+        ],
+        "id": "vfp_mcp.acceptance.run_phase2_codec_suite",
+        "subject_id": "vfp_mcp.acceptance",
+        "then": [
+          "golden, property, malformed-input, mixed-endian, encoding, fidelity, determinism, and strict specification checks pass without filesystem, IDE, or MCP effects"
+        ],
+        "when": [
+          "the Phase 2 physical codec suite runs with its fixed seed"
+        ]
+      },
+      {
+        "covers": [
           "vfp_mcp.acceptance.evidence_bundle_integrity"
         ],
         "file": ".spec/specs/acceptance.spec.md",
@@ -1058,6 +1085,23 @@
       },
       {
         "covers": [
+          "vfp_mcp.package.phase_quality_gates"
+        ],
+        "file": ".spec/specs/package.spec.md",
+        "given": [
+          "dependencies for an implemented milestone phase are available"
+        ],
+        "id": "vfp_mcp.package.run_phase_gate",
+        "subject_id": "vfp_mcp.package",
+        "then": [
+          "the gate uses a fixed seed and verifies formatting, warning-free compilation, tests, and the SpecLed workspace without external application input"
+        ],
+        "when": [
+          "its named Mix quality gate is run from the repository root"
+        ]
+      },
+      {
+        "covers": [
           "vfp_mcp.boundary.explicit_root",
           "vfp_mcp.boundary.source_pairs_only",
           "vfp_mcp.boundary.read_only_start"
@@ -1270,6 +1314,7 @@
           "status": "active",
           "summary": "Isolated fixture admission and native VFP acceptance requirements.",
           "surface": [
+            ".gitattributes",
             "test/fixtures/README.md",
             "docs/testing/fixture-authoring-checklist.md",
             "docs/research/fixture-intake-investigation.md",
@@ -1280,6 +1325,8 @@
             "docs/testing/vfp6-handoff.md",
             "docs/testing/vfp9-native-workflow.md",
             "docs/testing/phase-1-safe-suite.md",
+            "docs/testing/phase-2-codec-suite.md",
+            "mix.exs",
             "priv/evidence/native-evidence.schema.json",
             "lib/vfp_mcp/acceptance/evidence.ex",
             "lib/vfp_mcp/acceptance/fixture_admission.ex",
@@ -1293,7 +1340,8 @@
             "test/vfp_mcp/acceptance/evidence_test.exs",
             "test/vfp_mcp/acceptance/fixture_admission_test.exs",
             "test/vfp_mcp/test_support/pair_builder_test.exs",
-            "test/integration/phase_1_foundations_test.exs"
+            "test/integration/phase_1_foundations_test.exs",
+            "test/integration/phase_2_physical_codec_test.exs"
           ],
           "verification_minimum_strength": null
         },
@@ -1308,7 +1356,7 @@
           ],
           "id": "vfp_mcp.codec",
           "kind": "module",
-          "status": "planned",
+          "status": "active",
           "summary": "Fidelity-preserving DBF, FPT, text, property, method, and hierarchy codec.",
           "surface": [
             "docs/research/architecture-and-format-research.md",
@@ -1316,7 +1364,12 @@
             "docs/architecture.md",
             "docs/components.md",
             "docs/contracts/codec-domain.md",
+            "docs/contracts/physical-codec.md",
             "lib/vfp_mcp/codec.ex",
+            "lib/vfp_mcp/codec/dbf.ex",
+            "lib/vfp_mcp/codec/encoding.ex",
+            "lib/vfp_mcp/codec/fpt.ex",
+            "lib/vfp_mcp/codec/physical_summary.ex",
             "lib/vfp_mcp/document.ex",
             "lib/vfp_mcp/edit_plan.ex",
             "lib/vfp_mcp/finding.ex",
@@ -1324,6 +1377,11 @@
             "lib/vfp_mcp/source/pair_snapshot.ex",
             "lib/vfp_mcp/source/span.ex",
             "test/vfp_mcp/codec_contract_test.exs",
+            "test/vfp_mcp/codec/dbf_test.exs",
+            "test/vfp_mcp/codec/encoding_test.exs",
+            "test/vfp_mcp/codec/fpt_test.exs",
+            "test/vfp_mcp/codec/physical_codec_test.exs",
+            "test/integration/phase_2_physical_codec_test.exs",
             "test/vfp_mcp/limits_test.exs"
           ],
           "verification_minimum_strength": null
@@ -1420,6 +1478,9 @@
           "summary": "Stdio MCP adapter with bounded schemas, structured results, and domain-neutral internals.",
           "surface": [
             "mix.exs",
+            "docs/contracts/physical-codec.md",
+            "lib/vfp_mcp/codec.ex",
+            "test/integration/phase_2_physical_codec_test.exs",
             "docs/architecture.md",
             "docs/components.md"
           ],
@@ -1443,8 +1504,11 @@
             "docs/architecture.md",
             "docs/components.md",
             "docs/contracts/codec-domain.md",
+            "docs/contracts/physical-codec.md",
+            "lib/vfp_mcp/codec.ex",
             "lib/vfp_mcp/source/pair_snapshot.ex",
-            "test/vfp_mcp/codec_contract_test.exs"
+            "test/vfp_mcp/codec_contract_test.exs",
+            "test/vfp_mcp/codec/physical_codec_test.exs"
           ],
           "verification_minimum_strength": null
         },
@@ -1626,6 +1690,17 @@
       },
       {
         "covers": [
+          "vfp_mcp.acceptance.codec_evidence",
+          "vfp_mcp.acceptance.quality_gate",
+          "vfp_mcp.acceptance.run_phase2_codec_suite"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/phase-2-codec-suite.md"
+      },
+      {
+        "covers": [
           "vfp_mcp.acceptance.raw_intake_quarantine",
           "vfp_mcp.acceptance.fixture_review",
           "vfp_mcp.acceptance.fixture_admission_protocol"
@@ -1702,6 +1777,38 @@
       },
       {
         "covers": [
+          "vfp_mcp.acceptance.codec_evidence",
+          "vfp_mcp.acceptance.run_phase2_codec_suite"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "source_file",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "mix.exs"
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.codec_evidence",
+          "vfp_mcp.acceptance.run_phase2_codec_suite"
+        ],
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/integration/phase_2_physical_codec_test.exs"
+      },
+      {
+        "covers": [
+          "vfp_mcp.acceptance.codec_evidence",
+          "vfp_mcp.acceptance.quality_gate",
+          "vfp_mcp.acceptance.run_phase2_codec_suite"
+        ],
+        "execute": true,
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "command",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "cd \"$OLDPWD\" && mix phase2"
+      },
+      {
+        "covers": [
           "vfp_mcp.acceptance.quality_gate",
           "vfp_mcp.acceptance.phase1_safe_foundation",
           "vfp_mcp.acceptance.run_phase1_safe_suite"
@@ -1767,6 +1874,140 @@
         "kind": "source_file",
         "subject_id": "vfp_mcp.codec",
         "target": "lib/vfp_mcp/codec.ex"
+      },
+      {
+        "covers": [
+          "vfp_mcp.codec.dbf_structure",
+          "vfp_mcp.codec.memo_pointer",
+          "vfp_mcp.codec.fpt_structure",
+          "vfp_mcp.codec.memo_block",
+          "vfp_mcp.codec.lossless_encoding",
+          "vfp_mcp.codec.raw_fidelity",
+          "vfp_mcp.codec.pure_planning"
+        ],
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/contracts/physical-codec.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.codec.dbf_structure",
+          "vfp_mcp.codec.raw_fidelity",
+          "vfp_mcp.codec.pure_planning"
+        ],
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "source_file",
+        "subject_id": "vfp_mcp.codec",
+        "target": "lib/vfp_mcp/codec/dbf.ex"
+      },
+      {
+        "covers": [
+          "vfp_mcp.codec.dbf_structure",
+          "vfp_mcp.codec.raw_fidelity",
+          "vfp_mcp.codec.pure_planning"
+        ],
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/dbf_test.exs"
+      },
+      {
+        "covers": [
+          "vfp_mcp.codec.memo_pointer",
+          "vfp_mcp.codec.fpt_structure",
+          "vfp_mcp.codec.memo_block",
+          "vfp_mcp.codec.raw_fidelity",
+          "vfp_mcp.codec.pure_planning"
+        ],
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "source_file",
+        "subject_id": "vfp_mcp.codec",
+        "target": "lib/vfp_mcp/codec/fpt.ex"
+      },
+      {
+        "covers": [
+          "vfp_mcp.codec.memo_pointer",
+          "vfp_mcp.codec.fpt_structure",
+          "vfp_mcp.codec.memo_block",
+          "vfp_mcp.codec.raw_fidelity",
+          "vfp_mcp.codec.pure_planning",
+          "vfp_mcp.codec.parse_mixed_endian_pair",
+          "vfp_mcp.codec.reject_invalid_memo"
+        ],
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/fpt_test.exs"
+      },
+      {
+        "covers": [
+          "vfp_mcp.codec.lossless_encoding",
+          "vfp_mcp.codec.raw_fidelity",
+          "vfp_mcp.codec.pure_planning",
+          "vfp_mcp.codec.reject_unrepresentable_text"
+        ],
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "source_file",
+        "subject_id": "vfp_mcp.codec",
+        "target": "lib/vfp_mcp/codec/encoding.ex"
+      },
+      {
+        "covers": [
+          "vfp_mcp.codec.raw_fidelity",
+          "vfp_mcp.codec.pure_planning"
+        ],
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "source_file",
+        "subject_id": "vfp_mcp.codec",
+        "target": "lib/vfp_mcp/codec/physical_summary.ex"
+      },
+      {
+        "covers": [
+          "vfp_mcp.codec.lossless_encoding",
+          "vfp_mcp.codec.raw_fidelity",
+          "vfp_mcp.codec.pure_planning",
+          "vfp_mcp.codec.reject_unrepresentable_text"
+        ],
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/encoding_test.exs"
+      },
+      {
+        "covers": [
+          "vfp_mcp.codec.dbf_structure",
+          "vfp_mcp.codec.memo_pointer",
+          "vfp_mcp.codec.fpt_structure",
+          "vfp_mcp.codec.memo_block",
+          "vfp_mcp.codec.lossless_encoding",
+          "vfp_mcp.codec.raw_fidelity",
+          "vfp_mcp.codec.semantic_document",
+          "vfp_mcp.codec.pure_planning",
+          "vfp_mcp.codec.parse_mixed_endian_pair",
+          "vfp_mcp.codec.reject_invalid_memo"
+        ],
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/physical_codec_test.exs"
+      },
+      {
+        "covers": [
+          "vfp_mcp.codec.dbf_structure",
+          "vfp_mcp.codec.memo_pointer",
+          "vfp_mcp.codec.fpt_structure",
+          "vfp_mcp.codec.memo_block",
+          "vfp_mcp.codec.lossless_encoding",
+          "vfp_mcp.codec.raw_fidelity",
+          "vfp_mcp.codec.pure_planning",
+          "vfp_mcp.codec.parse_mixed_endian_pair",
+          "vfp_mcp.codec.reject_invalid_memo"
+        ],
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/integration/phase_2_physical_codec_test.exs"
       },
       {
         "covers": [
@@ -1847,7 +2088,9 @@
       {
         "covers": [
           "vfp_mcp.package.elixir_otp_runtime",
-          "vfp_mcp.package.dependency_boundaries"
+          "vfp_mcp.package.dependency_boundaries",
+          "vfp_mcp.package.phase_quality_gates",
+          "vfp_mcp.package.run_phase_gate"
         ],
         "file": ".spec/specs/package.spec.md",
         "kind": "source_file",
@@ -1974,6 +2217,33 @@
       },
       {
         "covers": [
+          "vfp_mcp.protocol.sdk_boundary"
+        ],
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "source_file",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "lib/vfp_mcp/codec.ex"
+      },
+      {
+        "covers": [
+          "vfp_mcp.protocol.sdk_boundary"
+        ],
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "docs/contracts/physical-codec.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.protocol.sdk_boundary"
+        ],
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "test_file",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "test/integration/phase_2_physical_codec_test.exs"
+      },
+      {
+        "covers": [
           "vfp_mcp.protocol.stdio_transport",
           "vfp_mcp.protocol.diagnostic_stream",
           "vfp_mcp.protocol.startup_configuration",
@@ -2039,6 +2309,39 @@
       },
       {
         "covers": [
+          "vfp_mcp.read.immutable_snapshot",
+          "vfp_mcp.read.validation_findings",
+          "vfp_mcp.read.source_fidelity"
+        ],
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "source_file",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "lib/vfp_mcp/codec.ex"
+      },
+      {
+        "covers": [
+          "vfp_mcp.read.immutable_snapshot",
+          "vfp_mcp.read.validation_findings",
+          "vfp_mcp.read.source_fidelity"
+        ],
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/contracts/physical-codec.md"
+      },
+      {
+        "covers": [
+          "vfp_mcp.read.immutable_snapshot",
+          "vfp_mcp.read.validation_findings",
+          "vfp_mcp.read.source_fidelity"
+        ],
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "test_file",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "test/vfp_mcp/codec/physical_codec_test.exs"
+      },
+      {
+        "covers": [
           "vfp_mcp.read.immutable_snapshot"
         ],
         "file": ".spec/specs/read_service.spec.md",
@@ -2054,10 +2357,10 @@
     "decisions": 5,
     "exceptions": 0,
     "findings": 0,
-    "requirements": 83,
-    "scenarios": 28,
+    "requirements": 84,
+    "scenarios": 30,
     "subjects": 8,
-    "verifications": 51
+    "verifications": 71
   },
   "verification": {
     "claims": [
@@ -2469,6 +2772,39 @@
         "verification_index": 6
       },
       {
+        "cover_id": "vfp_mcp.acceptance.codec_evidence",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/phase-2-codec-suite.md",
+        "verification_index": 7
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.quality_gate",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/phase-2-codec-suite.md",
+        "verification_index": 7
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.run_phase2_codec_suite",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "docs/testing/phase-2-codec-suite.md",
+        "verification_index": 7
+      },
+      {
         "cover_id": "vfp_mcp.acceptance.fixture_admission_protocol",
         "file": ".spec/specs/acceptance.spec.md",
         "kind": "source_file",
@@ -2477,7 +2813,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "lib/vfp_mcp/acceptance/fixture_admission.ex",
-        "verification_index": 7
+        "verification_index": 8
       },
       {
         "cover_id": "vfp_mcp.acceptance.fixture_review",
@@ -2488,7 +2824,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "lib/vfp_mcp/acceptance/fixture_admission.ex",
-        "verification_index": 7
+        "verification_index": 8
       },
       {
         "cover_id": "vfp_mcp.acceptance.raw_intake_quarantine",
@@ -2499,7 +2835,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "lib/vfp_mcp/acceptance/fixture_admission.ex",
-        "verification_index": 7
+        "verification_index": 8
       },
       {
         "cover_id": "vfp_mcp.acceptance.evidence_bundle_integrity",
@@ -2510,7 +2846,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "lib/vfp_mcp/acceptance/evidence.ex",
-        "verification_index": 8
+        "verification_index": 9
       },
       {
         "cover_id": "vfp_mcp.acceptance.version_native_handoff",
@@ -2521,7 +2857,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "lib/vfp_mcp/acceptance/evidence.ex",
-        "verification_index": 8
+        "verification_index": 9
       },
       {
         "cover_id": "vfp_mcp.acceptance.fixture_review",
@@ -2532,7 +2868,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "lib/vfp_mcp/acceptance/fixture_safety.ex",
-        "verification_index": 9
+        "verification_index": 10
       },
       {
         "cover_id": "vfp_mcp.acceptance.no_live_dependencies",
@@ -2543,7 +2879,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "lib/vfp_mcp/acceptance/fixture_safety.ex",
-        "verification_index": 9
+        "verification_index": 10
       },
       {
         "cover_id": "vfp_mcp.acceptance.phase1_safe_foundation",
@@ -2554,7 +2890,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "lib/vfp_mcp/acceptance/fixture_safety.ex",
-        "verification_index": 9
+        "verification_index": 10
       },
       {
         "cover_id": "vfp_mcp.acceptance.fixture_admission_protocol",
@@ -2565,7 +2901,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "test/vfp_mcp/acceptance/fixture_admission_test.exs",
-        "verification_index": 10
+        "verification_index": 11
       },
       {
         "cover_id": "vfp_mcp.acceptance.fixture_review",
@@ -2576,7 +2912,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "test/vfp_mcp/acceptance/fixture_admission_test.exs",
-        "verification_index": 10
+        "verification_index": 11
       },
       {
         "cover_id": "vfp_mcp.acceptance.raw_intake_quarantine",
@@ -2587,7 +2923,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "test/vfp_mcp/acceptance/fixture_admission_test.exs",
-        "verification_index": 10
+        "verification_index": 11
       },
       {
         "cover_id": "vfp_mcp.acceptance.evidence_bundle_integrity",
@@ -2598,7 +2934,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "test/vfp_mcp/acceptance/evidence_test.exs",
-        "verification_index": 11
+        "verification_index": 12
       },
       {
         "cover_id": "vfp_mcp.acceptance.validate_evidence_bundle",
@@ -2609,17 +2945,6 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "test/vfp_mcp/acceptance/evidence_test.exs",
-        "verification_index": 11
-      },
-      {
-        "cover_id": "vfp_mcp.acceptance.deterministic_test_vectors",
-        "file": ".spec/specs/acceptance.spec.md",
-        "kind": "test_file",
-        "meets_minimum": true,
-        "required_strength": "claimed",
-        "strength": "linked",
-        "subject_id": "vfp_mcp.acceptance",
-        "target": "test/vfp_mcp/test_support/pair_builder_test.exs",
         "verification_index": 12
       },
       {
@@ -2630,8 +2955,19 @@
         "required_strength": "claimed",
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
-        "target": "test/integration/phase_1_foundations_test.exs",
+        "target": "test/vfp_mcp/test_support/pair_builder_test.exs",
         "verification_index": 13
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.deterministic_test_vectors",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/integration/phase_1_foundations_test.exs",
+        "verification_index": 14
       },
       {
         "cover_id": "vfp_mcp.acceptance.evidence_bundle_integrity",
@@ -2642,7 +2978,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "test/integration/phase_1_foundations_test.exs",
-        "verification_index": 13
+        "verification_index": 14
       },
       {
         "cover_id": "vfp_mcp.acceptance.fixture_review",
@@ -2653,7 +2989,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "test/integration/phase_1_foundations_test.exs",
-        "verification_index": 13
+        "verification_index": 14
       },
       {
         "cover_id": "vfp_mcp.acceptance.no_live_dependencies",
@@ -2664,7 +3000,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "test/integration/phase_1_foundations_test.exs",
-        "verification_index": 13
+        "verification_index": 14
       },
       {
         "cover_id": "vfp_mcp.acceptance.phase1_safe_foundation",
@@ -2675,7 +3011,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "test/integration/phase_1_foundations_test.exs",
-        "verification_index": 13
+        "verification_index": 14
       },
       {
         "cover_id": "vfp_mcp.acceptance.run_phase1_safe_suite",
@@ -2686,7 +3022,84 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.acceptance",
         "target": "test/integration/phase_1_foundations_test.exs",
-        "verification_index": 13
+        "verification_index": 14
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.codec_evidence",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "mix.exs",
+        "verification_index": 15
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.run_phase2_codec_suite",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "mix.exs",
+        "verification_index": 15
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.codec_evidence",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/integration/phase_2_physical_codec_test.exs",
+        "verification_index": 16
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.run_phase2_codec_suite",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "test/integration/phase_2_physical_codec_test.exs",
+        "verification_index": 16
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.codec_evidence",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "command",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "executed",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "cd \"$OLDPWD\" && mix phase2",
+        "verification_index": 17
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.quality_gate",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "command",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "executed",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "cd \"$OLDPWD\" && mix phase2",
+        "verification_index": 17
+      },
+      {
+        "cover_id": "vfp_mcp.acceptance.run_phase2_codec_suite",
+        "file": ".spec/specs/acceptance.spec.md",
+        "kind": "command",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "executed",
+        "subject_id": "vfp_mcp.acceptance",
+        "target": "cd \"$OLDPWD\" && mix phase2",
+        "verification_index": 17
       },
       {
         "cover_id": "vfp_mcp.acceptance.phase1_safe_foundation",
@@ -2697,7 +3110,7 @@
         "strength": "executed",
         "subject_id": "vfp_mcp.acceptance",
         "target": "cd \"$OLDPWD\" && mix phase1",
-        "verification_index": 14
+        "verification_index": 18
       },
       {
         "cover_id": "vfp_mcp.acceptance.quality_gate",
@@ -2708,7 +3121,7 @@
         "strength": "executed",
         "subject_id": "vfp_mcp.acceptance",
         "target": "cd \"$OLDPWD\" && mix phase1",
-        "verification_index": 14
+        "verification_index": 18
       },
       {
         "cover_id": "vfp_mcp.acceptance.run_phase1_safe_suite",
@@ -2719,7 +3132,7 @@
         "strength": "executed",
         "subject_id": "vfp_mcp.acceptance",
         "target": "cd \"$OLDPWD\" && mix phase1",
-        "verification_index": 14
+        "verification_index": 18
       },
       {
         "cover_id": "vfp_mcp.codec.dbf_structure",
@@ -2898,6 +3311,600 @@
         "verification_index": 4
       },
       {
+        "cover_id": "vfp_mcp.codec.dbf_structure",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/contracts/physical-codec.md",
+        "verification_index": 5
+      },
+      {
+        "cover_id": "vfp_mcp.codec.fpt_structure",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/contracts/physical-codec.md",
+        "verification_index": 5
+      },
+      {
+        "cover_id": "vfp_mcp.codec.lossless_encoding",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/contracts/physical-codec.md",
+        "verification_index": 5
+      },
+      {
+        "cover_id": "vfp_mcp.codec.memo_block",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/contracts/physical-codec.md",
+        "verification_index": 5
+      },
+      {
+        "cover_id": "vfp_mcp.codec.memo_pointer",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/contracts/physical-codec.md",
+        "verification_index": 5
+      },
+      {
+        "cover_id": "vfp_mcp.codec.pure_planning",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/contracts/physical-codec.md",
+        "verification_index": 5
+      },
+      {
+        "cover_id": "vfp_mcp.codec.raw_fidelity",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "docs/contracts/physical-codec.md",
+        "verification_index": 5
+      },
+      {
+        "cover_id": "vfp_mcp.codec.dbf_structure",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "lib/vfp_mcp/codec/dbf.ex",
+        "verification_index": 6
+      },
+      {
+        "cover_id": "vfp_mcp.codec.pure_planning",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "lib/vfp_mcp/codec/dbf.ex",
+        "verification_index": 6
+      },
+      {
+        "cover_id": "vfp_mcp.codec.raw_fidelity",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "lib/vfp_mcp/codec/dbf.ex",
+        "verification_index": 6
+      },
+      {
+        "cover_id": "vfp_mcp.codec.dbf_structure",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/dbf_test.exs",
+        "verification_index": 7
+      },
+      {
+        "cover_id": "vfp_mcp.codec.pure_planning",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/dbf_test.exs",
+        "verification_index": 7
+      },
+      {
+        "cover_id": "vfp_mcp.codec.raw_fidelity",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/dbf_test.exs",
+        "verification_index": 7
+      },
+      {
+        "cover_id": "vfp_mcp.codec.fpt_structure",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "lib/vfp_mcp/codec/fpt.ex",
+        "verification_index": 8
+      },
+      {
+        "cover_id": "vfp_mcp.codec.memo_block",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "lib/vfp_mcp/codec/fpt.ex",
+        "verification_index": 8
+      },
+      {
+        "cover_id": "vfp_mcp.codec.memo_pointer",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "lib/vfp_mcp/codec/fpt.ex",
+        "verification_index": 8
+      },
+      {
+        "cover_id": "vfp_mcp.codec.pure_planning",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "lib/vfp_mcp/codec/fpt.ex",
+        "verification_index": 8
+      },
+      {
+        "cover_id": "vfp_mcp.codec.raw_fidelity",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "lib/vfp_mcp/codec/fpt.ex",
+        "verification_index": 8
+      },
+      {
+        "cover_id": "vfp_mcp.codec.fpt_structure",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/fpt_test.exs",
+        "verification_index": 9
+      },
+      {
+        "cover_id": "vfp_mcp.codec.memo_block",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/fpt_test.exs",
+        "verification_index": 9
+      },
+      {
+        "cover_id": "vfp_mcp.codec.memo_pointer",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/fpt_test.exs",
+        "verification_index": 9
+      },
+      {
+        "cover_id": "vfp_mcp.codec.parse_mixed_endian_pair",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/fpt_test.exs",
+        "verification_index": 9
+      },
+      {
+        "cover_id": "vfp_mcp.codec.pure_planning",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/fpt_test.exs",
+        "verification_index": 9
+      },
+      {
+        "cover_id": "vfp_mcp.codec.raw_fidelity",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/fpt_test.exs",
+        "verification_index": 9
+      },
+      {
+        "cover_id": "vfp_mcp.codec.reject_invalid_memo",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/fpt_test.exs",
+        "verification_index": 9
+      },
+      {
+        "cover_id": "vfp_mcp.codec.lossless_encoding",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "lib/vfp_mcp/codec/encoding.ex",
+        "verification_index": 10
+      },
+      {
+        "cover_id": "vfp_mcp.codec.pure_planning",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "lib/vfp_mcp/codec/encoding.ex",
+        "verification_index": 10
+      },
+      {
+        "cover_id": "vfp_mcp.codec.raw_fidelity",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "lib/vfp_mcp/codec/encoding.ex",
+        "verification_index": 10
+      },
+      {
+        "cover_id": "vfp_mcp.codec.reject_unrepresentable_text",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "lib/vfp_mcp/codec/encoding.ex",
+        "verification_index": 10
+      },
+      {
+        "cover_id": "vfp_mcp.codec.pure_planning",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "lib/vfp_mcp/codec/physical_summary.ex",
+        "verification_index": 11
+      },
+      {
+        "cover_id": "vfp_mcp.codec.raw_fidelity",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "lib/vfp_mcp/codec/physical_summary.ex",
+        "verification_index": 11
+      },
+      {
+        "cover_id": "vfp_mcp.codec.lossless_encoding",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/encoding_test.exs",
+        "verification_index": 12
+      },
+      {
+        "cover_id": "vfp_mcp.codec.pure_planning",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/encoding_test.exs",
+        "verification_index": 12
+      },
+      {
+        "cover_id": "vfp_mcp.codec.raw_fidelity",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/encoding_test.exs",
+        "verification_index": 12
+      },
+      {
+        "cover_id": "vfp_mcp.codec.reject_unrepresentable_text",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/encoding_test.exs",
+        "verification_index": 12
+      },
+      {
+        "cover_id": "vfp_mcp.codec.dbf_structure",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/physical_codec_test.exs",
+        "verification_index": 13
+      },
+      {
+        "cover_id": "vfp_mcp.codec.fpt_structure",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/physical_codec_test.exs",
+        "verification_index": 13
+      },
+      {
+        "cover_id": "vfp_mcp.codec.lossless_encoding",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/physical_codec_test.exs",
+        "verification_index": 13
+      },
+      {
+        "cover_id": "vfp_mcp.codec.memo_block",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/physical_codec_test.exs",
+        "verification_index": 13
+      },
+      {
+        "cover_id": "vfp_mcp.codec.memo_pointer",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/physical_codec_test.exs",
+        "verification_index": 13
+      },
+      {
+        "cover_id": "vfp_mcp.codec.parse_mixed_endian_pair",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/physical_codec_test.exs",
+        "verification_index": 13
+      },
+      {
+        "cover_id": "vfp_mcp.codec.pure_planning",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/physical_codec_test.exs",
+        "verification_index": 13
+      },
+      {
+        "cover_id": "vfp_mcp.codec.raw_fidelity",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/physical_codec_test.exs",
+        "verification_index": 13
+      },
+      {
+        "cover_id": "vfp_mcp.codec.reject_invalid_memo",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/physical_codec_test.exs",
+        "verification_index": 13
+      },
+      {
+        "cover_id": "vfp_mcp.codec.semantic_document",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/vfp_mcp/codec/physical_codec_test.exs",
+        "verification_index": 13
+      },
+      {
+        "cover_id": "vfp_mcp.codec.dbf_structure",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/integration/phase_2_physical_codec_test.exs",
+        "verification_index": 14
+      },
+      {
+        "cover_id": "vfp_mcp.codec.fpt_structure",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/integration/phase_2_physical_codec_test.exs",
+        "verification_index": 14
+      },
+      {
+        "cover_id": "vfp_mcp.codec.lossless_encoding",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/integration/phase_2_physical_codec_test.exs",
+        "verification_index": 14
+      },
+      {
+        "cover_id": "vfp_mcp.codec.memo_block",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/integration/phase_2_physical_codec_test.exs",
+        "verification_index": 14
+      },
+      {
+        "cover_id": "vfp_mcp.codec.memo_pointer",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/integration/phase_2_physical_codec_test.exs",
+        "verification_index": 14
+      },
+      {
+        "cover_id": "vfp_mcp.codec.parse_mixed_endian_pair",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/integration/phase_2_physical_codec_test.exs",
+        "verification_index": 14
+      },
+      {
+        "cover_id": "vfp_mcp.codec.pure_planning",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/integration/phase_2_physical_codec_test.exs",
+        "verification_index": 14
+      },
+      {
+        "cover_id": "vfp_mcp.codec.raw_fidelity",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/integration/phase_2_physical_codec_test.exs",
+        "verification_index": 14
+      },
+      {
+        "cover_id": "vfp_mcp.codec.reject_invalid_memo",
+        "file": ".spec/specs/codec.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.codec",
+        "target": "test/integration/phase_2_physical_codec_test.exs",
+        "verification_index": 14
+      },
+      {
         "cover_id": "vfp_mcp.codec.pure_planning",
         "file": ".spec/specs/codec.spec.md",
         "kind": "test_file",
@@ -2906,7 +3913,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.codec",
         "target": "test/vfp_mcp/codec_contract_test.exs",
-        "verification_index": 5
+        "verification_index": 15
       },
       {
         "cover_id": "vfp_mcp.codec.semantic_document",
@@ -2917,7 +3924,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.codec",
         "target": "test/vfp_mcp/codec_contract_test.exs",
-        "verification_index": 5
+        "verification_index": 15
       },
       {
         "cover_id": "vfp_mcp.codec.pure_planning",
@@ -2928,7 +3935,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.codec",
         "target": "test/vfp_mcp/limits_test.exs",
-        "verification_index": 6
+        "verification_index": 16
       },
       {
         "cover_id": "vfp_mcp.mutation.audit_journal",
@@ -3218,6 +4225,28 @@
       },
       {
         "cover_id": "vfp_mcp.package.elixir_otp_runtime",
+        "file": ".spec/specs/package.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.package",
+        "target": "mix.exs",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.package.phase_quality_gates",
+        "file": ".spec/specs/package.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.package",
+        "target": "mix.exs",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.package.run_phase_gate",
         "file": ".spec/specs/package.spec.md",
         "kind": "source_file",
         "meets_minimum": true,
@@ -3547,6 +4576,39 @@
         "verification_index": 0
       },
       {
+        "cover_id": "vfp_mcp.protocol.sdk_boundary",
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "lib/vfp_mcp/codec.ex",
+        "verification_index": 1
+      },
+      {
+        "cover_id": "vfp_mcp.protocol.sdk_boundary",
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "docs/contracts/physical-codec.md",
+        "verification_index": 2
+      },
+      {
+        "cover_id": "vfp_mcp.protocol.sdk_boundary",
+        "file": ".spec/specs/protocol.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.protocol",
+        "target": "test/integration/phase_2_physical_codec_test.exs",
+        "verification_index": 3
+      },
+      {
         "cover_id": "vfp_mcp.protocol.clean_stdout",
         "file": ".spec/specs/protocol.spec.md",
         "kind": "guide_file",
@@ -3555,7 +4617,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.protocol",
         "target": "docs/architecture.md",
-        "verification_index": 1
+        "verification_index": 4
       },
       {
         "cover_id": "vfp_mcp.protocol.deferred_surfaces",
@@ -3566,7 +4628,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.protocol",
         "target": "docs/architecture.md",
-        "verification_index": 1
+        "verification_index": 4
       },
       {
         "cover_id": "vfp_mcp.protocol.diagnostic_stream",
@@ -3577,7 +4639,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.protocol",
         "target": "docs/architecture.md",
-        "verification_index": 1
+        "verification_index": 4
       },
       {
         "cover_id": "vfp_mcp.protocol.startup_configuration",
@@ -3588,7 +4650,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.protocol",
         "target": "docs/architecture.md",
-        "verification_index": 1
+        "verification_index": 4
       },
       {
         "cover_id": "vfp_mcp.protocol.stdio_transport",
@@ -3599,7 +4661,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.protocol",
         "target": "docs/architecture.md",
-        "verification_index": 1
+        "verification_index": 4
       },
       {
         "cover_id": "vfp_mcp.protocol.domain_errors",
@@ -3610,7 +4672,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.protocol",
         "target": "docs/components.md",
-        "verification_index": 2
+        "verification_index": 5
       },
       {
         "cover_id": "vfp_mcp.protocol.initial_read_tools",
@@ -3621,7 +4683,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.protocol",
         "target": "docs/components.md",
-        "verification_index": 2
+        "verification_index": 5
       },
       {
         "cover_id": "vfp_mcp.protocol.read_only_startup",
@@ -3632,7 +4694,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.protocol",
         "target": "docs/components.md",
-        "verification_index": 2
+        "verification_index": 5
       },
       {
         "cover_id": "vfp_mcp.protocol.recoverable_tool_error",
@@ -3643,7 +4705,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.protocol",
         "target": "docs/components.md",
-        "verification_index": 2
+        "verification_index": 5
       },
       {
         "cover_id": "vfp_mcp.protocol.tool_contracts",
@@ -3654,7 +4716,7 @@
         "strength": "linked",
         "subject_id": "vfp_mcp.protocol",
         "target": "docs/components.md",
-        "verification_index": 2
+        "verification_index": 5
       },
       {
         "cover_id": "vfp_mcp.read.ambiguous_control",
@@ -3824,21 +4886,120 @@
       {
         "cover_id": "vfp_mcp.read.immutable_snapshot",
         "file": ".spec/specs/read_service.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "lib/vfp_mcp/codec.ex",
+        "verification_index": 3
+      },
+      {
+        "cover_id": "vfp_mcp.read.source_fidelity",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "lib/vfp_mcp/codec.ex",
+        "verification_index": 3
+      },
+      {
+        "cover_id": "vfp_mcp.read.validation_findings",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "source_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "lib/vfp_mcp/codec.ex",
+        "verification_index": 3
+      },
+      {
+        "cover_id": "vfp_mcp.read.immutable_snapshot",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/contracts/physical-codec.md",
+        "verification_index": 4
+      },
+      {
+        "cover_id": "vfp_mcp.read.source_fidelity",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/contracts/physical-codec.md",
+        "verification_index": 4
+      },
+      {
+        "cover_id": "vfp_mcp.read.validation_findings",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "guide_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "docs/contracts/physical-codec.md",
+        "verification_index": 4
+      },
+      {
+        "cover_id": "vfp_mcp.read.immutable_snapshot",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "test/vfp_mcp/codec/physical_codec_test.exs",
+        "verification_index": 5
+      },
+      {
+        "cover_id": "vfp_mcp.read.source_fidelity",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "test/vfp_mcp/codec/physical_codec_test.exs",
+        "verification_index": 5
+      },
+      {
+        "cover_id": "vfp_mcp.read.validation_findings",
+        "file": ".spec/specs/read_service.spec.md",
+        "kind": "test_file",
+        "meets_minimum": true,
+        "required_strength": "claimed",
+        "strength": "linked",
+        "subject_id": "vfp_mcp.read_service",
+        "target": "test/vfp_mcp/codec/physical_codec_test.exs",
+        "verification_index": 5
+      },
+      {
+        "cover_id": "vfp_mcp.read.immutable_snapshot",
+        "file": ".spec/specs/read_service.spec.md",
         "kind": "test_file",
         "meets_minimum": true,
         "required_strength": "claimed",
         "strength": "linked",
         "subject_id": "vfp_mcp.read_service",
         "target": "test/vfp_mcp/codec_contract_test.exs",
-        "verification_index": 3
+        "verification_index": 6
       }
     ],
     "cli_minimum_strength": null,
     "default_minimum_strength": "claimed",
     "strength_summary": {
       "claimed": 2,
-      "executed": 4,
-      "linked": 155
+      "executed": 7,
+      "linked": 230
     },
     "threshold_failures": 0
   },

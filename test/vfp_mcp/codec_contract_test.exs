@@ -42,11 +42,11 @@ defmodule VfpMcp.CodecContractTest do
              PairSnapshot.new(:scx, "basic", <<>>, <<>>, declared_vfp_version: 8)
   end
 
-  test "the parse boundary reports stable fatal findings without file access" do
+  test "the parse boundary reports stable physical findings without file access" do
     assert {:ok, snapshot} = PairSnapshot.new(:scx, "generated", <<1>>, <<2>>)
 
     assert {:error, [%Finding{} = finding]} = Codec.parse_pair(snapshot)
-    assert finding.code == :codec_not_implemented
+    assert finding.code == :dbf_header_truncated
     assert finding.severity == :fatal
     assert finding.impact == :unreadable
 

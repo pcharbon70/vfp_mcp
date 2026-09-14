@@ -17,7 +17,7 @@ aliases: []
 records and FPT memo blocks without interpreting application semantics or
 performing filesystem I/O.
 
-**Status:** Planned
+**Status:** Complete
 
 **Dependencies:** Phase 1 contracts, safety limits, findings, and binary builders.
 
@@ -36,16 +36,16 @@ record length, code-page byte, and reserved bytes from documented offsets.
 **Description:** Use explicit little-endian reads and checked range arithmetic
 before taking any byte slice.
 
-- [ ] Truncated values and arithmetic overflow return stable fatal findings without raising.
+- [x] Truncated values and arithmetic overflow return stable fatal findings without raising.
 
 #### Subtask 2.1.1.2 — Validate Container Extents
 
 **Description:** Reconcile header length, record count, record length, terminator,
 and available file bytes while retaining any permitted trailing content.
 
-- [ ] Impossible extents fail and unusual preserved trailing bytes produce a bounded finding.
+- [x] Impossible extents fail and unusual preserved trailing bytes produce a bounded finding.
 
-- [ ] Task 2.1.1 is complete with source offsets retained for every decoded header value.
+- [x] Task 2.1.1 is complete with source offsets retained for every decoded header value.
 
 ### Task 2.1.2 — Decode Field Descriptors
 
@@ -57,16 +57,16 @@ assuming one fixed SCX or VCX schema.
 **Description:** Retain raw name bytes, logical name, type, length, decimal count,
 flags, reserved bytes, descriptor offset, and record-relative field offset.
 
-- [ ] Duplicate names, zero lengths, unknown types, and cumulative-width mismatches receive stable findings.
+- [x] Duplicate names, zero lengths, unknown types, and cumulative-width mismatches receive stable findings.
 
 #### Subtask 2.1.2.2 — Validate Schema Bounds
 
 **Description:** Prove that the deletion marker and all declared fields fit
 inside the record length with no overflow or overlap.
 
-- [ ] No record-field slice is attempted from an invalid schema.
+- [x] No record-field slice is attempted from an invalid schema.
 
-- [ ] Task 2.1.2 is complete across reordered fields and synthetic nonstandard schemas.
+- [x] Task 2.1.2 is complete across reordered fields and synthetic nonstandard schemas.
 
 ### Task 2.1.3 — Decode Physical Records
 
@@ -78,16 +78,16 @@ deletion markers, raw field slices, and stable physical indices.
 **Description:** Interpret standard active and deleted markers while preserving
 all record bytes regardless of semantic support.
 
-- [ ] Deleted records remain available to fidelity and validation logic and are not silently discarded.
+- [x] Deleted records remain available to fidelity and validation logic and are not silently discarded.
 
 #### Subtask 2.1.3.2 — Decode Fixed-Width Field Values Conservatively
 
 **Description:** Expose raw bytes for every field and decode only physical scalar
 types required by source containers, leaving unsupported types opaque.
 
-- [ ] Unsupported fields remain byte-faithful and cannot shift later field boundaries.
+- [x] Unsupported fields remain byte-faithful and cannot shift later field boundaries.
 
-- [ ] Task 2.1.3 is complete with record, marker, and field spans proven against generated vectors.
+- [x] Task 2.1.3 is complete with record, marker, and field spans proven against generated vectors.
 
 ## Section 2.2 — FPT Header, Pointer, and Memo Decoding
 
@@ -104,16 +104,16 @@ values while retaining the full header and reserved bytes.
 **Description:** Treat a stored size of zero as 512 bytes and accept other sizes
 only when alignment and configured limits can be satisfied.
 
-- [ ] Stored and effective block sizes are both retained for evidence.
+- [x] Stored and effective block sizes are both retained for evidence.
 
 #### Subtask 2.2.1.2 — Validate Allocation Metadata
 
 **Description:** Check the header extent, next-free location, file alignment, and
 bounded allocation arithmetic without assuming unused bytes are zero.
 
-- [ ] Impossible allocation metadata blocks semantic exposure of memo payloads.
+- [x] Impossible allocation metadata blocks semantic exposure of memo payloads.
 
-- [ ] Task 2.2.1 is complete for block sizes 1, 64, 512, and malformed variants.
+- [x] Task 2.2.1 is complete for block sizes 1, 64, 512, and malformed variants.
 
 ### Task 2.2.2 — Resolve DBF Memo Pointers
 
@@ -125,16 +125,16 @@ number with zero representing an empty memo.
 **Description:** Multiply block number by effective block size using checked
 arithmetic and validate the memo-header range before reading it.
 
-- [ ] Overflow, before-header, and beyond-file pointers produce stable findings.
+- [x] Overflow, before-header, and beyond-file pointers produce stable findings.
 
 #### Subtask 2.2.2.2 — Preserve Pointer Provenance
 
 **Description:** Retain the DBF record, field, raw pointer bytes, block number,
 calculated offset, and resolution result.
 
-- [ ] Multiple references to one block remain distinguishable by source field while sharing resolved block identity.
+- [x] Multiple references to one block remain distinguishable by source field while sharing resolved block identity.
 
-- [ ] Task 2.2.2 is complete for empty, valid, shared, and invalid pointers.
+- [x] Task 2.2.2 is complete for empty, valid, shared, and invalid pointers.
 
 ### Task 2.2.3 — Decode Memo Blocks
 
@@ -146,16 +146,16 @@ bounds-checked payload while preserving source block type and allocation bytes.
 **Description:** Check header availability, declared payload end, file end, and
 configured memo-size limit before slicing.
 
-- [ ] Truncated and excessive lengths never yield a guessed or partial valid payload.
+- [x] Truncated and excessive lengths never yield a guessed or partial valid payload.
 
 #### Subtask 2.2.3.2 — Preserve Opaque and Padding Bytes
 
 **Description:** Store raw block-header bytes, payload bytes, allocation extent,
 and padding needed to compare untouched storage exactly.
 
-- [ ] Unknown block types are retained with a warning and are never decoded as text automatically.
+- [x] Unknown block types are retained with a warning and are never decoded as text automatically.
 
-- [ ] Task 2.2.3 is complete with bounded blocks, shared blocks, unknown types, and overlaps covered.
+- [x] Task 2.2.3 is complete with bounded blocks, shared blocks, unknown types, and overlaps covered.
 
 ## Section 2.3 — Encoding, Fidelity, and Physical Findings
 
@@ -172,16 +172,16 @@ represent unknown or conflicting metadata as findings.
 **Description:** Decode supported text to UTF-8 while retaining original bytes
 and implement strict round-trip encoding for the initial write-compatible page.
 
-- [ ] Unrepresentable text is rejected without producing replacement bytes.
+- [x] Unrepresentable text is rejected without producing replacement bytes.
 
 #### Subtask 2.3.1.2 — Preserve Unsupported Encodings
 
 **Description:** Keep all raw content inspectable when text decoding is unknown
 or invalid, and prevent later planners from claiming safe writes.
 
-- [ ] Decode findings distinguish unsupported metadata from invalid byte sequences.
+- [x] Decode findings distinguish unsupported metadata from invalid byte sequences.
 
-- [ ] Task 2.3.1 is complete with ASCII, extended Windows-1252, unknown-page, and invalid-text cases.
+- [x] Task 2.3.1 is complete with ASCII, extended Windows-1252, unknown-page, and invalid-text cases.
 
 ### Task 2.3.2 — Define Physical Fidelity Views
 
@@ -193,16 +193,16 @@ a rewrite of the source container.
 **Description:** Retain DBF header, descriptors, records, EOF/trailing bytes and
 FPT header, blocks, opaque content, padding, and unused ranges.
 
-- [ ] Every decoded value has enough provenance to explain its bytes without normalizing unrelated regions.
+- [x] Every decoded value has enough provenance to explain its bytes without normalizing unrelated regions.
 
 #### Subtask 2.3.2.2 — Produce Deterministic Physical Summaries
 
 **Description:** Provide bounded summaries of offsets, lengths, hashes, and
 findings for golden tests without embedding full proprietary content.
 
-- [ ] Equal byte snapshots produce equal summaries and finding order.
+- [x] Equal byte snapshots produce equal summaries and finding order.
 
-- [ ] Task 2.3.2 is complete with stable serialized summaries for all golden vectors.
+- [x] Task 2.3.2 is complete with stable serialized summaries for all golden vectors.
 
 ## Section 2.4 — Phase 2 Integration Tests
 
@@ -219,16 +219,16 @@ memo pointer, block size, payload type, padding, and code page.
 **Description:** Assert exact values and offsets for little-endian DBF integers,
 little-endian memo pointers, and big-endian FPT metadata.
 
-- [ ] Each vector asserts both semantic physical values and their raw source spans.
+- [x] Each vector asserts both semantic physical values and their raw source spans.
 
 #### Subtask 2.4.1.2 — Run Property-Based Valid-Pair Checks
 
 **Description:** Generate bounded valid containers and verify deterministic parse,
 pointer resolution, non-overlapping spans, and raw-byte retention.
 
-- [ ] Failures report a replayable seed and minimized input.
+- [x] Failures report a replayable seed and minimized input.
 
-- [ ] Task 2.4.1 is complete for effective block sizes 1, 64, and 512.
+- [x] Task 2.4.1 is complete for effective block sizes 1, 64, and 512.
 
 ### Task 2.4.2 — Exercise Malformed and Adversarial Inputs
 
@@ -240,16 +240,16 @@ boundary and assert bounded structured failure.
 **Description:** Cover short headers, unterminated descriptors, width mismatch,
 invalid markers, excessive counts, record truncation, and arithmetic overflow.
 
-- [ ] No malformed DBF case raises, loops indefinitely, or allocates beyond configured limits.
+- [x] No malformed DBF case raises, loops indefinitely, or allocates beyond configured limits.
 
 #### Subtask 2.4.2.2 — Test FPT Failures
 
 **Description:** Cover short headers, invalid block sizes, out-of-range pointers,
 short block headers, excessive payloads, overlap, and allocation overflow.
 
-- [ ] No invalid memo is exposed as a valid payload and all failures have stable codes.
+- [x] No invalid memo is exposed as a valid payload and all failures have stable codes.
 
-- [ ] Task 2.4.2 is complete with deterministic finding order across repeated runs.
+- [x] Task 2.4.2 is complete with deterministic finding order across repeated runs.
 
 ### Task 2.4.3 — Prove Raw Fidelity
 
@@ -261,28 +261,36 @@ show that the physical parser does not modify or normalize source bytes.
 **Description:** Seed unknown descriptor bytes, deleted records, binary memos,
 OLE-like payloads, padding, and trailing data.
 
-- [ ] All seeded opaque regions can be recovered byte-for-byte with original offsets.
+- [x] All seeded opaque regions can be recovered byte-for-byte with original offsets.
 
 #### Subtask 2.4.3.2 — Verify Parse Determinism
 
 **Description:** Parse identical snapshots repeatedly and compare values,
 findings, ordering, spans, and physical summaries.
 
-- [ ] No result depends on process order, wall-clock time, locale, or filesystem state.
+- [x] No result depends on process order, wall-clock time, locale, or filesystem state.
 
-- [ ] Task 2.4.3 is complete with deterministic results under the full Phase 2 suite.
+- [x] Task 2.4.3 is complete with deterministic results under the full Phase 2 suite.
 
 ## Phase 2 Completion Evidence
 
 **Description:** Record proof only after every Phase 2 task and integration test
 is complete.
 
-- [ ] DBF and FPT unit-test commands and golden-vector locations are linked.
-- [ ] Property-based results include reproducible seed handling.
-- [ ] Malformed-input tests prove bounded, non-raising behavior.
-- [ ] Raw and opaque byte-fidelity assertions pass.
-- [ ] No codec function performs filesystem or MCP side effects.
-- [ ] Phase status and the stream index are updated only after all evidence is linked.
+- [x] DBF and FPT unit and golden-vector evidence is in
+  [`dbf_test.exs`](../../../test/vfp_mcp/codec/dbf_test.exs),
+  [`fpt_test.exs`](../../../test/vfp_mcp/codec/fpt_test.exs), and
+  [`phase_2_physical_codec_test.exs`](../../../test/integration/phase_2_physical_codec_test.exs).
+- [x] The documented [`mix phase2` gate](../../../docs/testing/phase-2-codec-suite.md)
+  uses seed `24680`; StreamData reports replay seeds and minimized failures.
+- [x] Named DBF/FPT boundary cases and 100 arbitrary bounded byte-pair cases prove
+  structured, bounded, non-raising failure in the Phase 2 integration test.
+- [x] Raw headers, descriptors, records, deleted rows, binary memos, padding,
+  allocation regions, and trailing bytes are recovered exactly in fidelity assertions.
+- [x] The pure-boundary integration case uses nonexistent identity paths and proves
+  that codec output contains neither effect handles nor MCP SDK values.
+- [x] `mix phase2` passes 72 tests, including three properties, and strict SpecLed
+  validation; this phase and the [stream index](README.md) are now `Complete`.
 
 ## Connections
 

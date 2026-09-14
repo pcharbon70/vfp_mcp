@@ -12,7 +12,7 @@ bounded future edits.
 ```spec-meta
 id: vfp_mcp.codec
 kind: module
-status: planned
+status: active
 summary: Fidelity-preserving DBF, FPT, text, property, method, and hierarchy codec.
 surface:
   - docs/research/architecture-and-format-research.md
@@ -20,7 +20,12 @@ surface:
   - docs/architecture.md
   - docs/components.md
   - docs/contracts/codec-domain.md
+  - docs/contracts/physical-codec.md
   - lib/vfp_mcp/codec.ex
+  - lib/vfp_mcp/codec/dbf.ex
+  - lib/vfp_mcp/codec/encoding.ex
+  - lib/vfp_mcp/codec/fpt.ex
+  - lib/vfp_mcp/codec/physical_summary.ex
   - lib/vfp_mcp/document.ex
   - lib/vfp_mcp/edit_plan.ex
   - lib/vfp_mcp/finding.ex
@@ -28,6 +33,11 @@ surface:
   - lib/vfp_mcp/source/pair_snapshot.ex
   - lib/vfp_mcp/source/span.ex
   - test/vfp_mcp/codec_contract_test.exs
+  - test/vfp_mcp/codec/dbf_test.exs
+  - test/vfp_mcp/codec/encoding_test.exs
+  - test/vfp_mcp/codec/fpt_test.exs
+  - test/vfp_mcp/codec/physical_codec_test.exs
+  - test/integration/phase_2_physical_codec_test.exs
   - test/vfp_mcp/limits_test.exs
 decisions:
   - vfp_mcp.custom_vfp_codec
@@ -181,6 +191,100 @@ decisions:
   target: lib/vfp_mcp/codec.ex
   covers:
     - vfp_mcp.codec.pure_planning
+
+- kind: guide_file
+  target: docs/contracts/physical-codec.md
+  covers:
+    - vfp_mcp.codec.dbf_structure
+    - vfp_mcp.codec.memo_pointer
+    - vfp_mcp.codec.fpt_structure
+    - vfp_mcp.codec.memo_block
+    - vfp_mcp.codec.lossless_encoding
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+
+- kind: source_file
+  target: lib/vfp_mcp/codec/dbf.ex
+  covers:
+    - vfp_mcp.codec.dbf_structure
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+
+- kind: test_file
+  target: test/vfp_mcp/codec/dbf_test.exs
+  covers:
+    - vfp_mcp.codec.dbf_structure
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+
+- kind: source_file
+  target: lib/vfp_mcp/codec/fpt.ex
+  covers:
+    - vfp_mcp.codec.memo_pointer
+    - vfp_mcp.codec.fpt_structure
+    - vfp_mcp.codec.memo_block
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+
+- kind: test_file
+  target: test/vfp_mcp/codec/fpt_test.exs
+  covers:
+    - vfp_mcp.codec.memo_pointer
+    - vfp_mcp.codec.fpt_structure
+    - vfp_mcp.codec.memo_block
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+    - vfp_mcp.codec.parse_mixed_endian_pair
+    - vfp_mcp.codec.reject_invalid_memo
+
+- kind: source_file
+  target: lib/vfp_mcp/codec/encoding.ex
+  covers:
+    - vfp_mcp.codec.lossless_encoding
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+    - vfp_mcp.codec.reject_unrepresentable_text
+
+- kind: source_file
+  target: lib/vfp_mcp/codec/physical_summary.ex
+  covers:
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+
+- kind: test_file
+  target: test/vfp_mcp/codec/encoding_test.exs
+  covers:
+    - vfp_mcp.codec.lossless_encoding
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+    - vfp_mcp.codec.reject_unrepresentable_text
+
+- kind: test_file
+  target: test/vfp_mcp/codec/physical_codec_test.exs
+  covers:
+    - vfp_mcp.codec.dbf_structure
+    - vfp_mcp.codec.memo_pointer
+    - vfp_mcp.codec.fpt_structure
+    - vfp_mcp.codec.memo_block
+    - vfp_mcp.codec.lossless_encoding
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.semantic_document
+    - vfp_mcp.codec.pure_planning
+    - vfp_mcp.codec.parse_mixed_endian_pair
+    - vfp_mcp.codec.reject_invalid_memo
+
+- kind: test_file
+  target: test/integration/phase_2_physical_codec_test.exs
+  covers:
+    - vfp_mcp.codec.dbf_structure
+    - vfp_mcp.codec.memo_pointer
+    - vfp_mcp.codec.fpt_structure
+    - vfp_mcp.codec.memo_block
+    - vfp_mcp.codec.lossless_encoding
+    - vfp_mcp.codec.raw_fidelity
+    - vfp_mcp.codec.pure_planning
+    - vfp_mcp.codec.parse_mixed_endian_pair
+    - vfp_mcp.codec.reject_invalid_memo
 
 - kind: test_file
   target: test/vfp_mcp/codec_contract_test.exs
